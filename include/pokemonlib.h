@@ -73,14 +73,13 @@ string Pokemon::printType(int type)
     switch (type)
     {
     case 0:
-        return "Grass";
-
+        return "Grass"; break;
     case 1:
-        return "Fire";
+        return "Fire"; break;
     case 2:
-        return "Water";    
+        return "Water"; break;
     default:
-        break;
+        return nullptr; break;
     }
 }
 #endif
