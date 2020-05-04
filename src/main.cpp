@@ -1,9 +1,14 @@
-#include "pokemons/cyndaquil.h"
-#include <iostream>
+#include "player.h"
 
 int main()
-{   
-    Pokemon * starter = new Cyndaquil();
-    starter->print();
+{
+    string temp;
+
+    cout << "Welcome! What's your name ?\n\t";
+    cin >> temp;
+
+    Player * protagonist = new Player( temp );
+    protagonist->status();
+
     return 0;
 }
