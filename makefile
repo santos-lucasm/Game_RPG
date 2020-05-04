@@ -2,7 +2,7 @@ include makedefs.mk
 
 # Project dependencies
 SRC_DEPS := $(wildcard $(SRCDIR)*.cpp)
-INC_DEPS := $(INCDIR)pokemonlib.h $(INCDIR)pokemons/cyndaquil.h
+INC_DEPS := $(wildcard $(INCDIR)*.h)
 OBJ_DEPS := $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC_DEPS))
 
 # Rules
@@ -15,9 +15,9 @@ $(EXE): $(OBJ_DEPS)
 	@ $(COMPILER) $(LFLAGS) $^ $(LDLIBS) -o $@
 	@ echo 'Finished building binary: $@'
 
-$(OBJDIR)%.o: $(SRC_DEPS) $(INC_DEPS)
+$(OBJDIR)%.o: $(SRCDIR)%.cpp $(INC_DEPS)
 	@ echo 'Building target using $(COMPILER) compiler: $<'
-	@ $(COMPILER) $(CPPFLAGS) $(CFLAGS) $< -o $@
+	@ $(COMPILER) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 run:
 	@ ./$(EXE)
