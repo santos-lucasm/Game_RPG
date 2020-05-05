@@ -1,22 +1,14 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef _PLAYER_H
+#define _PLAYER_H
 
-#include <iostream>
-using namespace std;
+#include "creature.h"
 
-class Player
+class Player: public Creature
 {
 public:
-    Player(string name, int hp = 100, int attack = 20, int armor = 10, int evasion = 3);
+    Player(std::string name, Position * pos, int hp = 100, int attack = 20, int armor = 10, int evasion = 3);
     ~Player();
 
-    void set_name( string );
-    void set_hp( int );
-    void set_attack( int );
-    void set_armor( int );
-    void set_evasion( int );
-
-    string get_name();
     int get_hp();
     int get_attack();
     int get_armor();
@@ -25,7 +17,12 @@ public:
     void status();
 
 private:
-    string _name;
+    void set_hp( int );
+    void set_attack( int );
+    void set_armor( int );
+    void set_evasion( int );
+
+private:
     int _hp;
     int _attack;
     int _armor;

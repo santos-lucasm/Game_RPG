@@ -1,8 +1,8 @@
 #include "player.h"
+using namespace std;
 
-Player::Player(string name, int hp, int attack, int armor, int evasion)
+Player::Player(std::string name, Position * pos, int hp, int attack, int armor, int evasion): Creature(name, pos)
 {
-    set_name( name );
     set_hp( hp );
     set_attack( attack );
     set_armor( armor );
@@ -11,20 +11,17 @@ Player::Player(string name, int hp, int attack, int armor, int evasion)
 
 Player::~Player()
 {
-    set_name(nullptr);
     set_hp(0);
     set_attack(0);
     set_armor(0);
     set_evasion(0);
 }
 
-void Player::set_name( string name ){ _name = name; }
 void Player::set_hp( int hp ){ _hp = hp; }
 void Player::set_attack( int attack ){ _attack = attack; }
 void Player::set_armor( int armor ){ _armor = armor; }
 void Player::set_evasion( int evasion ){ _evasion = evasion; }
 
-string Player::get_name(){ return _name; }
 int Player::get_hp(){ return _hp; }
 int Player::get_attack(){ return _attack; }
 int Player::get_armor(){ return _armor; }
