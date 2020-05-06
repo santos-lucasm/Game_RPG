@@ -12,7 +12,7 @@ EXE		:= $(BINDIR)$(NAME)
 
 # Compilation and linking flags
 COMPILER = g++
-CPPFLAGS:= -I $(INCDIR) -std=c++11	# Add search path to hearder files
-CFLAGS	:= -Wall -Wcomment -Werror -Wundef
-LFLAGS	:=  -L $(LIBDIR)			# Addsearch path to shared libraries
-LDLIBS	:= 							# Compile agains thirdparty libraries
+CPPFLAGS:= -I $(INCDIR)												# Add search path to hearder files
+CFLAGS	:= -Wall -Wcomment -Werror -Wundef -std=c++14				# Add compilation flags
+LFLAGS	:= -L $(LIBDIR)												# Add search path to shared libraries
+LDLIBS	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system	# Linking flags against shared libraries

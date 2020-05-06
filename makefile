@@ -1,8 +1,8 @@
 include makedefs.mk
 
 # Project dependencies
-SRC_DEPS := $(wildcard $(SRCDIR)*.cpp)
-INC_DEPS := $(wildcard $(INCDIR)*.h)
+SRC_DEPS := $(shell find $(SRCDIR) -name "*.cpp")
+INC_DEPS := $(shell find $(INCDIR) -name "*.h")
 OBJ_DEPS := $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC_DEPS))
 
 # Rules
