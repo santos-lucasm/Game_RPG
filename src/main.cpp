@@ -1,14 +1,14 @@
+#include <SFML/Window.hpp>
+
 #include "player.h"
+#include "position.h"
+using namespace std;
 
 int main()
 {
-    string temp;
 
-    cout << "Welcome! What's your name ?\n\t";
-    cin >> temp;
-
-    Player * protagonist = new Player( temp );
-    protagonist->status();
+    sf::Window window( sf::VideoMode(300, 200), "NEW WINDOW!" );
+    sf::sleep( sf::seconds(3) );
 
     return 0;
 }
