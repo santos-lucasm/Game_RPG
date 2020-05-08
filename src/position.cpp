@@ -1,30 +1,19 @@
-#include <iostream>
 #include "position.h"
-using namespace std;
 
-Position::Position(int x, int y, Direction dir)
+Position::Position( sf::Vector2i vector, Direction dir )
 {
-    set_X( x );
-    set_Y( y );
-    set_dir( dir );
+    setPosition( vector );
+    setDirection( dir );
 }
 
 Position::~Position()
 {
-    set_X(0);
-    set_Y(0);
-    set_dir( Direction::NONE );
+    setPosition( sf::Vector2i(0, 0) );
+    setDirection( Direction::NONE );
 }
 
-void Position::set_X( int x ){ _x = x; }
-void Position::set_Y( int y ){ _y = y; }
-void Position::set_dir( Direction dir ) { _dir = dir; }
+sf::Vector2i getPosition(){ return _vector; }
+int Position::getDirection() { return _direction; }
 
-int Position::get_X(){ return _x; }
-int Position::get_Y(){ return _y; }
-int Position::get_dir() { return _dir; }
-
-void Position::printVector2D()
-{
-    cout << "[" << get_X() << ", " << get_Y() << "]" << endl;
-}
+void Position::setPosition( sf::Vector2i vector ){ _vector = vector; }
+void Position::setDirection( Direction dir ) { _direction = dir; }
