@@ -1,8 +1,6 @@
 #ifndef _POSITION_H
 #define _POSITION_H
 
-#include "types.h"
-
 /* Should I name it Vector2D ? */
 class Position
 {

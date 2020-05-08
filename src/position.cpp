@@ -1,3 +1,4 @@
+#include <iostream>
 #include "position.h"
 using namespace std;
 
