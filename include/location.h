@@ -1,23 +1,23 @@
-#ifndef _POSITION_H
-#define _POSITION_H
+#ifndef _LOCATION_H
+#define _LOCATION_H
 
 #include <SFML/Graphics.hpp>
 
 /*
 Description:
-    Position class holds information about the current 2D position of entities.
+    Location class holds information about the current 2D Location of entities.
     Also holds the direction which entities are looking, currently supporting
-four looking positions.
+four looking Locations.
 */
-class Position
+class Location
 {
 public:
 
     /*
     Description:
-        Used to recognize different Sprite looking positions on Entities
+        Used to recognize different Sprite looking Locations on Entities
     derivated classes.
-        When an entity is destroyed, its Position::Direction is set to NONE.
+        When an entity is destroyed, its Location::Direction is set to NONE.
     */
     enum
     {
@@ -31,27 +31,26 @@ public:
 public:
     /*
     Description:
-        Position class constructor initializes the Vector2D and Direction
+        Location class constructor initializes the Vector2D and Direction
     to the Entity standard values.
     */
-    Position( sf::Vector2i, Direction );
+    Location( sf::Vector2f, Direction );
 
     /*
     Description:
         Set direction attribute to NONE.
     TODO:
-        Should I save NPC's last position to when returning to a map zone ?
+        Should I save NPC's last Location to when returning to a map zone ?
     */
-    ~Position();
+    ~Location();
 
     /*
     Description:
         Standard way of getting information about the private attributes.
     */
-    sf::Vector2i getPosition();
+    sf::Vector2f getVector2D();
     int getDirection();
 
-protected:
     /*
     Description:
         Standard way of setting class attributes, here are applied
@@ -59,14 +58,14 @@ protected:
     setPos:
         TODO: sf::Vector2i must be whithin window display size.
     setDir:
-        Direction must has value defined on Position::Direction enum.
+        Direction must has value defined on Location::Direction enum.
     */
-    void setPosition( sf::Vector2i );
+    void setVector2D( sf::Vector2f );
     void setDirection( Direction );
 
 private:
     /* x and y axis values */
-    sf::Vector2i _vector;
+    sf::Vector2f _vector;
     /* looking direction */
     Direction _direction;
 };

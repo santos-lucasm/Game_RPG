@@ -2,12 +2,12 @@
 #define _PLAYER_H
 
 #include "Entities/entity.h"
-#include "position.h"
+#include "location.h"
 
 class Player: public Entity
 {
 public:
-    Player(std::string name, Position * pos, sf::Texture & text,
+    Player(std::string name, Location * loc, sf::Texture & text,
         int hp = 100, int attack = 20, int armor = 10, int evasion = 3);
     ~Player();
 
@@ -16,7 +16,8 @@ public:
     int get_armor();
     int get_evasion();
 
-    void status();
+    void update();
+    void walk( Location::Direction );
     sf::Sprite render();
 
 private:

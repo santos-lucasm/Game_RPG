@@ -1,23 +1,41 @@
 #include "Entities/entity.h"
 using namespace std;
 
-Entity::Entity( string name, Position * pos, sf::Texture& texture)
+Entity::Entity( string name, Location * loc, sf::Texture& texture)
 {
-    set_name( name );
-    set_position( pos );
+    setName( name );
+    setLocation( loc );
     setSprite( texture );
 }
 
 Entity::~Entity()
 {
-    set_name(nullptr);
-    set_position(nullptr);
+    /* FIXED: nullptr can't be assigned to a std::string */
+    getName().clear();
+    /* TODO: better destroy this with delete */
+    setLocation(nullptr);
 }
 
-void Entity::set_name( string name ){ _name = name; }
-void Entity::set_position( Position * pos) { _pos = pos; }
-void Entity::setSprite( sf::Texture & texture ) { _sprite.setTexture( texture ); }
+/*
+TODO: Verify if string passed is a nullptr.
+    Throw std::logic_error.
+    what():  basic_string::_M_construct null not valid
+*/
+void Entity::setName( string name ){ _name = name; }
 
-string Entity::get_name(){ return _name; }
-Position * Entity::get_position() { return _pos; }
-sf::Sprite Entity::getSprite(){ return _sprite; }
+/*
+TODO: Verify if argument passed is a nullptr.
+    Throw an exception.
+*/
+void Entity::setLocation( Location * loc) { _location = loc; }
+
+
+void Entity::setSprite( sf::Texture & texture )
+{ 
+    getSprite()->setTexture( texture );
+    getSprite()->setPosition( getLocation()->getVector2D() );
+}
+
+string Entity::getName(){ return _name; }
+Location * Entity::getLocation() { return _location; }
+sf::Sprite * Entity::getSprite(){ return &_sprite; }

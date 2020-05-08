@@ -1,9 +1,8 @@
 #include "Entities/player.h"
 #include <iostream>
-using namespace std;
 
-Player::Player(std::string name, Position * pos, sf::Texture & text,
-    int hp, int attack, int armor, int evasion): Entity(name, pos, text)
+Player::Player(std::string name, Location * loc, sf::Texture & text,
+    int hp, int attack, int armor, int evasion): Entity(name, loc, text)
 {
     set_hp( hp );
     set_attack( attack );
@@ -29,18 +28,39 @@ int Player::get_attack(){ return _attack; }
 int Player::get_armor(){ return _armor; }
 int Player::get_evasion(){ return _evasion; }
 
-void Player::status()
+void Player::update()
 {
-    cout << "--------------------" << endl;
-    cout << "| NAME: " << get_name() << endl;
-    cout << "| HP  : " << get_hp() << endl;
-    cout << "| ATK : " << get_attack() << endl;
-    cout << "| DEF : " << get_armor() << endl;
-    cout << "| EVA : " << get_evasion() << endl;
-    cout << "--------------------" << endl;
+    /* TODO: something here with delta time */
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Right ) )
+        walk( Location::Direction::RIGHT );
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Left ) )
+        walk( Location::Direction::LEFT );
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Up ) )
+        walk( Location::Direction::UP );
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Down ) )
+        walk( Location::Direction::DOWN );
+}
+
+void Player::walk( Location::Direction dir )
+{   
+    switch (dir)
+    {
+    case Location::Direction::RIGHT:
+        getSprite()->move(1, 0); break;
+    case Location::Direction::LEFT:
+        getSprite()->move(-1, 0); break;
+    case Location::Direction::UP:
+        getSprite()->move(0, -1); break;
+    case Location::Direction::DOWN:
+        getSprite()->move(0, 1); break;
+    case Location::Direction::NONE:
+        /* TODO: throw a exception */ break;
+    default:
+        /* TODO: throw a exception */ break;
+    }
 }
 
 sf::Sprite Player::render()
 {
-    return getSprite();
+    return *getSprite();
 }

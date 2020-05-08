@@ -1,6 +1,6 @@
 #include "Entities/player.h"
-#include "position.h"
 #include "Manager/asset_manager.h"
+#include "location.h"
 
 int main()
 {
@@ -11,8 +11,8 @@ int main()
     window.setMouseCursorVisible( false );
 
     AssetManager manager;
-    Position pos(0, 0, Position::Direction::UP);
-    Player * protag = new Player("Sevothart", &pos, manager.getTexture("resources/sensei.png"));
+    Location loc( sf::Vector2f( 50, 50), Location::Direction::UP);
+    Player * protag = new Player("Sevothart", &loc, manager.getTexture("resources/sensei.png"));
 
     /* Game loop */
     while( window.isOpen() )
@@ -22,10 +22,15 @@ int main()
         {
             if( event.type == sf::Event::EventType::Closed )
                 window.close();
-        }    
+        }
+        
+        protag->update();
+
         window.clear( sf::Color::Black );
         window.draw( protag->render() );
         window.display();
     }
+    
+    delete protag;
     return 0;
 }
