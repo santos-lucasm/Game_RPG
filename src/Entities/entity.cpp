@@ -1,5 +1,4 @@
 #include "Entities/entity.h"
-#include <iostream>
 using namespace std;
 
 Entity::Entity( string name, Position * pos, sf::Texture& texture)

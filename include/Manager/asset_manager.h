@@ -4,6 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
+/*
+Description:
+    AssetManager class is a singleton, initialized on Game class after
+setting window parameters.
+    It's responsible for managing textures that'll be used on entities.
+*/
 class AssetManager
 {
 public:
@@ -12,16 +18,12 @@ public:
         Guarantee that AssetManager is a singleton.
         If it's the first class creation, Instance pointer receives this.
         Else, program stops execution.
-    Return:
-        Nothing.
     */
     AssetManager();
 
     /*
     Description:
         Clear private atributes before program finish execution.
-    Return:
-        Nothing.
     */
     ~AssetManager();
 
