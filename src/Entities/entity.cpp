@@ -1,26 +1,21 @@
 #include "Entities/entity.h"
-#include <iostream>
 using namespace std;
 
 Entity::Entity( string name, sf::Texture& texture, sf::Vector2f startPos, Location::Direction dir)
 {
-    traced = false;
-    if(traced) std::cout << "Entity<constructor>: IN" << std::endl;
+    if(traced) Tracer("Entity<constructor>");
 
     setName( name );
     Location * loc = new Location(startPos, dir);
     setLocation(loc);
     setSprite( texture );
-
-    if(traced) std::cout << "Entity<constructor>: IN" << std::endl;
 }
 
 Entity::~Entity()
 {
-    if(traced) std::cout << "Entity<destructor>: IN" << std::endl;
+    if(traced) Tracer("Entity<destructor>");
     getName().clear();
     delete _location;
-    if(traced) std::cout << "Entity<destructor>: OUT" << std::endl;
 }
 
 void Entity::setName( string name )

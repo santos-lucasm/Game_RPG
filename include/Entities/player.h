@@ -31,6 +31,11 @@ private:
     int _attack;
     int _armor;
     int _evasion;
+
+    /* Traits flag that allow debug */
+    static const bool debugged = Traits<Player>::debugged;
+    /* Traits flag that allow tracing if debug and tracer is active */
+    static const bool traced = debugged && Tracer::enable;
 };
 
 #endif

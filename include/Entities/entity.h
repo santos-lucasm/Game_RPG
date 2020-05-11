@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "location.h"
+#include "Utilities/tracer.h"
 
 /*
 Description:
@@ -17,8 +18,7 @@ class Entity
 public:
     /*
     Description:
-        Entity class constructor sets its name, location class
-    and sprite in a basic way.
+        Entity class constructor sets its name, sprite, and location class.
         Classes that inhetits from it should handle it on their
     own way.
     */
@@ -28,7 +28,7 @@ public:
     Description:
         Entity class destructor has to be virtual, in order to ensure
     that other inheritances are correctly destructed.
-        Sets name, location and sprite to a correct value;
+        Handle name and location destruction. Sprite is handled by AssetManager.
     */
     virtual ~Entity();
     
@@ -49,8 +49,6 @@ protected:
     void setLocation( Location * );
     void setSprite( sf::Texture & );
 
-    /* Toggle entry fuction points to debugging */
-    bool traced;
 private:
     /* Entity name to be displayed during game execution */
     std::string _name;
@@ -58,6 +56,11 @@ private:
     Location * _location;
     /* Entity pattern to be rendered. TODO: Make it a reference */
     sf::Sprite _sprite;
+
+    /* Traits flag that allow debug */
+    static const bool debugged = Traits<Entity>::debugged;
+    /* Traits flag that allow tracing if debug and tracer is active */
+    static const bool traced = debugged && Tracer::enable;
 };
 
 #endif

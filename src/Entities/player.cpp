@@ -1,28 +1,24 @@
 #include "Entities/player.h"
-#include <iostream>
 
 Player::Player(std::string name, sf::Texture & tex, sf::Vector2f startPos, Location::Direction dir,
 int hp, int attack, int armor, int evasion):
 Entity(name, tex, startPos, dir)
 {
-    if(traced) std::cout << "Player<constructor>: IN" << std::endl;
+    if(traced) Tracer("Player<constructor>");
 
     set_hp( hp );
     set_attack( attack );
     set_armor( armor );
     set_evasion( evasion );
-
-    if(traced) std::cout << "Player<constructor>: OUT" << std::endl;
 }
 
 Player::~Player()
 {
-    if(traced) std::cout << "Player<destructor>: IN" << std::endl;
+    if(traced) Tracer("Player<destructor>");
     set_hp(0);
     set_attack(0);
     set_armor(0);
     set_evasion(0);
-    if(traced) std::cout << "Player<destructor>: OUT" << std::endl;
 }
 
 void Player::set_hp( int hp ){ _hp = hp; }

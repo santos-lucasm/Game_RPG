@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include "Utilities/tracer.h"
 
 /*
 Description:
@@ -43,8 +44,11 @@ private:
     std::map<std::string, sf::Texture> map_Textures;
     /* Pointer to itself */
     static AssetManager * Instance;
-    /* Toggle entry fuction points to debugging */
-    bool traced;
+
+    /* Traits flag that allow debug */
+    static const bool debugged = Traits<AssetManager>::debugged;
+    /* Traits flag that allow tracing if debug and tracer is active */
+    static const bool traced = debugged && Tracer::enable;
 };
 
 #endif

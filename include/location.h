@@ -2,6 +2,7 @@
 #define _LOCATION_H
 
 #include <SFML/Graphics.hpp>
+#include "Utilities/tracer.h"
 
 /*
 Description:
@@ -68,8 +69,10 @@ private:
     sf::Vector2f _vector;
     /* looking direction */
     Direction _direction;
-    /* Toggle entry fuction points to debugging */
-    bool traced;
+    /* Traits flag that allow debug */
+    static const bool debugged = Traits<Location>::debugged;
+    /* Traits flag that allow tracing if debug and tracer is active */
+    static const bool traced = debugged && Tracer::enable;
 };
 
 #endif

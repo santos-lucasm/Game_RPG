@@ -32,7 +32,10 @@ private:
 
     /* Temporary */
     std::list<Entity*> _entities_queue;
-    /* Toggle entry fuction points to debugging */
-    bool traced;
+
+    /* Traits flag that allow debug */
+    static const bool debugged = Traits<Game>::debugged;
+    /* Traits flag that allow tracing if debug and tracer is active */
+    static const bool traced = debugged && Tracer::enable;
 };
 #endif

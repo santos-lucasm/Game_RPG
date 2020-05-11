@@ -9,22 +9,21 @@ AssetManager::AssetManager()
     assert( Instance == nullptr );
     Instance = this;
 
-    traced = false;
-    if(traced) std::cout << "AssetManager<constructor>: IN" << std::endl;
-
-    if(traced) std::cout << "AssetManager<constructor>: OUT" << std::endl;
+    if(traced) Tracer("AssetManager<constructor>");
 }
 
 AssetManager::~AssetManager()
 {
-    std::cout << "AssetManager<destructor>: IN" << std::endl;
+    if(traced) Tracer("AssetManager<destructor>");
+    
     map_Textures.clear();
     Instance = nullptr;
-    std::cout << "AssetManager<destructor>: OUT" << std::endl;
 }
 
 sf::Texture& AssetManager::getTexture( std::string const& filename )
 {
+    if(traced) Tracer("AssetManager<getTexture>");
+
     auto& texMap = Instance->map_Textures;
     auto pair = texMap.find(filename);
 
