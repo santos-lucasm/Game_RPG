@@ -1,21 +1,28 @@
 #include "Entities/player.h"
 #include <iostream>
 
-Player::Player(std::string name, Location * loc, sf::Texture & text,
-    int hp, int attack, int armor, int evasion): Entity(name, loc, text)
+Player::Player(std::string name, sf::Texture & tex, sf::Vector2f startPos, Location::Direction dir,
+int hp, int attack, int armor, int evasion):
+Entity(name, tex, startPos, dir)
 {
+    if(traced) std::cout << "Player<constructor>: IN" << std::endl;
+
     set_hp( hp );
     set_attack( attack );
     set_armor( armor );
     set_evasion( evasion );
+
+    if(traced) std::cout << "Player<constructor>: OUT" << std::endl;
 }
 
 Player::~Player()
 {
+    if(traced) std::cout << "Player<destructor>: IN" << std::endl;
     set_hp(0);
     set_attack(0);
     set_armor(0);
     set_evasion(0);
+    if(traced) std::cout << "Player<destructor>: OUT" << std::endl;
 }
 
 void Player::set_hp( int hp ){ _hp = hp; }
@@ -28,31 +35,34 @@ int Player::get_attack(){ return _attack; }
 int Player::get_armor(){ return _armor; }
 int Player::get_evasion(){ return _evasion; }
 
-void Player::update()
+void Player::update( sf::Time & dt )
 {
-    /* TODO: something here with delta time */
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Right ) )
-        walk( Location::Direction::RIGHT );
+        walk( Location::Direction::RIGHT, dt );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Left ) )
-        walk( Location::Direction::LEFT );
+        walk( Location::Direction::LEFT, dt );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Up ) )
-        walk( Location::Direction::UP );
+        walk( Location::Direction::UP, dt );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Down ) )
-        walk( Location::Direction::DOWN );
+        walk( Location::Direction::DOWN, dt );
 }
 
-void Player::walk( Location::Direction dir )
+void Player::walk( Location::Direction dir, sf::Time & dt )
 {   
+    /* TODO: Define a speed for each entity, to use here at move method
+        speed attribute: to be multiplied by delta time and get distance
+    */
+    float time = dt.asSeconds();
     switch (dir)
     {
     case Location::Direction::RIGHT:
-        getSprite()->move(1, 0); break;
+        getSprite()->move(60 * time, 0); break;
     case Location::Direction::LEFT:
-        getSprite()->move(-1, 0); break;
+        getSprite()->move(-60 * time, 0); break;
     case Location::Direction::UP:
-        getSprite()->move(0, -1); break;
+        getSprite()->move(0, -60 * time); break;
     case Location::Direction::DOWN:
-        getSprite()->move(0, 1); break;
+        getSprite()->move(0, 60 * time); break;
     case Location::Direction::NONE:
         /* TODO: throw a exception */ break;
     default:

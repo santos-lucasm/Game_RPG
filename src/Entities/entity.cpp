@@ -1,33 +1,40 @@
 #include "Entities/entity.h"
+#include <iostream>
 using namespace std;
 
-Entity::Entity( string name, Location * loc, sf::Texture& texture)
+Entity::Entity( string name, sf::Texture& texture, sf::Vector2f startPos, Location::Direction dir)
 {
+    traced = false;
+    if(traced) std::cout << "Entity<constructor>: IN" << std::endl;
+
     setName( name );
-    setLocation( loc );
+    Location * loc = new Location(startPos, dir);
+    setLocation(loc);
     setSprite( texture );
+
+    if(traced) std::cout << "Entity<constructor>: IN" << std::endl;
 }
 
 Entity::~Entity()
 {
-    /* FIXED: nullptr can't be assigned to a std::string */
+    if(traced) std::cout << "Entity<destructor>: IN" << std::endl;
     getName().clear();
-    /* TODO: better destroy this with delete */
-    setLocation(nullptr);
+    delete _location;
+    if(traced) std::cout << "Entity<destructor>: OUT" << std::endl;
 }
 
-/*
-TODO: Verify if string passed is a nullptr.
-    Throw std::logic_error.
-    what():  basic_string::_M_construct null not valid
-*/
-void Entity::setName( string name ){ _name = name; }
+void Entity::setName( string name )
+{
+    if( name.empty() )
+        return; /* TODO: Throw invalid argument exception */
+    _name = name;
+}
 
-/*
-TODO: Verify if argument passed is a nullptr.
-    Throw an exception.
-*/
-void Entity::setLocation( Location * loc) { _location = loc; }
+void Entity::setLocation( Location * loc) {
+    if( !loc )
+        return; /* TODO: Throw invalid argument exception */
+    _location = loc;
+}
 
 
 void Entity::setSprite( sf::Texture & texture )

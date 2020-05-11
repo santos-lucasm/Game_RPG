@@ -7,7 +7,7 @@
 class Player: public Entity
 {
 public:
-    Player(std::string name, Location * loc, sf::Texture & text,
+    Player(std::string name, sf::Texture & tex, sf::Vector2f startPos, Location::Direction dir,
         int hp = 100, int attack = 20, int armor = 10, int evasion = 3);
     ~Player();
 
@@ -16,8 +16,8 @@ public:
     int get_armor();
     int get_evasion();
 
-    void update();
-    void walk( Location::Direction );
+    void update(sf::Time &);
+    void walk( Location::Direction, sf::Time & );
     sf::Sprite render();
 
 private:

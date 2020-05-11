@@ -22,7 +22,7 @@ public:
         Classes that inhetits from it should handle it on their
     own way.
     */
-    Entity( std::string, Location *, sf::Texture & );
+    Entity( std::string, sf::Texture &, sf::Vector2f, Location::Direction );
 
     /*
     Description:
@@ -36,8 +36,7 @@ public:
     Location * getLocation();
     sf::Sprite * getSprite();
 
-    virtual void update() = 0;
-    virtual void walk( Location::Direction ) = 0;
+    virtual void update(sf::Time &) = 0;
     virtual sf::Sprite render() = 0;
 
 protected:
@@ -50,6 +49,8 @@ protected:
     void setLocation( Location * );
     void setSprite( sf::Texture & );
 
+    /* Toggle entry fuction points to debugging */
+    bool traced;
 private:
     /* Entity name to be displayed during game execution */
     std::string _name;

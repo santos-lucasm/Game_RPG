@@ -68,6 +68,8 @@ private:
     sf::Vector2f _vector;
     /* looking direction */
     Direction _direction;
+    /* Toggle entry fuction points to debugging */
+    bool traced;
 };
 
 #endif

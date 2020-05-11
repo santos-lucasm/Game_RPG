@@ -41,9 +41,10 @@ public:
 private:
     /* Maps strings into textures (loadeds and unloadeds) */
     std::map<std::string, sf::Texture> map_Textures;
-
     /* Pointer to itself */
     static AssetManager * Instance;
+    /* Toggle entry fuction points to debugging */
+    bool traced;
 };
 
 #endif
