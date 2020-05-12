@@ -1,12 +1,10 @@
 #include "game.h"
-#include <iostream>
+#include <assert.h>
 
 Game::Game(std::string title)
 {   
     if(traced) Tracer("Game<constructor>");
-
-    if( title.empty() )
-        return; /* TODO: Throw invalid argument exception */
+    assert( !title.empty() );
 
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     _window = new sf::RenderWindow(sf::VideoMode( desktop.width, desktop.height, desktop.bitsPerPixel), title);
@@ -17,9 +15,9 @@ Game::~Game()
 {
     if(traced) Tracer("Game<destructor>");
 
-    for (std::list<Entity*>::iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
+    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
         delete (*it);
-    
+    _entities_queue.clear();
     delete _manager;
 }
 
@@ -35,10 +33,33 @@ void Game::createEntity()
 {
     if(traced) Tracer("Game<createEntity>");
 
-    Entity* tmp_entity  = new Player("Sevothart", AssetManager::getTexture("resources/sensei.png"),
-    sf::Vector2f(0, 0), Location::Direction::DOWN);
+    try
+    {
+        Entity* tmp_entity  = new Player("Sevothart", AssetManager::getTexture("resources/sensei.png"),
+        sf::Vector2f(0, 0), Location::Direction::DOWN);
+        _entities_queue.push_back(tmp_entity);
+    }
+    catch( std::exception & e )
+    {
+        throw e;
+    }
+}
 
-    _entities_queue.push_back(tmp_entity);
+void Game::updateEntities( sf::Time& dt )
+{
+    if(traced) Tracer("Game<updateEntities>");
+    assert(dt.asMicroseconds() < 0);
+
+    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
+        (*it)->update(dt);
+}
+
+void Game::renderEntities()
+{
+    if(traced) Tracer("Game<renderEntities>");
+
+    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
+        _window->draw( (*it)->render() );
 }
 
 void Game::eventHandler( sf::Event& event )
@@ -50,22 +71,6 @@ void Game::eventHandler( sf::Event& event )
         if( event.type == sf::Event::EventType::Closed )
             _window->close();
     }
-}
-
-void Game::updateEntities( sf::Time& dt )
-{
-    if(traced) Tracer("Game<updateEntities>");
-
-    for (std::list<Entity*>::iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
-        (*it)->update(dt);
-}
-
-void Game::renderEntities()
-{
-    if(traced) Tracer("Game<renderEntities>");
-
-    for (std::list<Entity*>::iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
-        _window->draw( (*it)->render() );
 }
 
 void Game::gameLoop()
