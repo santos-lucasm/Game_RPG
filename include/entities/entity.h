@@ -2,8 +2,7 @@
 #define _ENTITY_H
 
 #include <SFML/Graphics.hpp>
-#include "location.h"
-#include "Utilities/tracer.h"
+#include "utilities/tracer.h"
 
 /*
 Description:
@@ -22,7 +21,7 @@ public:
         Classes that inhetits from it should handle it on their
     own way.
     */
-    Entity( std::string, sf::Texture &, sf::Vector2f, Location::Direction );
+    Entity( std::string, sf::Texture &, sf::Vector2f );
 
     /*
     Description:
@@ -33,7 +32,7 @@ public:
     virtual ~Entity();
     
     std::string getName();
-    Location * getLocation();
+    sf::Vector2f getVector2D();
     sf::Sprite * getSprite();
 
     virtual void update(sf::Time &) = 0;
@@ -46,14 +45,14 @@ protected:
         Classes that inhetits from it should handle its exceptions.
     */
     void setName( std::string );
-    void setLocation( Location * );
+    void setVector2D( sf::Vector2f );
     void setSprite( sf::Texture & );
 
 private:
     /* Entity name to be displayed during game execution */
     std::string _name;
     /* Entity current location */
-    Location * _location;
+    sf::Vector2f _vector2D;
     /* Entity pattern to be rendered. TODO: Make it a reference */
     sf::Sprite _sprite;
 

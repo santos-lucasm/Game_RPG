@@ -1,5 +1,5 @@
-#include "game.h"
 #include <assert.h>
+#include "game.h"
 
 Game::Game(std::string title)
 {   
@@ -35,9 +35,10 @@ void Game::createEntity()
 
     try
     {
-        Entity* tmp_entity  = new Player("Sevothart", AssetManager::getTexture("resources/sensei.png"),
-        sf::Vector2f(0, 0), Location::Direction::DOWN);
-        _entities_queue.push_back(tmp_entity);
+        Entity* new_entity  = new Player
+        ("Sevothart", AssetManager::getTexture("resources/tilesets/fenceRaw04.png"), sf::Vector2f(0, 0));
+
+        _entities_queue.push_back(new_entity);
     }
     catch( std::exception & e )
     {
@@ -48,7 +49,7 @@ void Game::createEntity()
 void Game::updateEntities( sf::Time& dt )
 {
     if(traced) Tracer("Game<updateEntities>");
-    assert(dt.asMicroseconds() < 0);
+    assert(dt.asMicroseconds() > 0);
 
     for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
         (*it)->update(dt);

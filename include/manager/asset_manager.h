@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
-#include "Utilities/tracer.h"
+#include "utilities/tracer.h"
 
 /*
 Description:

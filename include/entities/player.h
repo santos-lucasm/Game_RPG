@@ -1,14 +1,12 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "Entities/entity.h"
-#include "location.h"
+#include "entities/entity.h"
 
 class Player: public Entity
 {
 public:
-    Player(std::string name, sf::Texture & tex, sf::Vector2f startPos, Location::Direction dir,
-        int hp = 100, int attack = 20, int armor = 10, int evasion = 3);
+    Player(std::string, sf::Texture &, sf::Vector2f , int = 100, int = 20, int = 10, int = 3);
     ~Player();
 
     int get_hp();
@@ -17,7 +15,6 @@ public:
     int get_evasion();
 
     void update(sf::Time &);
-    void walk( Location::Direction, sf::Time & );
     sf::Sprite render();
 
 private:

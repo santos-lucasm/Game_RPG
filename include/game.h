@@ -3,9 +3,8 @@
 
 #include <list>
 
-#include "Entities/player.h"
-#include "Manager/asset_manager.h"
-#include "location.h" /* TODO: Delete this dependence for now */
+#include "entities/player.h"
+#include "manager/asset_manager.h"
 
 /*! @class
     Provides methods to settings configuration, menus,

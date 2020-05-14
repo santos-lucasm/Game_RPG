@@ -1,6 +1,6 @@
-#include "Manager/asset_manager.h"
 #include <assert.h>
 #include <iostream>
+#include "manager/asset_manager.h"
 
 AssetManager * AssetManager::Instance = nullptr;
 

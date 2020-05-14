@@ -1,8 +1,8 @@
 #ifndef _TRACER_H
 #define _TRACER_H
 
-#include "Utilities/traits.h"
 #include <iostream>
+#include "utilities/traits.h"
 
 class Tracer
 {
