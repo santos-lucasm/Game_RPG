@@ -1,35 +1,26 @@
 #include "entities/player.h"
 
-Player::Player(std::string name, sf::Texture & tex, sf::Vector2f vector,
-int hp, int attack, int armor, int evasion):
+Player::Player(std::string name, sf::Texture & tex, sf::Vector2f vector, int speed):
 Entity(name, tex, vector)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
-
-    set_hp( hp );
-    set_attack( attack );
-    set_armor( armor );
-    set_evasion( evasion );
+    setSpeed( speed );
 }
 
 Player::~Player()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<destructor>") : nullptr;
-    set_hp(0);
-    set_attack(0);
-    set_armor(0);
-    set_evasion(0);
+    setSpeed(0);
 }
 
-void Player::set_hp( int hp ){ _hp = hp; }
-void Player::set_attack( int attack ){ _attack = attack; }
-void Player::set_armor( int armor ){ _armor = armor; }
-void Player::set_evasion( int evasion ){ _evasion = evasion; }
+void Player::setSpeed( int speed )
+{
+    if(speed < 0)
+        return; /* TODO: Throw invalid argument exception */
+    _speed = speed;
+}
 
-int Player::get_hp(){ return _hp; }
-int Player::get_attack(){ return _attack; }
-int Player::get_armor(){ return _armor; }
-int Player::get_evasion(){ return _evasion; }
+int Player::getSpeed(){ return _speed; }
 
 void Player::update( sf::Time & dt )
 {
@@ -40,13 +31,13 @@ void Player::update( sf::Time & dt )
     float time = dt.asSeconds();
 
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Right ) )
-        getSprite()->move(60 * time, 0);
+        getSprite()->move( getSpeed() * time, 0 );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Left ) )
-        getSprite()->move(-60 * time, 0);
+        getSprite()->move( getSpeed() * -1 * time, 0 );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Up ) )
-        getSprite()->move(0, -60 * time);
+        getSprite()->move( 0, getSpeed() * -1 * time );
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Down ) )
-        getSprite()->move(0, 60 * time);
+        getSprite()->move( 0, getSpeed() * time );
 }
 
 sf::Sprite Player::render()

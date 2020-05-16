@@ -13,6 +13,7 @@ Entity::Entity( std::string name, sf::Texture& texture, sf::Vector2f vector )
 Entity::~Entity()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<destructor>") : nullptr;
+    
     getName().clear();
     setVector2D( sf::Vector2f(0,0) );
 }
@@ -26,10 +27,10 @@ void Entity::setName( std::string name )
 
 void Entity::setVector2D( sf::Vector2f vector ) { _vector2D = vector; }
 
-
 void Entity::setSprite( sf::Texture & texture )
 { 
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<setSprite>") : nullptr;
+
     getSprite()->setTexture( texture );
     getSprite()->setPosition( getVector2D() );
 }
