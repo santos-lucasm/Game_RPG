@@ -31,32 +31,21 @@ public:
     ~Tracer();
 
     /*! @property
-    Traits flag that allow tracer to be used by other classes. */
-    static const bool enable = Traits<void>::traced;
+    Traits flag that allow tracer to print other classes entry points. */
+    static const bool traceActive = Traits<Tracer>::tracing_enabled;
+
+    /*! @property
+    Traits flag that allow tracer to print other classes returns and parameters. */
+    static const bool debugActive = Traits<Tracer>::debug_enabled;
+
 private:
     /*! @property
     Stores the message to be printed on constructor and destructor. */
     std::string * functionName;
+
+    /*! @property
+    Number of the current Tracers alive, to do a nested log */
+    static int nested_number;
 };
-
-inline
-Tracer::Tracer(const char* name): functionName(0)
-{
-    if(enable)
-    {
-        functionName = new std::string(name);
-        std::cout << *functionName << "\t: IN" << std::endl;
-    }
-}
-
-inline
-Tracer::~Tracer()
-{
-    if(enable)
-    {
-        std::cout << *functionName << "\t: OUT" << std::endl;
-        delete functionName;
-    }
-}
 
 #endif

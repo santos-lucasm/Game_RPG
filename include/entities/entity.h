@@ -56,10 +56,13 @@ private:
     /* Entity pattern to be rendered. TODO: Make it a reference */
     sf::Sprite _sprite;
 
-    /* Traits flag that allow debug */
-    static const bool debugged = Traits<Entity>::debugged;
-    /* Traits flag that allow tracing if debug and tracer is active */
-    static const bool traced = debugged && Tracer::enable;
+    /*! @property
+    Traits flag that allow debug if class debug and tracer debug are active. */
+    static const bool debugged = Traits<Entity>::debugged && Tracer::debugActive;
+
+    /*! @property
+    Traits flag that allow tracing if class tracing and tracer are active. */
+    static const bool traced = Traits<Entity>::traced && Tracer::traceActive;
 };
 
 #endif

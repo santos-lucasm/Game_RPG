@@ -1,5 +1,5 @@
-#ifndef __CLOCK_H
-#define __CLOCK_H
+#ifndef _CLOCK_H
+#define _CLOCK_H
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
@@ -50,12 +50,12 @@ private:
     sf::Time _dt;
 
     /*! @property
-    Traits flag that allow debug. */
-    static const bool debugged = Traits<Clock>::debugged;
+    Traits flag that allow debug if class debug and tracer debug are active. */
+    static const bool debugged = Traits<Clock>::debugged && Tracer::debugActive;
 
     /*! @property
-    Traits flag that allow tracing if debug and tracer is active. */
-    static const bool traced = debugged && Tracer::enable;
+    Traits flag that allow tracing if class tracing and tracer are active. */
+    static const bool traced = Traits<Clock>::traced && Tracer::traceActive;
 };
 
 #endif

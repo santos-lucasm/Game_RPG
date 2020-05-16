@@ -1,9 +1,10 @@
 #include <assert.h>
+#include <memory.h>
 #include "game.h"
 
 Game::Game(std::string title)
 {   
-    if(traced) Tracer("Game<constructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<constructor>") : nullptr;
     assert( !title.empty() );
 
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -14,7 +15,7 @@ Game::Game(std::string title)
 
 Game::~Game()
 {
-    if(traced) Tracer("Game<destructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<destructor>") : nullptr;
 
     for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
         delete (*it);
@@ -25,7 +26,7 @@ Game::~Game()
 
 void Game::windowConfig()
 {
-    if(traced) Tracer("Game<windowConfig>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<windowConfig>") : nullptr;
 
     _window->setFramerateLimit(60);
     _window->setMouseCursorVisible( false );
@@ -33,10 +34,10 @@ void Game::windowConfig()
 
 void Game::createEntity()
 {
-    if(traced) Tracer("Game<createEntity>");
-
     try
     {
+        std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
+
         Entity* new_entity  = new Player
         ("Sevothart", AssetManager::getTexture("resources/tilesets/fenceRaw04.png"), sf::Vector2f(0, 0));
 
@@ -50,7 +51,7 @@ void Game::createEntity()
 
 void Game::updateEntities( sf::Time& dt )
 {
-    if(traced) Tracer("Game<updateEntities>");
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<updateEntities>") : nullptr;
     assert(dt.asMicroseconds() > 0);
 
     for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
@@ -59,7 +60,7 @@ void Game::updateEntities( sf::Time& dt )
 
 void Game::renderEntities()
 {
-    if(traced) Tracer("Game<renderEntities>");
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
 
     for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
         _window->draw( (*it)->render() );
@@ -67,7 +68,7 @@ void Game::renderEntities()
 
 void Game::eventHandler( sf::Event& event )
 {
-    if(traced) Tracer("Game<eventHandler>");
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<eventHandler>") : nullptr;
 
     while( _window->pollEvent(event) )
     {
@@ -78,7 +79,7 @@ void Game::eventHandler( sf::Event& event )
 
 void Game::gameLoop()
 {
-    if(traced) Tracer("Game<gameLoop>");
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<gameLoop>") : nullptr;
 
     while( _window->isOpen() )
     {   

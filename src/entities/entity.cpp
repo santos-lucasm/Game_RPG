@@ -1,8 +1,9 @@
+#include <memory.h>
 #include "entities/entity.h"
 
 Entity::Entity( std::string name, sf::Texture& texture, sf::Vector2f vector )
 {
-    if(traced) Tracer("Entity<constructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<constructor>") : nullptr;
 
     setName( name );
     setVector2D( vector );
@@ -11,7 +12,7 @@ Entity::Entity( std::string name, sf::Texture& texture, sf::Vector2f vector )
 
 Entity::~Entity()
 {
-    if(traced) Tracer("Entity<destructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<destructor>") : nullptr;
     getName().clear();
     setVector2D( sf::Vector2f(0,0) );
 }
@@ -28,6 +29,7 @@ void Entity::setVector2D( sf::Vector2f vector ) { _vector2D = vector; }
 
 void Entity::setSprite( sf::Texture & texture )
 { 
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<setSprite>") : nullptr;
     getSprite()->setTexture( texture );
     getSprite()->setPosition( getVector2D() );
 }

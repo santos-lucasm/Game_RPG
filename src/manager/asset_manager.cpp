@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <memory.h>
 #include <iostream>
 #include "manager/asset_manager.h"
 
@@ -6,7 +7,7 @@ AssetManager * AssetManager::Instance = nullptr;
 
 AssetManager::AssetManager()
 {
-    if(traced) Tracer("AssetManager<constructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<constructor>") : nullptr;
     
     assert( Instance == nullptr );
     Instance = this;
@@ -14,7 +15,7 @@ AssetManager::AssetManager()
 
 AssetManager::~AssetManager()
 {
-    if(traced) Tracer("AssetManager<destructor>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<destructor>") : nullptr;
     
     map_Textures.clear();
     Instance = nullptr;
@@ -22,7 +23,7 @@ AssetManager::~AssetManager()
 
 sf::Texture& AssetManager::getTexture( std::string const& filename )
 {
-    if(traced) Tracer("AssetManager<getTexture>");
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<getTexture>") : nullptr;
 
     auto& texMap = Instance->map_Textures;
     auto pair = texMap.find(filename);

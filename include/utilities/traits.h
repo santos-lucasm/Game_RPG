@@ -26,43 +26,49 @@ classes to turn debug or tracer on, for example.
 template<typename T>
 struct Traits
 {
-    static const bool traced = true;
+    static const bool traced = false;
     static const bool debugged = false;
+};
+
+template<> struct Traits<Tracer>: public Traits<void>
+{
+    static const bool tracing_enabled = true;
+    static const bool debug_enabled = false;
 };
 
 template<> struct Traits<Game>: public Traits<void>
 {
-    static const bool debugged = false;
+    static const bool traced = true;
 };
 
 template<> struct Traits<Clock>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 template<> struct Traits<AssetManager>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 template<> struct Traits<Animator>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 template<> struct Traits<Animation>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 template<> struct Traits<Entity>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 template<> struct Traits<Player>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool traced = true;
 };
 
 #endif
