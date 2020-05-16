@@ -6,10 +6,10 @@ AssetManager * AssetManager::Instance = nullptr;
 
 AssetManager::AssetManager()
 {
+    if(traced) Tracer("AssetManager<constructor>");
+    
     assert( Instance == nullptr );
     Instance = this;
-
-    if(traced) Tracer("AssetManager<constructor>");
 }
 
 AssetManager::~AssetManager()
