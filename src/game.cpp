@@ -9,6 +9,7 @@ Game::Game(std::string title)
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     _window = new sf::RenderWindow(sf::VideoMode( desktop.width, desktop.height, desktop.bitsPerPixel), title);
     _manager = new AssetManager();
+    _clock = new Clock();
 }
 
 Game::~Game()
@@ -19,6 +20,7 @@ Game::~Game()
         delete (*it);
     _entities_queue.clear();
     delete _manager;
+    delete _clock;
 }
 
 void Game::windowConfig()
@@ -80,13 +82,13 @@ void Game::gameLoop()
 
     while( _window->isOpen() )
     {   
-        sf::Time dt = _clock.restart();
+        _clock->frameStart();
 
         sf::Event event;
         eventHandler( event );
         
-        _elapsedTime += dt;
-        updateEntities(dt);
+        _clock->setElapsedTime();
+        updateEntities( _clock->getDT() );
 
         _window->clear( sf::Color::Black );
         renderEntities();

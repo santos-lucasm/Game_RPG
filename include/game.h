@@ -5,6 +5,7 @@
 
 #include "entities/player.h"
 #include "manager/asset_manager.h"
+#include "clock.h"
 
 /*! @class
     Provides methods to settings configuration, menus,
@@ -61,9 +62,9 @@ public:
     @brief
         Calls update method for each Entity on _entity_list.
     There's an assert to ensure that deltatime is positive.
-    @param dt   Deltatime passed since last frame
+    @param Time Deltatime passed since last frame.
     */
-    void updateEntities( sf::Time& dt );
+    void updateEntities( sf::Time& );
 
     /*!  
     @brief
@@ -75,7 +76,7 @@ public:
     @brief
         Handle IO, time and window events, taking actions
     or updating Entities according with entries.
-    @param Event    Event detected on gameLoop() method 
+    @param Event    Event detected on gameLoop() method.
     */
     void eventHandler( sf::Event& );
 
@@ -83,42 +84,40 @@ public:
     @brief
         The game loop itself, should call all other important methods
     to update screen, entities, maps and handlers.
-        Works on following order: eventHandling -> update -> render
+        Works on following order: eventHandling -> update -> render.
     */
     void gameLoop();
 
 private:
     /*! @typedef
-    To help on methods update and render, at list iteration
-    */ 
+    To help on methods update and render, at list iteration. */ 
     typedef std::list<Entity*>::iterator iterator;
 
     /*! @property
-    Singleton instance of AssetManager, manages every game texture
-    */
+    Singleton instance of AssetManager, manages every game texture. */
     AssetManager * _manager;
 
     /*! @property
-    A RenderWindow object reference, used to configure, draw and display */
+    A RenderWindow object reference, used to configure, draw and display. */
     sf::RenderWindow * _window;
 
-    /* TODO: Create a Clock class, add a reference here */
-    sf::Time _elapsedTime;
-    sf::Clock _clock;
+    /*! @property
+    Clock class will store data about the frame and game duration. */
+    Clock * _clock;
 
     /*! @property 
-    Temporary, list of Entity* created along the game
+    Temporary, list of Entity* created along the game.
     @TODO:
         Create a gameMap class that contains every Entity on its
     own private attribute, according to the current game section */
     std::list<Entity*> _entities_queue;
 
     /*! @property
-    Traits flag that allow debug */
+    Traits flag that allow debug. */
     static const bool debugged = Traits<Game>::debugged;
 
     /*! @property
-    Traits flag that allow tracing if debug and tracer is active */
+    Traits flag that allow tracing if debug and tracer is active. */
     static const bool traced = debugged && Tracer::enable;
 };
 #endif
