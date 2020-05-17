@@ -28,21 +28,6 @@ public:
         Handle name and vector values. Sprite is handled by AssetManager.
     */
     virtual ~Entity();
-    
-    /*! @brief
-    @return Returns current Entity name.
-    */
-    std::string getName();
-
-    /*! @brief
-    @return Returns current Entity position vector.
-    */
-    sf::Vector2f getVector2D();
-
-    /*! @brief
-    @return Returns current Entity sprite.
-    */
-    sf::Sprite * getSprite();
 
     /*! @brief
         Virtual method to be implemented by every Entity. Should be called
@@ -77,6 +62,21 @@ protected:
     @param Texture New texture to be assigned to sprite
     */
     void setSprite( sf::Texture & );
+
+    /*! @brief
+    @return Returns current Entity name.
+    */
+    std::string getName();
+
+    /*! @brief
+    @return Returns current Entity position vector.
+    */
+    sf::Vector2f getVector2D();
+
+    /*! @brief
+    @return Returns current Entity sprite.
+    */
+    sf::Sprite * getSprite();
 
 private:
     /*! @property

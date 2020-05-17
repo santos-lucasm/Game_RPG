@@ -33,6 +33,8 @@ void Entity::setSprite( sf::Texture & texture )
 
     getSprite()->setTexture( texture );
     getSprite()->setPosition( getVector2D() );
+    getSprite()->setTextureRect( sf::IntRect(0, 0, 32, 32) );
+    getSprite()->setScale(2, 2);
 }
 
 std::string Entity::getName(){ return _name; }

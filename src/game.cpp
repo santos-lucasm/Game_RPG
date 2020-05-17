@@ -38,7 +38,7 @@ void Game::createEntity()
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
     try
     {
-        Entity* new_entity  = new T ("Sevothart", AssetManager::getTexture("resources/tilesets/fenceRaw04.png"), sf::Vector2f(0, 0));
+        Entity* new_entity  = new T ("Sevothart", AssetManager::getTexture("resources/animations/snorlax.png"), sf::Vector2f(0, 0));
         _entities_queue.push_back(new_entity);
     }
     catch( std::exception & e )
