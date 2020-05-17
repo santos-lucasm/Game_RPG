@@ -2,6 +2,7 @@
 #define _TRACER_H
 
 #include <iostream>
+#include <fstream>
 #include "utilities/traits.h"
 
 /*! @class

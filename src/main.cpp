@@ -2,10 +2,9 @@
 
 int main()
 {
-    Game * newGame = new Game("Titlezinho");
+    Game * newGame = new Game();
 
-    newGame->windowConfig();
-    newGame->createEntity<Player>();
+    newGame->createEntity<Player>("Player1", "resources/animations/snorlax.png", sf::Vector2f(200,200));
     newGame->gameLoop();
 
     delete newGame;

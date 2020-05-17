@@ -13,21 +13,21 @@ public:
         It's called on the start of the game loop, right before the event handling.
     Get the last frame duration, setting internal dt parameters to the clock return.
     */
-    void frameStart();
+    void updateDt();
 
     /*! @brief
         Called in every iteration of gameLoop, increasing the game elapsed time
     by the dt amount (current frame duration). Should be called after long operations
     and event handling.
     */
-    void setElapsedTime();
+    void updateElapsed();
 
     /*! @brief
         Can be useful when showing time passed playing or when saving game files.
     @return
         Returns time passed since the game start.
     */
-    sf::Time& getElapsedTime();
+    sf::Time& getElapsed();
 
     /*! @brief
         Very useful to be passed to update methods on entities.

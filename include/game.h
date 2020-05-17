@@ -19,11 +19,9 @@ public:
     /*!
     @brief
         Gets current screen configuration utilized by user
-    and uses it to create a new window. If the string passed
-    is empty, constructor locks on an assert.
-    @param string   Title of new window
+    and uses it to create a new window.
     */
-    Game( std::string );
+    Game();
 
     /*!
     @brief
@@ -41,7 +39,7 @@ public:
     screen size, fps and pixel depth. This method should call
     Configuration methods.
     */
-    void windowConfig();
+    void initWindow();
 
     /*
     @TODO: Entities data and creation should be handle by a Map class
@@ -57,7 +55,7 @@ public:
     an exception, that will be catched by the special handler.
     */
     template<typename T>
-    void createEntity();
+    void createEntity(std::string, std::string, sf::Vector2f);
 
     /*!
     @brief
@@ -71,15 +69,14 @@ public:
     @brief
         Calls render method for each Entity on _entity_list.
     */
-    void renderEntities();
+    void render();
 
     /*!
     @brief
         Handle IO, time and window events, taking actions
     or updating Entities according with entries.
-    @param Event    Event detected on gameLoop() method.
     */
-    void eventHandler( sf::Event& );
+    void eventHandler();
 
     /*!
     @brief
@@ -105,6 +102,10 @@ private:
     /*! @property
     Clock class will store data about the frame and game duration. */
     Clock * _clock;
+
+    /*! @property
+    Stores last event to be handle by the eventHandler method */
+    sf::Event _event;
 
     /*! @property 
     Temporary, list of Entity* created along the game.

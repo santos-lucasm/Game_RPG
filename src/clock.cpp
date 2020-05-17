@@ -1,6 +1,6 @@
 #include "clock.h"
 
-void Clock::frameStart() { _dt = _clock.restart(); }
-void Clock::setElapsedTime(){ _elapsed += _dt; }
-sf::Time& Clock::getElapsedTime(){ return _elapsed; }
+void Clock::updateDt() { _dt = _clock.restart(); }
+void Clock::updateElapsed(){ _elapsed += _dt; }
+sf::Time& Clock::getElapsed(){ return _elapsed; }
 sf::Time& Clock::getDT() { return _dt; }

@@ -33,7 +33,7 @@ struct Traits
 template<> struct Traits<Tracer>: public Traits<void>
 {
     static const bool tracing_enabled = true;
-    static const bool debug_enabled = false;
+    static const bool debug_enabled = true;
 };
 
 template<> struct Traits<Game>: public Traits<void>
