@@ -51,11 +51,12 @@ public:
 
     /*!
     @brief
-        Currently creates a standard Player on (0,0) position
+        Currently creates a Entity of type T on (0,0) position
     and add it to the last node of _entity_list.
         If function fails on Entity memory allocation, throws
     an exception, that will be catched by the special handler.
     */
+    template<typename T>
     void createEntity();
 
     /*!

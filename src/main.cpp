@@ -5,7 +5,7 @@ int main()
     Game * newGame = new Game("Titlezinho");
 
     newGame->windowConfig();
-    newGame->createEntity();
+    newGame->createEntity<Player>();
     newGame->gameLoop();
 
     delete newGame;

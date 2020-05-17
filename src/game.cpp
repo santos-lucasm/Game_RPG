@@ -32,15 +32,13 @@ void Game::windowConfig()
     _window->setMouseCursorVisible( false );
 }
 
+template<typename T>
 void Game::createEntity()
 {
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
     try
     {
-        std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
-
-        Entity* new_entity  = new Player
-        ("Sevothart", AssetManager::getTexture("resources/tilesets/fenceRaw04.png"), sf::Vector2f(0, 0));
-
+        Entity* new_entity  = new T ("Sevothart", AssetManager::getTexture("resources/tilesets/fenceRaw04.png"), sf::Vector2f(0, 0));
         _entities_queue.push_back(new_entity);
     }
     catch( std::exception & e )
@@ -96,3 +94,19 @@ void Game::gameLoop()
         _window->display();
     }
 }
+
+template void Game::createEntity<Player>();
+
+/*! @brief
+    Why is this here ?
+    This exists to make possible to define createEntity,
+a templatized function, on a different place then its declaration.
+    Without this, linker can not find a template function without
+its definition together.
+
+void LinkingFunction()
+{
+    Game g("oi");
+    g.createEntity<Player>();
+}
+*/
