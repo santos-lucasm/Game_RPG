@@ -36,6 +36,8 @@ public:
     */
     void setSpeed( int );
 
+    void initAnimations();
+
     /*! @brief
         Should be called every frame to update (move) Entities around.
     @param Time Time passed since last frame

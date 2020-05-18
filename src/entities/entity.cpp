@@ -8,6 +8,7 @@ Entity::Entity( std::string name, sf::Texture& texture, sf::Vector2f vector )
     setName( name );
     setVector2D( vector );
     setSprite( texture );
+    _animator = new Animator( *getSprite() );
 }
 
 Entity::~Entity()
@@ -34,9 +35,11 @@ void Entity::setSprite( sf::Texture & texture )
     getSprite()->setTexture( texture );
     getSprite()->setPosition( getVector2D() );
     getSprite()->setTextureRect( sf::IntRect(0, 0, 32, 32) );
+    _dir = NONE;
     getSprite()->setScale(2, 2);
 }
 
 std::string Entity::getName(){ return _name; }
 sf::Vector2f Entity::getVector2D() { return _vector2D; }
 sf::Sprite * Entity::getSprite(){ return &_sprite; }
+Animator * Entity::getAnimator(){ return _animator; }

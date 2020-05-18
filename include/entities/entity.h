@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "utilities/tracer.h"
+#include "manager/animator.h"
 
 /*! @brief
     This class is an abstract class, every character that's displayed on map
@@ -12,6 +13,24 @@ TODO:
 */
 class Entity
 {
+protected:
+    enum
+    {
+        RIGHT_MOVE = 1,
+        RIGHT_IDLE = 2,
+
+        LEFT_MOVE  = 3,
+        LEFT_IDLE  = 4,
+        
+        UP_MOVE    = 5,
+        UP_IDLE    = 6,
+
+        DOWN_MOVE  = 7,
+        DOWN_IDLE  = 8,
+
+        NONE  = -1
+    }typedef Direction;
+
 public:
     /*! @brief
         Entity class constructor, helps on code reusability to other classes
@@ -63,6 +82,8 @@ protected:
     */
     void setSprite( sf::Texture & );
 
+    void setDirection(Direction dir){ _dir = dir; }
+
     /*! @brief
     @return Returns current Entity name.
     */
@@ -78,6 +99,13 @@ protected:
     */
     sf::Sprite * getSprite();
 
+    /*! @brief
+    @return Returns the Animator responsible for this Entity.
+    */
+    Animator * getAnimator();
+
+    Direction getDirection(){ return _dir; }
+
 private:
     /*! @property
     Entity name to be displayed during game execution. */
@@ -90,6 +118,9 @@ private:
     /*! @property
     Entity pattern to be rendered. */
     sf::Sprite _sprite;
+
+    Animator* _animator;
+    Direction _dir;
 
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */
