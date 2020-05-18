@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <list>
+#include <stack>
 #include "utilities/traits.h"
 
 /*! @class
