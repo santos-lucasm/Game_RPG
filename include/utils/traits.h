@@ -15,6 +15,9 @@ class Animator;
 class Entity;
 class Player;
 
+class State;
+class GameState;
+
 class Tracer;
 
 /*! @struct
@@ -66,6 +69,16 @@ template<> struct Traits<Entity>: public Traits<void>
 };
 
 template<> struct Traits<Player>: public Traits<void>
+{
+    static const bool traced = true;
+};
+
+template<> struct Traits<State>: public Traits<void>
+{
+    static const bool traced = true;
+};
+
+template<> struct Traits<GameState>: public Traits<void>
 {
     static const bool traced = true;
 };

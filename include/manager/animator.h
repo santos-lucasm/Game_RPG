@@ -51,6 +51,8 @@ public:
     */
     Animator(sf::Sprite& sprite);
 
+    ~Animator();
+
     /*! @brief
         Creates an animation object using the parameters and
     add it to a private list of animations.

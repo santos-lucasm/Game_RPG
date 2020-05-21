@@ -25,6 +25,11 @@ Animator::Animator(sf::Sprite& sprite):
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<constructor>") : nullptr;
 }
 
+Animator::~Animator()
+{
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<destructor>") : nullptr;
+}
+
 Animator::Animation& Animator::createAnimation (std::string const& name, std::string const& textureName, sf::Time const& duration, bool loop)
 {
     std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Animator<createAnimation>") : nullptr;

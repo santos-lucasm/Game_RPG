@@ -4,11 +4,11 @@ Game::Game()
 {   
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<constructor>") : nullptr;
 
-    initWindow();
-    initDisplay();
     _manager = new AssetManager();
     _clock = new Clock();
 
+    initWindow();
+    initState();
 }
 
 Game::~Game()
@@ -30,13 +30,16 @@ Game::~Game()
     } 
     ofs.close();
 
-    /* Destroys dynamically alocated memory */
-    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
-        delete (*it);
-    _entitiesList.clear();
+    /* Destroy left States */
+    while(!_states.empty())
+    {
+        delete _states.top();
+        _states.pop();
+    }
 
     delete _manager;
     delete _clock;
+    delete _window;
 }
 
 void Game::initWindow()
@@ -74,40 +77,37 @@ void Game::initWindow()
     _window->setMouseCursorVisible( mouse_visible );
 }
 
-void Game::initDisplay()
+void Game::initState()
 {
-    _font.loadFromFile("resources/fonts/ostrich-regular.ttf");
-    _showFPS.setFont( _font );
-    _showFPS.setPosition(10, 10);
-    _showFPS.setFillColor(sf::Color::Red);
-    _showFPS.setCharacterSize(36);
-}
-
-template<typename T>
-void Game::createEntity(std::string name, std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
-{
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
-    try
-    {
-        Entity* new_entity  = new T (name, AssetManager::getTexture(textFile), startPos, size);
-        _entitiesList.push_back(new_entity);
-    }
-    catch( std::exception & e )
-    {
-        throw e;
-    }
+    _states.push( new GameState(_window) );
 }
 
 void Game::update()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<updateEntities>") : nullptr;
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
 
+    /* Update IO general game Events, like pressing X on top left corner */
     updateSFMLEvents();
 
-    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
-        (*it)->update( _clock->getDT() );
+    /* Update the current active State */
+    if(!_states.empty())
+    {
+        _states.top()->update( _clock->getDT() );
 
-    updateDisplay();
+        /* Verify if the current game state wants to exit */
+        if(_states.top()->getQuit())
+        {
+            if(debugged) tmp->debug("Finishing a State");
+
+            delete _states.top();
+            _states.pop();
+        }
+    }
+    /* If every State exited, end the application */
+    else
+    {
+        _window->close();
+    }
 }
 
 void Game::updateSFMLEvents()
@@ -118,10 +118,7 @@ void Game::updateSFMLEvents()
         {
             case sf::Event::EventType::Closed :
                 _window->close();
-                break;
-            case sf::Event::KeyReleased :
-                if(_event.key.code == sf::Keyboard::Escape)
-                    _window->close();
+                /* TODO: Call endState() for every State on stack */
                 break;
             default :
                 break;
@@ -129,29 +126,13 @@ void Game::updateSFMLEvents()
     }
 }
 
-void Game::updateDisplay()
-{   
-    /* Clear ostringstream */
-    _fps.clear();
-    _fps.str("");
-
-    /* Calculates FPS */
-    _fps << ( 1/_clock->getDT().asSeconds() );
-
-    /* Passes data to the sf::Text element */
-    _showFPS.setString( "FPS: " + _fps.str() );
-}
-
 void Game::render()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
-
     _window->clear( sf::Color::White );
 
-    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
-        (*it)->render( _window );
+    if(!_states.empty())
+        _states.top()->render();
 
-    _window->draw( _showFPS );
     _window->display();
 }
 
@@ -170,5 +151,3 @@ void Game::gameLoop()
         render();
     }
 }
-
-template void Game::createEntity<Player>(std::string, std::string, sf::Vector2f, sf::Vector2i);

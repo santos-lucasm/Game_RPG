@@ -62,8 +62,7 @@ public:
     /*! @brief
         Virtual method to be implemented by every Entity. Should be called
     every frame to render (draw) Entity on screen.
-    @return
-        Returns the sprite to be draw.
+    @param target   Where the entity is going to be draw.
     */
     virtual void render(sf::RenderTarget *target) = 0;
 
