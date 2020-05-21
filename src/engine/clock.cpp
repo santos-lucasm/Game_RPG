@@ -1,4 +1,4 @@
-#include "clock.h"
+#include "engine/clock.h"
 
 void Clock::updateDt() { _dt = _clock.restart(); }
 void Clock::updateElapsed(){ _elapsed += _dt; }

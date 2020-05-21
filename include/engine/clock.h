@@ -4,8 +4,6 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
 
-#include "utilities/tracer.h"
-
 class Clock
 {
 public:
@@ -48,14 +46,6 @@ private:
     /*! @property
     Stores last frame duration */
     sf::Time _dt;
-
-    /*! @property
-    Traits flag that allow debug if class debug and tracer debug are active. */
-    static const bool debugged = Traits<Clock>::debugged && Tracer::debugActive;
-
-    /*! @property
-    Traits flag that allow tracing if class tracing and tracer are active. */
-    static const bool traced = Traits<Clock>::traced && Tracer::traceActive;
 };
 
 #endif

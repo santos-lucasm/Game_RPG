@@ -6,57 +6,62 @@
 /*! @class
     Player class inherits from Entity, so it needs to define
 update and render methods.
-    It represents the player that's been controlled around
+    It represents the player that's being controlled around
 by the game user.
 */
 class Player: public Entity
 {
 public:
     /*! @brief
-        Player constructor invoked in createEntity methods in Game (or Map)
-    @param string   Entity name
-    @param Texture  Entity texture assigned to the Sprite
-    @param int      Entity speed
+        Player constructor invoked in createEntity methods in Game (or Map).
+    Sets additional parameters to the sprite that are not trated on Entity constructor.
+    @param name     Player name
+    @param texture  Player texture assigned to the Sprite
+    @param startPos Player sprite start position
+    @param size     Player sprite size
+    @param speed    Player speed
     */
-    Player(std::string, sf::Texture &, sf::Vector2f , int = 40);
+    Player(std::string name, sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i size,int speed = 40);
 
     /*! @brief
-        Player inherits Entity base class, that handles Name and vector2D.
-    AssetManager handle Texture destruction. So Player class just resets speed stat.
+        Destroys possible objects created by it (like projectiles or clones).
+        AssetManager handles Texture destruction.
+        So, for now Player class just resets speed and spriteSize stat.
     */
     ~Player();
 
     /*! @brief
-    @return Returns entity speed stat
+        Should be called every frame to update (move) player around.
+    @param dt   Time passed since last frame
     */
-    int getSpeed();
-
-    /*! @brief
-    @param int New speed stat
-    */
-    void setSpeed( int );
-
-    void initAnimations();
-
-    /*! @brief
-        Should be called every frame to update (move) Entities around.
-    @param Time Time passed since last frame
-    */
-    void update(sf::Time &);
+    void update(sf::Time &dt);
 
     /*! @brief
         Should be called every frame to render (draw) Entity on screen.
-    @return Returns the sprite to be draw.
+    @param  target      Where the Player should be drawed
     */
-    sf::Sprite render();
+    void render(sf::RenderTarget* target);
+
+protected:
+    void setSpeed(int speed);
+    void setSize(sf::Vector2i size);
+    int getSpeed();
+    sf::Vector2i getSpriteSize();
 
 private:
-    /*! @property
-    Speed stat.
-    TODO: Make speed be a lower number, i.e, 3. Involve some calcutions when moving Entity
-    around, like terrain or buffs (from spells or equipment).
+    /*! @brief
+        Creates every animation that will be used by
+    the player Animator.
     */
+    void initAnimations();
+
+    /*! @property
+    Speed stat, used on move method. */
     int _speed;
+
+    /*! @property
+    Size of the Entity on x and y axis. */
+    sf::Vector2i _spriteSize;
 
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */

@@ -1,19 +1,24 @@
 #ifndef _ENTITY_H
 #define _ENTITY_H
 
-#include <SFML/Graphics.hpp>
-#include "utilities/tracer.h"
 #include "manager/animator.h"
 
-/*! @brief
+/*! @class
     This class is an abstract class, every character that's displayed on map
-during game execution has to inherit Entity class.
+during game execution must to inherit Entity class.
 TODO:
     Entities should be destroyed when leaving a map zone ?
 */
 class Entity
 {
-protected:
+public:
+    /*! @enum
+        This enumeration helps on Entity's inheritances
+    to manage the correct switch between animations.
+    Here, are defined Entity states for each walking
+    possible direction and if they are moving or idle
+    looking on that direction.
+    */
     enum
     {
         RIGHT_MOVE = 1,
@@ -31,20 +36,19 @@ protected:
         NONE  = -1
     }typedef Direction;
 
-public:
     /*! @brief
         Entity class constructor, helps on code reusability to other classes
     that inherit from Entity.
     @param string   Entity's name
     @param Texture  Entity's texture reference, passed to the sprite
-    @param Vector2f Entity's position reference, a 2D vector
+    @param Vector2f Entity's sprite starting position, a 2D vector
     */
-    Entity( std::string, sf::Texture &, sf::Vector2f );
+    Entity(std::string name, sf::Texture &texture, sf::Vector2f startPos);
 
     /*! @brief
         Entity class destructor has to be virtual, in order to ensure
     that other inheritances are correctly destructed.
-        Handle name and vector values. Sprite is handled by AssetManager.
+        Handle name and deletes animator. Sprite is handled by AssetManager.
     */
     virtual ~Entity();
 
@@ -53,7 +57,7 @@ public:
     every frame to update (move) Entities around.
     @param Time Time passed since last frame
     */
-    virtual void update(sf::Time &) = 0;
+    virtual void update(sf::Time &dt) = 0;
 
     /*! @brief
         Virtual method to be implemented by every Entity. Should be called
@@ -61,65 +65,40 @@ public:
     @return
         Returns the sprite to be draw.
     */
-    virtual sf::Sprite render() = 0;
+    virtual void render(sf::RenderTarget *target) = 0;
 
 protected:
-    /*! @brief
-        Changes Entity's name property
-    @param string   New name
-    */
-    void setName( std::string );
-
-    /*! @brief
-        Changes Entity's vector2f property
-    @param vector2f   New position
-    */
-    void setVector2D( sf::Vector2f );
-
-    /*! @brief
-        Changes Entity's sprite
-    @param Texture New texture to be assigned to sprite
-    */
-    void setSprite( sf::Texture & );
-
-    void setDirection(Direction dir){ _dir = dir; }
-
-    /*! @brief
-    @return Returns current Entity name.
-    */
+    void setName(std::string name);
+    void setDirection(Direction dir);
     std::string getName();
-
-    /*! @brief
-    @return Returns current Entity position vector.
-    */
-    sf::Vector2f getVector2D();
-
-    /*! @brief
-    @return Returns current Entity sprite.
-    */
-    sf::Sprite * getSprite();
-
-    /*! @brief
-    @return Returns the Animator responsible for this Entity.
-    */
+    Direction getDirection();
+    sf::Sprite & getSprite();
     Animator * getAnimator();
 
-    Direction getDirection(){ return _dir; }
-
 private:
-    /*! @property
-    Entity name to be displayed during game execution. */
-    std::string _name;
+    /*! @brief
+        Initializes the texture and the starting position for every Entity.
+    Any other parameter like, size or scale has to be handled by each
+    class that inherits from Entity.
+    @param texture      New texture assigned to the sprite
+    @param startPos     Starting position of the sprite
+    */
+    void initSprite(sf::Texture &texture, sf::Vector2f startPos);
 
     /*! @property
-    Entity current location. */
-    sf::Vector2f _vector2D;
+    Entity name to be displayed or used to search in an Entities list. */
+    std::string _name;
 
     /*! @property
     Entity pattern to be rendered. */
     sf::Sprite _sprite;
 
-    Animator* _animator;
+    /*! @property
+    Entity animator resposable for creating and managing animations used on _sprite. */
+    Animator * _animator;
+
+    /*! @property
+    Entity's looking direction, helps on animations choose process. */
     Direction _dir;
 
     /*! @property

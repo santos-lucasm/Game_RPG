@@ -1,9 +1,7 @@
 #ifndef _ASSET_MANAGER_H
 #define _ASSET_MANAGER_H
 
-#include <SFML/Graphics.hpp>
-#include <map>
-#include "utilities/tracer.h"
+#include "utils/tracer.h"
 
 /*! @class
     AssetManager class is a singleton, initialized on Game class after
@@ -38,11 +36,11 @@ public:
 private:
     /*! @property
     Maps strings into loaded textures. */
-    std::map<std::string, sf::Texture> map_Textures;
+    std::map<std::string, sf::Texture> _mapTextures;
 
     /*! @property
     Pointer to itself. */
-    static AssetManager * Instance;
+    static AssetManager * _Instance;
 
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */

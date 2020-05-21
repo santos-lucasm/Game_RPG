@@ -1,14 +1,14 @@
-#include <assert.h>
-#include <memory.h>
-#include "game.h"
+#include "engine/game.h"
 
 Game::Game()
 {   
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<constructor>") : nullptr;
 
     initWindow();
+    initDisplay();
     _manager = new AssetManager();
     _clock = new Clock();
+
 }
 
 Game::~Game()
@@ -21,18 +21,19 @@ Game::~Game()
     desktop.height = _window->getSize().y;
     
     /* Save current settings on config file */ 
-    std::ofstream ofs("resources/config/window.ini");
+    std::ofstream ofs( CONFIG_PATH(window) );
     if( ofs.is_open() )
     {
         ofs << "C++ RPG GAME\n";
         ofs << desktop.width << " " << desktop.height << " " << desktop.bitsPerPixel;
-        ofs << "\n60\n0\n0";
+        ofs << "\n250\n0\n0";
     } 
     ofs.close();
 
-    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
+    /* Destroys dynamically alocated memory */
+    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
         delete (*it);
-    _entities_queue.clear();
+    _entitiesList.clear();
 
     delete _manager;
     delete _clock;
@@ -40,7 +41,7 @@ Game::~Game()
 
 void Game::initWindow()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<initWindow>") : nullptr;
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<initWindow>") : nullptr;
 
     /* Standard settings */
     std::string title = "None";
@@ -50,15 +51,20 @@ void Game::initWindow()
     bool mouse_visible = false;
 
     /* Try to get last settings used (saved on config file) */ 
-    std::ifstream ifs("resources/config/window.ini");
+    std::ifstream ifs( CONFIG_PATH(window) );
     if( ifs.is_open() )
     {
+        if(debugged) tmp->debug("Successfully opened window.ini file, using last screen settings.");
         std::getline(ifs, title);
         ifs >> desktop.width >> desktop.height >> desktop.bitsPerPixel;
         ifs >> framerate_limit;
         ifs >> vertical_sync_enable;
         ifs >> mouse_visible;
-    } 
+    }
+    else
+    {
+        if(debugged) tmp->debug("Couldn't open window.ini file, using standard screen settings.");
+    }
     ifs.close();
 
     /* Open window with standard or last used settings */
@@ -68,14 +74,23 @@ void Game::initWindow()
     _window->setMouseCursorVisible( mouse_visible );
 }
 
+void Game::initDisplay()
+{
+    _font.loadFromFile("resources/fonts/ostrich-regular.ttf");
+    _showFPS.setFont( _font );
+    _showFPS.setPosition(10, 10);
+    _showFPS.setFillColor(sf::Color::Red);
+    _showFPS.setCharacterSize(36);
+}
+
 template<typename T>
-void Game::createEntity(std::string name, std::string textFile, sf::Vector2f startPos)
+void Game::createEntity(std::string name, std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<createEntity>") : nullptr;
     try
     {
-        Entity* new_entity  = new T (name, AssetManager::getTexture(textFile), startPos);
-        _entities_queue.push_back(new_entity);
+        Entity* new_entity  = new T (name, AssetManager::getTexture(textFile), startPos, size);
+        _entitiesList.push_back(new_entity);
     }
     catch( std::exception & e )
     {
@@ -83,29 +98,20 @@ void Game::createEntity(std::string name, std::string textFile, sf::Vector2f sta
     }
 }
 
-void Game::updateEntities( sf::Time& dt )
+void Game::update()
 {
     std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<updateEntities>") : nullptr;
-    assert(dt.asMicroseconds() > 0);
 
-    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
-        (*it)->update(dt);
+    updateSFMLEvents();
+
+    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
+        (*it)->update( _clock->getDT() );
+
+    updateDisplay();
 }
 
-void Game::render()
+void Game::updateSFMLEvents()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
-
-    _window->clear( sf::Color::Black );
-    for (iterator it = _entities_queue.begin(); it != _entities_queue.end(); it++)
-        _window->draw( (*it)->render() );
-    _window->display();
-}
-
-void Game::eventHandler()
-{
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<eventHandler>") : nullptr;
-
     while( _window->pollEvent(_event) )
     {
         switch( _event.type )
@@ -123,6 +129,32 @@ void Game::eventHandler()
     }
 }
 
+void Game::updateDisplay()
+{   
+    /* Clear ostringstream */
+    _fps.clear();
+    _fps.str("");
+
+    /* Calculates FPS */
+    _fps << ( 1/_clock->getDT().asSeconds() );
+
+    /* Passes data to the sf::Text element */
+    _showFPS.setString( "FPS: " + _fps.str() );
+}
+
+void Game::render()
+{
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
+
+    _window->clear( sf::Color::White );
+
+    for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
+        (*it)->render( _window );
+
+    _window->draw( _showFPS );
+    _window->display();
+}
+
 void Game::gameLoop()
 {
     std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<gameLoop>") : nullptr;
@@ -131,12 +163,12 @@ void Game::gameLoop()
     {   
         _clock->updateDt();
 
-        eventHandler();
+        update();
+
         _clock->updateElapsed();
-        updateEntities( _clock->getDT() );
 
         render();
     }
 }
 
-template void Game::createEntity<Player>(std::string, std::string, sf::Vector2f);
+template void Game::createEntity<Player>(std::string, std::string, sf::Vector2f, sf::Vector2i);

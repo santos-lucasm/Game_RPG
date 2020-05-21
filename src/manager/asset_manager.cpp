@@ -1,38 +1,44 @@
-#include <assert.h>
-#include <memory.h>
-#include <iostream>
 #include "manager/asset_manager.h"
 
-AssetManager * AssetManager::Instance = nullptr;
+AssetManager * AssetManager::_Instance = nullptr;
 
 AssetManager::AssetManager()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<constructor>") : nullptr;
     
-    assert( Instance == nullptr );
-    Instance = this;
+    assert( _Instance == nullptr );
+    _Instance = this;
 }
 
 AssetManager::~AssetManager()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<destructor>") : nullptr;
+
+    /*
+    for( auto it = _mapTextures.begin(); it != _mapTextures.end(); ++it)
+        delete &(*it);
+    */
     
-    map_Textures.clear();
-    Instance = nullptr;
+    _mapTextures.clear();
+    _Instance = nullptr;
 }
 
 sf::Texture& AssetManager::getTexture( std::string const& filename )
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("AssetManager<getTexture>") : nullptr;
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("AssetManager<getTexture>") : nullptr;
 
-    auto& texMap = Instance->map_Textures;
-    auto pair = texMap.find(filename);
+    auto& tex_map = _Instance->_mapTextures;
+    auto pair = tex_map.find(filename);
 
-    if( pair != texMap.end() )
-        return pair->second;
-    else
+    if( pair != tex_map.end() )
     {
-        auto& texture = texMap[filename];
+        if(debugged) tmp->debug("Passed texture already loaded.");
+        return pair->second;
+    }
+    else
+    {   
+        if(debugged) tmp->debug("Passed texture still not loaded. Loading...");
+        auto& texture = tex_map[filename];
         texture.loadFromFile(filename);
         /*
         TODO: Throw a custom exception here, if cannot load

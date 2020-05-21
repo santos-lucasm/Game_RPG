@@ -1,6 +1,8 @@
 #ifndef _TRAITS_H
 #define _TRAITS_H
 
+#include "utils/types.h"
+
 /*! @brief
     Forward declaration of every class that'll use a traits.
 */
@@ -9,7 +11,6 @@ class Clock;
 
 class AssetManager;
 class Animator;
-struct Animation;
 
 class Entity;
 class Player;
@@ -33,12 +34,13 @@ struct Traits
 template<> struct Traits<Tracer>: public Traits<void>
 {
     static const bool tracing_enabled = true;
-    static const bool debug_enabled = true;
+    static const bool debug_enabled = false;
 };
 
 template<> struct Traits<Game>: public Traits<void>
 {
     static const bool traced = true;
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Clock>: public Traits<void>
@@ -49,16 +51,13 @@ template<> struct Traits<Clock>: public Traits<void>
 template<> struct Traits<AssetManager>: public Traits<void>
 {
     static const bool traced = true;
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Animator>: public Traits<void>
 {
     static const bool traced = true;
-};
-
-template<> struct Traits<Animation>: public Traits<void>
-{
-    static const bool traced = true;
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Entity>: public Traits<void>

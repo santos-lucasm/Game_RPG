@@ -20,55 +20,25 @@ void Animator::Animation::AddFrames
 /* Animator class functions definitions */
 
 Animator::Animator(sf::Sprite& sprite):
-    _sprite(sprite), _currentTime(sf::Time::Zero), _currentAnimation(nullptr) {}
-
-Animator::Animation& Animator::createAnimation
-    (std::string const& name, std::string const& textureName, sf::Time const& duration, bool loop)
+    _sprite(sprite), _currentTime(sf::Time::Zero), _currentAnimation(nullptr)
 {
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<constructor>") : nullptr;
+}
+
+Animator::Animation& Animator::createAnimation (std::string const& name, std::string const& textureName, sf::Time const& duration, bool loop)
+{
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Animator<createAnimation>") : nullptr;
+
     _animations.push_back( Animator::Animation(name, textureName, duration, loop) );
 
     /* If there's no animation running, add it as the current animation */
     if(_currentAnimation == nullptr)
+    {
+        if(debugged) tmp->debug("No current animation playing, insert created one as the current.");
         switchAnimation( &_animations.back() );
+    }
     
     return _animations.back();
-}
-
-void Animator::switchAnimation(Animator::Animation* animation)
-{
-    if(animation != nullptr)
-        _sprite.setTexture( AssetManager::getTexture(animation->_textureName) );
-    
-    _currentAnimation = animation;
-    _currentTime = sf::Time::Zero;
-}
-
-bool Animator::switchAnimation(std::string const& name)
-{
-    auto animation = findAnimation(name);
-    if(animation != nullptr)
-    {
-        switchAnimation(animation);
-        return true;
-    }
-    return false;
-}
-
-Animator::Animation* Animator::findAnimation(std::string const& name)
-{
-    for( auto it = _animations.begin(); it != _animations.end(); ++it)
-    {
-        if( it->_name == name )
-            return &(*it);
-    }
-    return nullptr;
-}
-
-std::string Animator::getCurrentAnimationName() const
-{
-    if(_currentAnimation!=nullptr)
-        return _currentAnimation->_name;
-    return "";
 }
 
 void Animator::update(sf::Time const& dt)
@@ -85,10 +55,53 @@ void Animator::update(sf::Time const& dt)
     /* If the animation is a looping one, calculate the correct frame */
     if(_currentAnimation->_looping)
         current_frame %= num_frames;
+        
     /* If the animation doesnt loop, and it already ended, keep showing the last frame of it */
     else if(current_frame >= num_frames)
         current_frame = num_frames - 1;
     
     /* Set the texture rect depending on the frame */
     _sprite.setTextureRect( _currentAnimation->_frames[current_frame] );
+}
+
+bool Animator::switchAnimation(std::string const& name)
+{
+    auto animation = findAnimation(name);
+    if(animation != nullptr)
+    {
+        switchAnimation(animation);
+        return true;
+    }
+    return false;
+}
+
+void Animator::switchAnimation(Animator::Animation* animation)
+{
+    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Animator<switchAnimation>") : nullptr;
+
+    if(animation != nullptr)
+    {   
+        _sprite.setTexture( AssetManager::getTexture(animation->_textureName) );
+        _currentAnimation = animation;
+        _currentTime = sf::Time::Zero;
+    }
+    else
+        return; /* TODO: Throws an exception here */
+}
+
+Animator::Animation* Animator::findAnimation(std::string const& name)
+{
+    for( auto it = _animations.begin(); it != _animations.end(); ++it)
+    {
+        if( it->_name == name )
+            return &(*it);
+    }
+    return nullptr;
+}
+
+std::string Animator::getCurrentAnimationName() const
+{
+    if(_currentAnimation != nullptr)
+        return _currentAnimation->_name;
+    return "";
 }
