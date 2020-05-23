@@ -37,8 +37,8 @@ Game::~Game()
         _states.pop();
     }
 
-    delete _manager;
     delete _clock;
+    delete _manager;
     delete _window;
 }
 
@@ -120,6 +120,28 @@ void Game::updateSFMLEvents()
                 _window->close();
                 /* TODO: Call endState() for every State on stack */
                 break;
+            
+            case sf::Event::EventType::KeyReleased :
+
+                if(_event.key.code == sf::Keyboard::Tab)
+                {
+                     _states.push( new SettingsState(_window) );
+                }
+
+                if(_event.key.code == sf::Keyboard::Q)
+                {
+                    if(!_states.empty())
+                    {
+                        delete _states.top();
+                        _states.pop();
+                    }
+                    else
+                    {
+                        _window->close();
+                    }
+                }
+                break;
+
             default :
                 break;
         }            

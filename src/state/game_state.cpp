@@ -14,18 +14,12 @@ GameState::~GameState()
     for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
         delete (*it);
     _entitiesList.clear();
-
-    if(_settings)
-        delete _settings;
 }
 
 void GameState::update(sf::Time& dt){
 
     /* update keybinds */
     updateInput();
-
-    if(_settings)
-        _settings->update(dt);
 
     /* updates entities */
     for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
@@ -36,24 +30,15 @@ void GameState::update(sf::Time& dt){
 void GameState::updateInput()
 {
     checkQuit();
-
-    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) )
-        _settings = new SettingsState( _window );
-    else
-        _settings = nullptr; //FIXME: deletes here causes SIGMA11
 }
 
-void GameState::render(sf::RenderTarget *target){
+void GameState::render(sf::RenderTarget* target){
 
     if(!target)
-        target = _window;
-    
-    if(_settings)
-        _settings->render( target );
+        target = getWindow();
 
     for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
         (*it)->render( target );
-
 }
 
 template<typename T>

@@ -36,7 +36,7 @@ public:
     every frame to render (draw) State on the screen.
     @param target   Where the entity is going to be draw.
     */
-    virtual void render(sf::RenderTarget *target = nullptr) = 0;
+    virtual void render(sf::RenderTarget* target = nullptr) = 0;
 
     /*! @brief
     @return Returns the _quit flag.
@@ -58,6 +58,14 @@ protected:
     /*! @property
     Indicates if this state wants to be closed. */
     bool _quit;
+private:
+    /*! @property
+    Traits flag that allow debug if class debug and tracer debug are active. */
+    static const bool debugged = Traits<State>::debugged && Tracer::debugActive;
+
+    /*! @property
+    Traits flag that allow tracing if class tracing and tracer are active. */
+    static const bool traced = Traits<State>::traced && Tracer::traceActive;
 };
 
 #endif

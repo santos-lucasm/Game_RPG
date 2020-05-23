@@ -64,7 +64,7 @@ public:
     every frame to render (draw) Entity on screen.
     @param target   Where the entity is going to be draw.
     */
-    virtual void render(sf::RenderTarget *target) = 0;
+    virtual void render(sf::RenderTarget* target) = 0;
 
 protected:
     void setName(std::string name);

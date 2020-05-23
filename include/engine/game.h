@@ -2,6 +2,7 @@
 #define _GAME_H
 
 #include "state/game_state.h"
+#include "state/settings_state.h"
 #include "manager/asset_manager.h"
 #include "clock.h"
 
@@ -76,15 +77,15 @@ private:
 
     /*! @property
     Singleton instance of AssetManager, manages every game texture. */
-    AssetManager * _manager;
+    AssetManager* _manager;
 
     /*! @property
     Clock class will store data about the frame and game duration. */
-    Clock * _clock;
+    Clock* _clock;
 
     /*! @property
     A RenderWindow object reference, used to configure, draw and display. */
-    sf::RenderWindow * _window;
+    sf::RenderWindow* _window;
 
     /*! @property
     Stores last event to be handle by the updateSFMLEvent method */

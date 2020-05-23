@@ -17,6 +17,7 @@ class Player;
 
 class State;
 class GameState;
+class SettingsState;
 
 class Tracer;
 
@@ -79,6 +80,11 @@ template<> struct Traits<State>: public Traits<void>
 };
 
 template<> struct Traits<GameState>: public Traits<void>
+{
+    static const bool traced = true;
+};
+
+template<> struct Traits<SettingsState>: public Traits<void>
 {
     static const bool traced = true;
 };

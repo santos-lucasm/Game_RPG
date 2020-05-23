@@ -26,7 +26,7 @@ public:
         Should be called every frame to render Entities alive on game.
     @param target   Where the entities are going to be draw.
     */
-    void render(sf::RenderTarget *target = nullptr);
+    void render(sf::RenderTarget* target = nullptr);
 
     /*! @brief
         Currently creates a Entity of type T on a starting position
@@ -47,15 +47,13 @@ private:
     Temporary, list of Entity* created along the game. */
     std::list<Entity*> _entitiesList;
 
-    SettingsState* _settings;
-
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */
-    static const bool debugged = Traits<Game>::debugged && Tracer::debugActive;
+    static const bool debugged = Traits<GameState>::debugged && Tracer::debugActive;
 
     /*! @property
     Traits flag that allow tracing if class tracing and tracer are active. */
-    static const bool traced = Traits<Game>::traced && Tracer::traceActive;
+    static const bool traced = Traits<GameState>::traced && Tracer::traceActive;
 };
 
 #endif
