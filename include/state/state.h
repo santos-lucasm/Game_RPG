@@ -31,22 +31,14 @@ public:
     */
     virtual void update(sf::Time& dt) = 0;
 
+    virtual void updateInput() = 0;
+
     /*! @brief
         Virtual method to be implemented by every State. Should be called
     every frame to render (draw) State on the screen.
     @param target   Where the entity is going to be draw.
     */
     virtual void render(sf::RenderTarget* target = nullptr) = 0;
-
-    /*! @brief
-    @return Returns the _quit flag.
-    */
-    const bool& getQuit() const;
-
-    /*! @brief
-        Checks if this state received a command to be closed.
-    */
-    void checkQuit();
 
     sf::RenderWindow* getWindow() { return _window; }
 
@@ -55,9 +47,6 @@ protected:
     Window passed by game on state creation, it's where that state will draw. */
     sf::RenderWindow* _window;
 
-    /*! @property
-    Indicates if this state wants to be closed. */
-    bool _quit;
 private:
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */

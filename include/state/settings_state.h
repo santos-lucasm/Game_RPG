@@ -13,17 +13,24 @@ public:
     SettingsState(sf::RenderWindow* window);
 
     ~SettingsState();
+
+    void initWindow();
+    void initFPS();
     
     /*! @brief
         Updates data showed on the screen corner.
     */
     void update(sf::Time& dt);
 
+    void updateInput();
+    void updateFPS(sf::Time& dt);
+
     /*! @brief
         Should be called every frame to render Entities alive on game.
     @param target   Where the entities are going to be draw.
     */
     void render(sf::RenderTarget* target = nullptr);
+
 private:
     /*! @property 
     Data used to provide information about the game state to the user. */

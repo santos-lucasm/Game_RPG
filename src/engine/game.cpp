@@ -91,23 +91,9 @@ void Game::update()
 
     /* Update the current active State */
     if(!_states.empty())
-    {
         _states.top()->update( _clock->getDT() );
-
-        /* Verify if the current game state wants to exit */
-        if(_states.top()->getQuit())
-        {
-            if(debugged) tmp->debug("Finishing a State");
-
-            delete _states.top();
-            _states.pop();
-        }
-    }
-    /* If every State exited, end the application */
     else
-    {
         _window->close();
-    }
 }
 
 void Game::updateSFMLEvents()
@@ -128,16 +114,12 @@ void Game::updateSFMLEvents()
                      _states.push( new SettingsState(_window) );
                 }
 
-                if(_event.key.code == sf::Keyboard::Q)
+                if(_event.key.code == sf::Keyboard::Escape)
                 {
                     if(!_states.empty())
                     {
                         delete _states.top();
                         _states.pop();
-                    }
-                    else
-                    {
-                        _window->close();
                     }
                 }
                 break;

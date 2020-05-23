@@ -29,7 +29,7 @@ void GameState::update(sf::Time& dt){
 
 void GameState::updateInput()
 {
-    checkQuit();
+
 }
 
 void GameState::render(sf::RenderTarget* target){
