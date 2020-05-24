@@ -19,6 +19,7 @@ GameState::~GameState()
 void GameState::update(sf::Time& dt){
 
     /* update keybinds */
+    updateMousePositions();
     updateInput();
 
     /* updates entities */

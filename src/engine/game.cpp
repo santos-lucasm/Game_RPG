@@ -26,7 +26,7 @@ Game::~Game()
     {
         ofs << "C++ RPG GAME\n";
         ofs << desktop.width << " " << desktop.height << " " << desktop.bitsPerPixel;
-        ofs << "\n250\n0\n0";
+        ofs << "\n250\n0\n1";
     } 
     ofs.close();
 
@@ -80,6 +80,7 @@ void Game::initWindow()
 void Game::initState()
 {
     _states.push( new GameState(_window) );
+    _states.push( new MainMenuState(_window) );
 }
 
 void Game::update()

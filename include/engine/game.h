@@ -3,6 +3,8 @@
 
 #include "state/game_state.h"
 #include "state/settings_state.h"
+#include "state/main_menu_state.h"
+
 #include "manager/asset_manager.h"
 #include "clock.h"
 

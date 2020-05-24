@@ -31,6 +31,8 @@ public:
     */
     virtual void update(sf::Time& dt) = 0;
 
+    virtual void updateMousePositions();
+
     virtual void updateInput() = 0;
 
     /*! @brief
@@ -46,6 +48,10 @@ protected:
     /*! @property
     Window passed by game on state creation, it's where that state will draw. */
     sf::RenderWindow* _window;
+
+    sf::Vector2i _mousePosWindow;
+    sf::Vector2i _mousePosScreen;
+    sf::Vector2f _mousePosView;
 
 private:
     /*! @property

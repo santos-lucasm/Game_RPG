@@ -21,6 +21,7 @@
 
 /* Resources MACROS */
 #define ANIMATION_PATH(x)       "resources/assets/animations/" #x ".png"
+#define STATIC_PATH(x)          "resources/assets/static/" #x ".png"
 #define TILESET_PATH(x)         "resources/assets/tilesets/" #x ".png"
 #define CONFIG_PATH(x)          "resources/config/" #x ".ini"
 

@@ -29,6 +29,7 @@ void SettingsState::initFPS()
 
 void SettingsState::update(sf::Time& dt)
 {   
+    updateMousePositions();
     updateInput();
     updateFPS(dt);
 }

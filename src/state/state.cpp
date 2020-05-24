@@ -8,5 +8,11 @@ State::State(sf::RenderWindow* window): _window(window)
 State::~State()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("State<destructor>") : nullptr;
-    /* delete _window; */
+}
+
+void State::updateMousePositions() 
+{
+    _mousePosScreen = sf::Mouse::getPosition();
+    _mousePosWindow = sf::Mouse::getPosition(*_window);
+    _mousePosView = getWindow()->mapPixelToCoords( sf::Mouse::getPosition() );
 }

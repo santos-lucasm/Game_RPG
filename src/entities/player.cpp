@@ -23,19 +23,6 @@ Player::~Player()
 
 void Player::initAnimations()
 {
-    /* Walk animations in the four directions */
-    auto& animationRight = getAnimator()->createAnimation("walk-right", ANIMATION_PATH(snorlax), sf::seconds(1), true);
-    animationRight.AddFrames(sf::Vector2i(0,32), getSpriteSize(), 3);
-
-    auto& animationLeft = getAnimator()->createAnimation("walk-left", ANIMATION_PATH(snorlax), sf::seconds(1), true);
-    animationLeft.AddFrames(sf::Vector2i(0,96), getSpriteSize(), 3);
-
-    auto& animationUp = getAnimator()->createAnimation("walk-up", ANIMATION_PATH(snorlax), sf::seconds(1), true);
-    animationUp.AddFrames(sf::Vector2i(0,0), getSpriteSize(), 3);
-
-    auto& animationDown = getAnimator()->createAnimation("walk-down", ANIMATION_PATH(snorlax), sf::seconds(1), true);
-    animationDown.AddFrames(sf::Vector2i(0,64), getSpriteSize(), 3);
-
     /* Idle animation in the four directions */
     auto& animationRightIdle = getAnimator()->createAnimation("idle-right", ANIMATION_PATH(snorlax), sf::seconds(0.5f), false);
     animationRightIdle.AddFrames(sf::Vector2i(32,32), getSpriteSize(), 1);
@@ -48,6 +35,19 @@ void Player::initAnimations()
 
     auto& animationDownIdle = getAnimator()->createAnimation("idle-down", ANIMATION_PATH(snorlax), sf::seconds(0.5f), false);
     animationDownIdle.AddFrames(sf::Vector2i(32,64), getSpriteSize(), 1);
+
+    /* Walk animations in the four directions */
+    auto& animationRight = getAnimator()->createAnimation("walk-right", ANIMATION_PATH(snorlax), sf::seconds(1), true);
+    animationRight.AddFrames(sf::Vector2i(0,32), getSpriteSize(), 3);
+
+    auto& animationLeft = getAnimator()->createAnimation("walk-left", ANIMATION_PATH(snorlax), sf::seconds(1), true);
+    animationLeft.AddFrames(sf::Vector2i(0,96), getSpriteSize(), 3);
+
+    auto& animationUp = getAnimator()->createAnimation("walk-up", ANIMATION_PATH(snorlax), sf::seconds(1), true);
+    animationUp.AddFrames(sf::Vector2i(0,0), getSpriteSize(), 3);
+
+    auto& animationDown = getAnimator()->createAnimation("walk-down", ANIMATION_PATH(snorlax), sf::seconds(1), true);
+    animationDown.AddFrames(sf::Vector2i(0,64), getSpriteSize(), 3);
 }
 
 void Player::update( sf::Time & dt )
