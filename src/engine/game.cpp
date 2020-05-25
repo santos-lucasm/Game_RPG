@@ -14,7 +14,7 @@ Game::Game()
 Game::~Game()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<destructor>") : nullptr;
-
+    
     /* Get current settings */
     sf::VideoMode desktop;
     desktop.width = _window->getSize().x;
@@ -51,7 +51,7 @@ void Game::initWindow()
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     unsigned int framerate_limit = 60;
     bool vertical_sync_enable = false;
-    bool mouse_visible = false;
+    bool mouse_visible = true;
 
     /* Try to get last settings used (saved on config file) */ 
     std::ifstream ifs( CONFIG_PATH(window) );
@@ -93,6 +93,8 @@ void Game::update()
     /* Update the current active State */
     if(!_states.empty())
         _states.top()->update( _clock->getDT() );
+
+    /* Closes game if every State is closed */
     else
         _window->close();
 }
@@ -112,7 +114,7 @@ void Game::updateSFMLEvents()
 
                 if(_event.key.code == sf::Keyboard::Tab)
                 {
-                     _states.push( new SettingsState(_window) );
+                     _states.push( new SettingsMenuState(_window) );
                 }
 
                 if(_event.key.code == sf::Keyboard::Escape)

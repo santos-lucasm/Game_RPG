@@ -3,16 +3,16 @@
 
 #include "state/state.h"
 
-class SettingsState: public State
+class SettingsMenuState: public State
 {
 public:
     /*! @brief
         Initializes the current Render and data display.
     Setting font, position, color, outline, etc.
     */
-    SettingsState(sf::RenderWindow* window);
+    SettingsMenuState(sf::RenderWindow* window);
 
-    ~SettingsState();
+    ~SettingsMenuState();
 
     void initWindow();
     void initFPS();
@@ -40,11 +40,11 @@ private:
 
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */
-    static const bool debugged = Traits<SettingsState>::debugged && Tracer::debugActive;
+    static const bool debugged = Traits<SettingsMenuState>::debugged && Tracer::debugActive;
 
     /*! @property
     Traits flag that allow tracing if class tracing and tracer are active. */
-    static const bool traced = Traits<SettingsState>::traced && Tracer::traceActive;
+    static const bool traced = Traits<SettingsMenuState>::traced && Tracer::traceActive;
 };
 
 #endif

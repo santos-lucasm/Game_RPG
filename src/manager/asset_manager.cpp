@@ -39,11 +39,10 @@ sf::Texture& AssetManager::getTexture( std::string const& filename )
     {   
         if(debugged) tmp->debug("Passed texture still not loaded. Loading...");
         auto& texture = tex_map[filename];
-        texture.loadFromFile(filename);
-        /*
-        TODO: Throw a custom exception here, if cannot load
-        https://www.tutorialspoint.com/cplusplus/cpp_exceptions_handling.htm
-        */
+
+        if( !texture.loadFromFile(filename) )
+            throw("Texture could not be loaded!!");
+
         return texture;
     }
 }

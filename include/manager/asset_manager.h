@@ -25,13 +25,13 @@ public:
     /*! @brief
         Search on the map using the passed string, to find the equivalent texture.
         If it cannot find the string on the map, try to load texture from resources folder.
-    @param  string  Name of resource file in which there's is a texture to be loaded.
+    @param  filename  Name of resource file in which there's is a texture to be loaded.
     @return
         If a pair is found, return the equivalent texture adress.
         Else, if a pair isn't found, tries to load the equivalent texture and return it.
         If the texture cannot be loaded, throw a XXX exception.
     */
-    static sf::Texture& getTexture( std::string const&);
+    static sf::Texture& getTexture( std::string const& filename);
 
 private:
     /*! @property

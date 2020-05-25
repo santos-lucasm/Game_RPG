@@ -29,11 +29,13 @@ public:
     */
     void render(sf::RenderTarget* target = nullptr);
 
-
 private:
+    void initButtons();
 
     sf::RectangleShape _background;
     Button* _playButton;
+    Button* _settingsButton;
+    Button* _saveButton;
 
     /*! @property
     Traits flag that allow debug if class debug and tracer debug are active. */
