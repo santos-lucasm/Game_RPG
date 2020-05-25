@@ -8,6 +8,12 @@
 */
 class Game;
 class Clock;
+class InputHandler;
+class Command;
+class MoveRightCommand;
+class MoveLeftCommand;
+class MoveUpCommand;
+class MoveDownCommand;
 
 class AssetManager;
 class Animator;
@@ -39,7 +45,7 @@ struct Traits
 
 template<> struct Traits<Tracer>: public Traits<void>
 {
-    static const bool tracing_enabled = true;
+    static const bool tracing_enabled = false;
     static const bool debug_enabled = false;
 };
 
@@ -50,6 +56,11 @@ template<> struct Traits<Game>: public Traits<void>
 };
 
 template<> struct Traits<Clock>: public Traits<void>
+{
+    static const bool traced = true;
+};
+
+template<> struct Traits<InputHandler>: public Traits<void>
 {
     static const bool traced = true;
 };

@@ -14,6 +14,8 @@ MainMenuState::~MainMenuState()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("MainMenuState<destructor>") : nullptr;
     delete _playButton;
+    delete _settingsButton;
+    delete _saveButton;
 }
 
 void MainMenuState::initButtons()

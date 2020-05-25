@@ -1,4 +1,4 @@
-#include "state/settings_state.h"
+#include "state/settings_menu_state.h"
 
 SettingsMenuState::SettingsMenuState(sf::RenderWindow* window): State(window)
 {

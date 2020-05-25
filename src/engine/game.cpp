@@ -85,7 +85,6 @@ void Game::initState()
 
 void Game::update()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<renderEntities>") : nullptr;
 
     /* Update IO general game Events, like pressing X on top left corner */
     updateSFMLEvents();

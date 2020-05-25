@@ -26,4 +26,25 @@
 #define CONFIG_PATH(x)          "assets/config/" #x ".ini"
 #define FONTS_PATH(x)           "assets/fonts/" #x ".ttf"
 
+/* Global enums, FOR NOW, only util Entities State class exists */
+enum
+{
+    /* Player */
+    RIGHT_MOVE,
+    RIGHT_IDLE,
+    LEFT_MOVE,
+    LEFT_IDLE,
+    UP_MOVE,
+    UP_IDLE,
+    DOWN_MOVE,
+    DOWN_IDLE,
+
+    /* Button */
+    IDLE,
+    HOVER,
+    PRESSED,
+
+    NONE  = -1
+}typedef EntityState;
+
 #endif
