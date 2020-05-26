@@ -2,7 +2,7 @@
 #define _PLAYER_H
 
 #include "entities/entity.h"
-#include "engine/commands/input_handler.h"
+#include "engine/command/input_handler.h"
 
 class Player: public Entity
 {

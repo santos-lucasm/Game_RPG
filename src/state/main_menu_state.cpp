@@ -67,12 +67,14 @@ void MainMenuState::render(sf::RenderTarget* target){
 
 void MainMenuState::onNotify(sf::Event& event)
 {
+    /* Close MainMenu, and the application */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
     {
         delete _states->top();
         _states->pop();
     }
 
+    /* Goes to SettingsScreen or GameState */
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Left)
     {
         if( _playButton->getSprite().getGlobalBounds().contains(_mousePosView) )

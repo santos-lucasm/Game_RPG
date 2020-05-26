@@ -53,12 +53,15 @@ void GameState::createEntity(std::string name, std::string textFile, sf::Vector2
 
 void GameState::onNotify(sf::Event& event)
 {
+    /* Close GameState, going back to the MainMenuScreen */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
     {
         delete _states->top();
         _states->pop();
+        getWindow()->setMouseCursorVisible(true);
     }
 
+    /* Open SettingsScreen */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Tab)
     {
         _states->push( new SettingsMenuState(_window, _states) );

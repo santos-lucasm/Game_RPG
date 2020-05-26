@@ -1,4 +1,4 @@
-#include "engine/commands/move.h"
+#include "engine/command/move.h"
 
 void MoveRightCommand::execute(Player& entity, float& dt)
 {

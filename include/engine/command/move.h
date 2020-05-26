@@ -1,7 +1,7 @@
 #ifndef _MOVE_COMMAND_H
 #define _MOVE_COMMAND_H
 
-#include "engine/commands/command.h"
+#include "engine/command/command.h"
 
 class MoveRightCommand: public Command
 {

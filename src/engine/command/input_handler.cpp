@@ -1,4 +1,4 @@
-#include "engine/commands/input_handler.h"
+#include "engine/command/input_handler.h"
 
 InputHandler::InputHandler()
 {

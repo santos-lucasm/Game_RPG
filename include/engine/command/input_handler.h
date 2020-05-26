@@ -1,7 +1,7 @@
 #ifndef _INPUT_HANDLER_H
 #define _INPUT_HANDLER_H
 
-#include "engine/commands/move.h"
+#include "engine/command/move.h"
 
 class InputHandler
 {
