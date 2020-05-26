@@ -11,6 +11,7 @@ public:
 
     virtual void update(sf::Time &dt) = 0;
     virtual void render(sf::RenderTarget* target) = 0;
+    sf::Sprite & getSprite();
 
 protected:
     void addAnimations(
@@ -22,7 +23,6 @@ protected:
     std::string getName();
     sf::Vector2i getSpriteSize();
 
-    sf::Sprite & getSprite();
     Animator * getAnimator();
 private:
     void initSprite(sf::Texture &texture, sf::Vector2f startPos);

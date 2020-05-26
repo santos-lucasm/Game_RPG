@@ -6,11 +6,12 @@
 class GameState: public State
 {
 public:
-    GameState(sf::RenderWindow* window);
+    GameState(sf::RenderWindow* window, std::stack<State*>* states);
     ~GameState();
 
     void update(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
+    void onNotify(sf::Event& event);
 
     template<typename T>
     void createEntity(std::string name, std::string textFile, sf::Vector2f startPos, sf::Vector2i size);

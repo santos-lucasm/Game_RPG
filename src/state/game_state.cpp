@@ -1,9 +1,10 @@
 #include "state/game_state.h"
 
-GameState::GameState(sf::RenderWindow* window): State(window)
+GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states): State(window, states)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<constructor>") : nullptr;
 
+    _window->setMouseCursorVisible(false);
     createEntity<Player>("Player1", ANIMATION_PATH(snorlax), sf::Vector2f(200,200), sf::Vector2i(32, 32));
 }
 
@@ -47,6 +48,20 @@ void GameState::createEntity(std::string name, std::string textFile, sf::Vector2
     catch( std::exception & e )
     {
         throw e;
+    }
+}
+
+void GameState::onNotify(sf::Event& event)
+{
+    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
+    {
+        delete _states->top();
+        _states->pop();
+    }
+
+    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Tab)
+    {
+        _states->push( new SettingsMenuState(_window, _states) );
     }
 }
 

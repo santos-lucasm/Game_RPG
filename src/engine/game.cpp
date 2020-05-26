@@ -79,8 +79,7 @@ void Game::initWindow()
 
 void Game::initState()
 {
-    _states.push( new GameState(_window) );
-    _states.push( new MainMenuState(_window) );
+    _states.push( new MainMenuState(_window, &_states) );
 }
 
 void Game::update()
@@ -105,31 +104,20 @@ void Game::updateSFMLEvents()
         switch( _event.type )
         {
             case sf::Event::EventType::Closed :
-                _window->close();
-                /* TODO: Call endState() for every State on stack */
-                break;
-            
-            case sf::Event::EventType::KeyReleased :
-
-                if(_event.key.code == sf::Keyboard::Tab)
-                {
-                     _states.push( new SettingsMenuState(_window) );
-                }
-
-                if(_event.key.code == sf::Keyboard::Escape)
-                {
-                    if(!_states.empty())
-                    {
-                        delete _states.top();
-                        _states.pop();
-                    }
-                }
-                break;
-
+                _window->close(); break;
+            case sf::Event::EventType::KeyReleased:
+                notify(); break;
+            case sf::Event::EventType::MouseButtonPressed:
+                notify(); break;
             default :
                 break;
         }            
     }
+}
+
+void Game::notify()
+{
+    _states.top()->onNotify(_event);
 }
 
 void Game::render()

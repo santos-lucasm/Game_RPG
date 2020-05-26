@@ -1,18 +1,18 @@
 #ifndef _SETTINGS_STATE_H
 #define _SETTINGS_STATE_H
 
-#include "state/main_menu_state.h"
+#include "state/state.h"
 
 class SettingsMenuState: public State
 {
 public:
-    SettingsMenuState(sf::RenderWindow* window);
+    SettingsMenuState(sf::RenderWindow* window, std::stack<State*>* states);
     ~SettingsMenuState();
     
     void update(sf::Time& dt);
     void updateFPS(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
-
+    void onNotify(sf::Event& event);
 private:
     void initFPS();
 

@@ -3,10 +3,10 @@
 
 #include "state/game_state.h"
 #include "state/main_menu_state.h"
-
+#include "engine/event/subject.h"
 #include "clock.h"
 
-class Game
+class Game: public Subject
 {
 public:
     Game();
@@ -14,6 +14,7 @@ public:
 
     void update();
     void updateSFMLEvents();
+    void notify();
 
     void render();
     void gameLoop();
