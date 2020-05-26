@@ -10,7 +10,6 @@ public:
     ~GameState();
 
     void update(sf::Time& dt);
-    void updateInput();
     void render(sf::RenderTarget* target = nullptr);
 
     template<typename T>

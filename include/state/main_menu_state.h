@@ -11,7 +11,6 @@ public:
     ~MainMenuState();
 
     void update(sf::Time& dt);
-    void updateInput();
     void render(sf::RenderTarget* target = nullptr);
 
 private:

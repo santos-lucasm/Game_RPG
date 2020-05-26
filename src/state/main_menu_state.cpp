@@ -44,18 +44,11 @@ void MainMenuState::initButtons()
 
 void MainMenuState::update(sf::Time& dt){
 
-    /* update keybinds */
     updateMousePositions();
-    updateInput();
 
     _playButton->update(dt, _mousePosView);
     _settingsButton->update(dt, _mousePosView);
     _saveButton->update(dt, _mousePosView);
-}
-
-void MainMenuState::updateInput()
-{
-
 }
 
 void MainMenuState::render(sf::RenderTarget* target){

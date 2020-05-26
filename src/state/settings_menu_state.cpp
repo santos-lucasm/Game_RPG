@@ -4,18 +4,12 @@ SettingsMenuState::SettingsMenuState(sf::RenderWindow* window): State(window)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("SettingsMenuState<constructor>") : nullptr;
 
-    if(!window)
-        initWindow();
     initFPS();
 }
 
 SettingsMenuState::~SettingsMenuState()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("SettingsMenuState<destructor>") : nullptr;
-}
-
-void SettingsMenuState::initWindow()
-{
 }
 
 void SettingsMenuState::initFPS()
@@ -31,13 +25,7 @@ void SettingsMenuState::initFPS()
 void SettingsMenuState::update(sf::Time& dt)
 {   
     updateMousePositions();
-    updateInput();
     updateFPS(dt);
-}
-
-void SettingsMenuState::updateInput()
-{
-
 }
 
 void SettingsMenuState::updateFPS(sf::Time& dt)

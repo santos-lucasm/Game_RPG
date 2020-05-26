@@ -11,7 +11,6 @@ public:
 
     virtual void update(sf::Time &dt) = 0;
     virtual void render(sf::RenderTarget* target) = 0;
-    std::map<std::string, int>* getSupportedKeys();
 
 protected:
     void addAnimations(
@@ -35,7 +34,6 @@ private:
     sf::Sprite _sprite;
     sf::Vector2i _spriteSize;
 
-    std::map<std::string, int>* _supportedKeys;
     Animator * _animator;
 
     static const bool debugged = Traits<Entity>::debugged && Tracer::debugActive;

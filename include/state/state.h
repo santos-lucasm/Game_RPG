@@ -11,10 +11,7 @@ public:
 
     virtual void update(sf::Time& dt) = 0;
     virtual void updateMousePositions();
-    virtual void updateInput() = 0;
     virtual void render(sf::RenderTarget* target = nullptr) = 0;
-
-    void getSupportedKeys();
 
 protected:
     sf::RenderWindow* getWindow();

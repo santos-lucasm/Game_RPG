@@ -18,18 +18,10 @@ GameState::~GameState()
 
 void GameState::update(sf::Time& dt){
 
-    /* update keybinds */
     updateMousePositions();
-    updateInput();
 
-    /* updates entities */
     for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
         (*it)->update(dt);
-
-}
-
-void GameState::updateInput()
-{
 
 }
 

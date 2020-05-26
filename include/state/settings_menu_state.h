@@ -10,12 +10,10 @@ public:
     ~SettingsMenuState();
     
     void update(sf::Time& dt);
-    void updateInput();
     void updateFPS(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
 
 private:
-    void initWindow();
     void initFPS();
 
     sf::Font _font;
