@@ -59,3 +59,6 @@ void Button::render(sf::RenderTarget* target)
 {
     target->draw( getSprite() );
 }
+
+void Button::setState(ButtonState state){ _state = state; }
+Button::ButtonState Button::getState() { return _state; }

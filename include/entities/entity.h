@@ -18,10 +18,8 @@ protected:
         sf::Vector2i startPos, unsigned int frames);                                /* Add Frames */
 
     void setName(std::string name);
-    void setState(EntityState dir);
     void setSize(sf::Vector2i size);
     std::string getName();
-    EntityState getState();
     sf::Vector2i getSpriteSize();
 
     sf::Sprite & getSprite();
@@ -30,7 +28,6 @@ private:
     void initSprite(sf::Texture &texture, sf::Vector2f startPos);
 
     std::string _name;
-    EntityState _state;
     sf::Sprite _sprite;
     sf::Vector2i _spriteSize;
 

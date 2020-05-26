@@ -6,10 +6,10 @@ Entity(name, texture, vector, spriteSize)
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
 
     setSpeed( speed );
-    setState( EntityState::RIGHT_IDLE );
+    setState( RIGHT_IDLE );
 
-    getSprite().setTextureRect( sf::IntRect(0, 0, getSpriteSize().x, getSpriteSize().y) );
-    getSprite().setScale(2, 2);
+    // getSprite().setTextureRect( sf::IntRect(0, 0, getSpriteSize().x, getSpriteSize().y) );
+    // getSprite().setScale(2, 2);
 
     initAnimations();
     _inputHandler = new InputHandler();
@@ -52,10 +52,17 @@ void Player::update( sf::Time & dt )
     getAnimator()->update(dt);
 }
 
-void Player::move(float x, float y, EntityState state, std::string animationName)
+void Player::move(float x, float y, PlayerState state, std::string animationName)
 {
     getSprite().move(x, y);
     updateState(state, animationName);
+}
+
+void Player::updateState(PlayerState state, std::string animationName)
+{
+    setState(state);
+    if( getAnimator()->getCurrentAnimationName() != animationName )
+        getAnimator()->switchAnimation(animationName);
 }
 
 void Player::checkIdleState()
@@ -89,17 +96,12 @@ void Player::checkIdleState()
     }
 }
 
-void Player::updateState(EntityState state, std::string animationName)
-{
-    setState(state);
-    if( getAnimator()->getCurrentAnimationName() != animationName )
-        getAnimator()->switchAnimation(animationName);
-}
-
 void Player::render(sf::RenderTarget* target)
 {
     target->draw( getSprite() );
 }
 
 void Player::setSpeed(unsigned int speed ) { _speed = speed; }
+void Player::setState(PlayerState state){ _state = state; }
 int Player::getSpeed(){ return _speed; }
+Player::PlayerState Player::getState() { return _state; }

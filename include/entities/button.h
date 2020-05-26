@@ -6,6 +6,13 @@
 class Button: public Entity
 {
 public:
+    enum {
+        IDLE,
+        HOVER,
+        PRESSED
+    }typedef ButtonState;
+
+public:
     Button(std::string name, sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize);
     ~Button();
 
@@ -14,6 +21,9 @@ public:
     void updateMouse(const sf::Vector2f mousePos);
     void render(sf::RenderTarget* target);
 
+    void setState(ButtonState state);
+    Button::ButtonState getState();
+
 private:
     void initAnimations();
     void initColors();
@@ -21,6 +31,7 @@ private:
     sf::Color _idleColor;
     sf::Color _hoverColor;
     sf::Color _pressedColor;
+    ButtonState _state;
 
     static const bool debugged = Traits<Button>::debugged && Tracer::debugActive;
     static const bool traced = Traits<Button>::traced && Tracer::traceActive;
