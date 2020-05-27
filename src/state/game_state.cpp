@@ -5,7 +5,7 @@ GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states): Stat
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<constructor>") : nullptr;
 
     _window->setMouseCursorVisible(false);
-    createEntity<Player>(ANIMATION_PATH(snorlax), sf::Vector2f(200,200), sf::Vector2i(32, 32));
+    createGameObject<Player>(ANIMATION_PATH(snorlax), sf::Vector2f(200,200), sf::Vector2i(32, 32));
 }
 
 GameState::~GameState()
@@ -18,8 +18,6 @@ GameState::~GameState()
 }
 
 void GameState::update(sf::Time& dt){
-
-    updateMousePositions();
 
     for (auto it = _entitiesList.begin(); it != _entitiesList.end(); it++)
         (*it)->update(dt);
@@ -36,15 +34,17 @@ void GameState::render(sf::RenderTarget* target){
 }
 
 template<typename T>
-void GameState::createEntity(std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
+void GameState::createGameObject(std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<createEntity>") : nullptr;
+    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<createGameObject>") : nullptr;
 
     try
     {
-        Entity* new_entity  = new T( new GraphicsComponent( AssetManager::getTexture(textFile), startPos, size ), new InputComponent() );
+        GameObject* new_GameObject  = new T(
+            new PlayerGraphicsComponent( AssetManager::getTexture(textFile), startPos, size ),
+            new PlayerInputComponent() );
         
-        _entitiesList.push_back(new_entity);
+        _entitiesList.push_back(new_GameObject);
     }
     catch( std::exception & e )
     {
@@ -69,4 +69,4 @@ void GameState::onNotify(sf::Event& event)
     }
 }
 
-template void GameState::createEntity<Player>(std::string, sf::Vector2f, sf::Vector2i);
+template void GameState::createGameObject<Player>(std::string, sf::Vector2f, sf::Vector2i);

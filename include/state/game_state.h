@@ -14,10 +14,10 @@ public:
     void onNotify(sf::Event& event);
 
     template<typename T>
-    void createEntity(std::string textFile, sf::Vector2f startPos, sf::Vector2i size);
+    void createGameObject(std::string textFile, sf::Vector2f startPos, sf::Vector2i size);
 
 private:
-    std::list<Entity*> _entitiesList;
+    std::list<GameObject*> _entitiesList;
 
     static const bool debugged = Traits<GameState>::debugged && Tracer::debugActive;
     static const bool traced = Traits<GameState>::traced && Tracer::traceActive;

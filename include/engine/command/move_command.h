@@ -1,14 +1,14 @@
 #ifndef _MOVE_COMMAND_H
 #define _MOVE_COMMAND_H
 
-#include "engine/command/command.h"
+#include "engine/command/click_command.h"
 
 class MoveRightCommand: public Command
 {
 public:
     MoveRightCommand(){}
     ~MoveRightCommand(){}
-    void execute(Entity& entity);
+    void execute(GameObject& gameObject);
 };
 
 class MoveLeftCommand: public Command
@@ -16,7 +16,7 @@ class MoveLeftCommand: public Command
 public:
     MoveLeftCommand(){}
     ~MoveLeftCommand(){}
-    void execute(Entity& entity);
+    void execute(GameObject& gameObject);
 };
 
 class MoveUpCommand: public Command
@@ -24,7 +24,7 @@ class MoveUpCommand: public Command
 public:
     MoveUpCommand(){}
     ~MoveUpCommand(){}
-    void execute(Entity& entity);
+    void execute(GameObject& gameObject);
 };
 
 class MoveDownCommand: public Command
@@ -32,7 +32,7 @@ class MoveDownCommand: public Command
 public:
     MoveDownCommand(){}
     ~MoveDownCommand(){}
-    void execute(Entity& entity);
+    void execute(GameObject& gameObject);
 };
 
 #endif

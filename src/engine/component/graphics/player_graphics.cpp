@@ -1,27 +1,16 @@
-#include "engine/component/graphics_component.h"
+#include "engine/component/graphics/player_graphics.h"
 
-GraphicsComponent::GraphicsComponent(sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize)
+PlayerGraphicsComponent::PlayerGraphicsComponent(
+    sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize):
+    GraphicsComponent(texture, startPos, spriteSize)
 {
-    _spriteSize = spriteSize;
-    _state = PlayerState::RIGHT_IDLE;     /* Goes to PlayerGraphicsComponent */
-
-    initSprite(texture, startPos);
-    _animator = new Animator(_sprite);
-    initAnimations(); /* Different on ButtonGraphicsComponent */
+    _state = PlayerState::RIGHT_IDLE;
+    initAnimations();
 }
 
-GraphicsComponent::~GraphicsComponent()
-{
-    delete _animator;
-}
+PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
-void GraphicsComponent::initSprite(sf::Texture &texture, sf::Vector2f startPos)
-{
-    _sprite.setTexture( texture );
-    _sprite.setPosition( startPos );
-}
-
-void GraphicsComponent::initAnimations()
+void PlayerGraphicsComponent::initAnimations()
 {
     /* Idle animation in the four directions */
     addAnimations("idle-right", ANIMATION_PATH(snorlax), sf::seconds(0.5f), false, sf::Vector2i(32,32), 1);
@@ -36,10 +25,10 @@ void GraphicsComponent::initAnimations()
     addAnimations("walk-down",  ANIMATION_PATH(snorlax), sf::seconds(1),    true,  sf::Vector2i( 0,64), 3);
 }
 
-void GraphicsComponent::update(Entity& entity, float& dt)
+void PlayerGraphicsComponent::update(GameObject& gameObject, float& dt)
 {
-    float move_x = dt * entity._speed * entity._velocity.x;
-    float move_y = dt * entity._speed * entity._velocity.y;
+    float move_x = dt * gameObject._speed * gameObject._velocity.x;
+    float move_y = dt * gameObject._speed * gameObject._velocity.y;
 
     if(move_x==0 && move_y==0)
         checkIdleState();
@@ -51,7 +40,7 @@ void GraphicsComponent::update(Entity& entity, float& dt)
     _animator->update(dt);
 }
 
-void GraphicsComponent::chooseState(float& move_x, float& move_y)
+void PlayerGraphicsComponent::chooseState(float& move_x, float& move_y)
 {
     if(move_y == 0)
     {
@@ -69,14 +58,14 @@ void GraphicsComponent::chooseState(float& move_x, float& move_y)
     }
 }
 
-void GraphicsComponent::chooseAnimation(PlayerState state, std::string animationName)
+void PlayerGraphicsComponent::chooseAnimation(PlayerState state, std::string animationName)
 {
     _state = state;
     if( _animator->getCurrentAnimationName() != animationName)
         _animator->switchAnimation(animationName);
 }
 
-void GraphicsComponent::checkIdleState()
+void PlayerGraphicsComponent::checkIdleState()
 {
     switch(_state)
     {
@@ -93,11 +82,3 @@ void GraphicsComponent::checkIdleState()
     }
 }
 
-void GraphicsComponent::addAnimations(
-    std::string name, std::string texture, const sf::Time duration, bool loop, sf::Vector2i startPos, unsigned int frames)                                /* Add Frames */
-{
-    auto& newAnimation = _animator->createAnimation(name, texture, duration, loop);
-    newAnimation.AddFrames(startPos, _spriteSize, frames);
-}
-
-sf::Sprite& GraphicsComponent::getSprite() { return _sprite; }

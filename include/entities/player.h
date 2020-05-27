@@ -1,9 +1,9 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "entities/entity.h"
+#include "entities/game_object.h"
 
-class Player: public Entity
+class Player: public GameObject
 {
 public:
     Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, int speed = 40);

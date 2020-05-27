@@ -10,19 +10,24 @@ class Game;
 class Clock;
 
 class InputComponent;
-class GraphicsComponent;
+class PlayerInputComponent;
+class ButtonInputComponent;
 
-class InputHandler;
+class GraphicsComponent;
+class PlayerGraphicsComponent;
+class ButtonGraphicsComponent;
+
 class Command;
 class MoveRightCommand;
 class MoveLeftCommand;
 class MoveUpCommand;
 class MoveDownCommand;
+class ClickCommand;
 
 class AssetManager;
 class Animator;
 
-class Entity;
+class GameObject;
 class Player;
 class Button;
 
@@ -64,11 +69,6 @@ template<> struct Traits<Clock>: public Traits<void>
     static const bool traced = true;
 };
 
-template<> struct Traits<InputHandler>: public Traits<void>
-{
-    static const bool traced = true;
-};
-
 template<> struct Traits<AssetManager>: public Traits<void>
 {
     static const bool traced = true;
@@ -81,7 +81,7 @@ template<> struct Traits<Animator>: public Traits<void>
     static const bool debugged = true;
 };
 
-template<> struct Traits<Entity>: public Traits<void>
+template<> struct Traits<GameObject>: public Traits<void>
 {
     static const bool traced = true;
 };

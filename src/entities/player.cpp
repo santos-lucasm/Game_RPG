@@ -1,7 +1,7 @@
 #include "entities/player.h"
 
 Player::Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, int speed):
-Entity(g_cmp, i_cmp)
+GameObject(g_cmp, i_cmp)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
     _speed = speed;

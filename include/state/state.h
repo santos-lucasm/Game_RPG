@@ -1,8 +1,8 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-#include "engine/component/graphics_component.h"
-#include "entities/player.h"
+#include "engine/component/graphics/button_graphics.h"
+#include "engine/component/inputs/button_input.h"
 #include "engine/event/observer.h"
 
 class State: public Observer
@@ -12,7 +12,6 @@ public:
     virtual ~State();
 
     virtual void update(sf::Time& dt) = 0;
-    virtual void updateMousePositions();
     virtual void render(sf::RenderTarget* target = nullptr) = 0;
     virtual void onNotify(sf::Event& event) = 0;
 
@@ -20,9 +19,6 @@ protected:
     sf::RenderWindow* getWindow();
 
     sf::RenderWindow* _window;
-    sf::Vector2i _mousePosWindow;
-    sf::Vector2i _mousePosScreen;
-    sf::Vector2f _mousePosView;
     std::stack<State*>* _states;
 
 private:

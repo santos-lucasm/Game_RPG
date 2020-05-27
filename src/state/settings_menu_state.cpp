@@ -24,7 +24,6 @@ void SettingsMenuState::initFPS()
 
 void SettingsMenuState::update(sf::Time& dt)
 {   
-    updateMousePositions();
     updateFPS(dt);
 }
 

@@ -5,9 +5,9 @@
 
 /*! @class
     Used by Entities to manage its animations.
-Every Entity that is not static on the Game will
+Every GameObject that is not static on the Game will
 have it has a private property, to be used with
-the Entity's sprite.
+the GameObject's sprite.
 */
 class Animator
 {
@@ -74,7 +74,7 @@ public:
     to the current deltatime and current time of the animation.
         Changing between frames and looping animation if its a looping
     one. Keeps showing last animation frame if the current animation
-    of the entity does not loops.
+    of the GameObject does not loops.
     */
     void update(float const& dt);
 
@@ -90,7 +90,7 @@ public:
     bool switchAnimation(std::string const& name);
 
     /*! @brief
-        Returns the current Entity's playing animation
+        Returns the current GameObject's playing animation
     name, if it exists.
     @return
         If there's an current animation, returns its name.
@@ -104,7 +104,7 @@ private:
     texture of the animation using AssetManager. Then assigns animation to the
     current animation and resets the time.
         Else, throws an exception.
-    @param animation    Animation on the list of Entity's animation to be switched in
+    @param animation    Animation on the list of GameObject's animation to be switched in
     */
     void switchAnimation(Animator::Animation* animation);
 
