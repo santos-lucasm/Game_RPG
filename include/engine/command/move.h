@@ -8,7 +8,7 @@ class MoveRightCommand: public Command
 public:
     MoveRightCommand(){}
     ~MoveRightCommand(){}
-    void execute(Player& entity, float& dt);
+    void execute(Entity& entity);
 };
 
 class MoveLeftCommand: public Command
@@ -16,7 +16,7 @@ class MoveLeftCommand: public Command
 public:
     MoveLeftCommand(){}
     ~MoveLeftCommand(){}
-    void execute(Player& entity, float& dt);
+    void execute(Entity& entity);
 };
 
 class MoveUpCommand: public Command
@@ -24,7 +24,7 @@ class MoveUpCommand: public Command
 public:
     MoveUpCommand(){}
     ~MoveUpCommand(){}
-    void execute(Player& entity, float& dt);
+    void execute(Entity& entity);
 };
 
 class MoveDownCommand: public Command
@@ -32,7 +32,7 @@ class MoveDownCommand: public Command
 public:
     MoveDownCommand(){}
     ~MoveDownCommand(){}
-    void execute(Player& entity, float& dt);
+    void execute(Entity& entity);
 };
 
 #endif

@@ -5,7 +5,7 @@ GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states): Stat
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<constructor>") : nullptr;
 
     _window->setMouseCursorVisible(false);
-    createEntity<Player>("Player1", ANIMATION_PATH(snorlax), sf::Vector2f(200,200), sf::Vector2i(32, 32));
+    createEntity<Player>(ANIMATION_PATH(snorlax), sf::Vector2f(200,200), sf::Vector2i(32, 32));
 }
 
 GameState::~GameState()
@@ -36,13 +36,14 @@ void GameState::render(sf::RenderTarget* target){
 }
 
 template<typename T>
-void GameState::createEntity(std::string name, std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
+void GameState::createEntity(std::string textFile, sf::Vector2f startPos, sf::Vector2i size)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("GameState<createEntity>") : nullptr;
 
     try
     {
-        Entity* new_entity  = new T (name, AssetManager::getTexture(textFile), startPos, size);
+        Entity* new_entity  = new T( new GraphicsComponent( AssetManager::getTexture(textFile), startPos, size ), new InputComponent() );
+        
         _entitiesList.push_back(new_entity);
     }
     catch( std::exception & e )
@@ -68,4 +69,4 @@ void GameState::onNotify(sf::Event& event)
     }
 }
 
-template void GameState::createEntity<Player>(std::string, std::string, sf::Vector2f, sf::Vector2i);
+template void GameState::createEntity<Player>(std::string, sf::Vector2f, sf::Vector2i);

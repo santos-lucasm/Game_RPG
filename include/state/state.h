@@ -1,6 +1,7 @@
 #ifndef _STATE_H
 #define _STATE_H
 
+#include "engine/component/graphics_component.h"
 #include "entities/player.h"
 #include "engine/event/observer.h"
 

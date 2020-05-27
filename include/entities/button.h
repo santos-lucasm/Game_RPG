@@ -1,7 +1,7 @@
 #ifndef _BUTTON_H
 #define _BUTTON_H
 
-#include "entities/entity.h"
+#include "entities/player.h"
 
 class Button: public Entity
 {
@@ -13,7 +13,7 @@ public:
     }typedef ButtonState;
 
 public:
-    Button(std::string name, sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize);
+    Button(GraphicsComponent* g_cmp = nullptr, InputComponent* i_cmp = nullptr);
     ~Button();
 
     void update(sf::Time &dt);

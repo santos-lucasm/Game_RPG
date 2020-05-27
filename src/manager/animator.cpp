@@ -20,7 +20,7 @@ void Animator::Animation::AddFrames
 /* Animator class functions definitions */
 
 Animator::Animator(sf::Sprite& sprite):
-    _sprite(sprite), _currentTime(sf::Time::Zero), _currentAnimation(nullptr)
+    _sprite(sprite), _currentTime( sf::Time::Zero.asSeconds() ), _currentAnimation(nullptr)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<constructor>") : nullptr;
 }
@@ -46,14 +46,14 @@ Animator::Animation& Animator::createAnimation (std::string const& name, std::st
     return _animations.back();
 }
 
-void Animator::update(sf::Time const& dt)
+void Animator::update(float const& dt)
 {
     if(_currentAnimation == nullptr)
         return;
     _currentTime += dt;
 
     /* Get the current animation frame */
-    float scaled_time = (_currentTime.asSeconds() / _currentAnimation->_duration.asSeconds() );
+    float scaled_time = (_currentTime / _currentAnimation->_duration.asSeconds() );
     int num_frames = _currentAnimation->_frames.size();
     int current_frame = static_cast<int>( scaled_time * num_frames );
 
@@ -88,7 +88,7 @@ void Animator::switchAnimation(Animator::Animation* animation)
     {   
         _sprite.setTexture( AssetManager::getTexture(animation->_textureName) );
         _currentAnimation = animation;
-        _currentTime = sf::Time::Zero;
+        _currentTime = sf::Time::Zero.asSeconds();
     }
     else
         return; /* TODO: Throws an exception here */

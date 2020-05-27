@@ -14,7 +14,7 @@ public:
     void onNotify(sf::Event& event);
 
     template<typename T>
-    void createEntity(std::string name, std::string textFile, sf::Vector2f startPos, sf::Vector2i size);
+    void createEntity(std::string textFile, sf::Vector2f startPos, sf::Vector2i size);
 
 private:
     std::list<Entity*> _entitiesList;

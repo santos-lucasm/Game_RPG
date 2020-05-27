@@ -8,6 +8,10 @@
 */
 class Game;
 class Clock;
+
+class InputComponent;
+class GraphicsComponent;
+
 class InputHandler;
 class Command;
 class MoveRightCommand;

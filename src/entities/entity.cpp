@@ -1,41 +1,16 @@
 #include "entities/entity.h"
 
-Entity::Entity(std::string name, sf::Texture& texture, sf::Vector2f startPos, sf::Vector2i spriteSize)
+Entity::Entity(GraphicsComponent* g_cmp, InputComponent* i_cmp)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<constructor>") : nullptr;
-    
-    setName(name);
-    setSize(spriteSize);
-
-    initSprite(texture, startPos);
-    _animator = new Animator( getSprite() );
+    _graphicsComponent = g_cmp;
+    _inputComponent = i_cmp;
+    _velocity = sf::Vector2f(0,0);
 }
 
 Entity::~Entity()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Entity<destructor>") : nullptr;
-    
-    setName("");
-    setSize( sf::Vector2i(0,0) );
-    delete _animator;
+    delete _graphicsComponent;
+    delete _inputComponent;
 }
-
-void Entity::initSprite(sf::Texture &texture, sf::Vector2f startPos)
-{ 
-    getSprite().setTexture( texture );
-    getSprite().setPosition( startPos );
-}
-
-void Entity::addAnimations(std::string name, std::string texture, const sf::Time duration, bool loop, sf::Vector2i startPos, unsigned int frames)                                /* Add Frames */
-{
-    auto& newAnimation = getAnimator()->createAnimation(name, texture, duration, loop);
-    newAnimation.AddFrames(startPos, getSpriteSize(), frames);
-}
-
-void Entity::setName(std::string name){ _name = name; }
-void Entity::setSize(sf::Vector2i size){ _spriteSize = size; }
-std::string Entity::getName(){ return _name; }
-sf::Vector2i Entity::getSpriteSize(){ return _spriteSize; }
-
-sf::Sprite & Entity::getSprite(){ return _sprite; }
-Animator * Entity::getAnimator(){ return _animator; }

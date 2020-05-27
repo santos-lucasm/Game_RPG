@@ -76,7 +76,7 @@ public:
     one. Keeps showing last animation frame if the current animation
     of the entity does not loops.
     */
-    void update(sf::Time const& dt);
+    void update(float const& dt);
 
     /*! @brief
         Calls findAnimation method to see if exists an animation
@@ -124,7 +124,7 @@ private:
 
     /*! @property
     Time since the current animation starts to play. */
-    sf::Time _currentTime;
+    float _currentTime;
 
     /*! @property
     List of created animations related to this sprite. */

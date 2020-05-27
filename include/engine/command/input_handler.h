@@ -2,6 +2,7 @@
 #define _INPUT_HANDLER_H
 
 #include "engine/command/move.h"
+#include "utils/tracer.h"
 
 class InputHandler
 {

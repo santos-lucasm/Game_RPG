@@ -1,21 +1,21 @@
 #include "engine/command/move.h"
 
-void MoveRightCommand::execute(Player& entity, float& dt)
+void MoveRightCommand::execute(Entity& entity)
 {
-    entity.move( entity.getSpeed()*dt, 0, Player::RIGHT_MOVE, "walk-right");
+    entity._velocity = sf::Vector2f(1, 0);
 }
 
-void MoveLeftCommand::execute(Player& entity, float& dt)
+void MoveLeftCommand::execute(Entity& entity)
 {
-    entity.move( -entity.getSpeed()*dt, 0, Player::LEFT_MOVE, "walk-left");
+    entity._velocity = sf::Vector2f(-1, 0);
 }
 
-void MoveUpCommand::execute(Player& entity, float& dt)
+void MoveUpCommand::execute(Entity& entity)
 {
-    entity.move( 0, -entity.getSpeed()*dt, Player::UP_MOVE, "walk-up");
+    entity._velocity = sf::Vector2f(0, -1);
 }
 
-void MoveDownCommand::execute(Player& entity, float& dt)
+void MoveDownCommand::execute(Entity& entity)
 {
-    entity.move( 0, entity.getSpeed()*dt, Player::DOWN_MOVE, "walk-down");
+    entity._velocity = sf::Vector2f(0, 1);
 }
