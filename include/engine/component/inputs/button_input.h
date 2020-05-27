@@ -11,9 +11,10 @@ public:
     void update(GameObject& gameObject);
 
     Command* handleInput(GameObject& gameObject);
+    void updateMousePositions();
+
 private:
     void initButtons();
-    void updateMousePositions();
 
     sf::RenderWindow* _window;
     Command* _mouseLeftButton;

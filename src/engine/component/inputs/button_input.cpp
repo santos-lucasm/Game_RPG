@@ -21,6 +21,7 @@ void ButtonInputComponent::update(GameObject& gameObject)
 {
     updateMousePositions();
     Command * input = handleInput(gameObject);
+    
     if(input && gameObject.getGraphics()->getSprite().getGlobalBounds().contains(_mousePosView) )
         input->execute(gameObject);
     else if ( gameObject.getGraphics()->getSprite().getGlobalBounds().contains(_mousePosView) )
@@ -30,7 +31,6 @@ void ButtonInputComponent::update(GameObject& gameObject)
         gameObject._pressed = false;
         gameObject._hover = false;
     }
-    
 }
 
 void ButtonInputComponent::updateMousePositions() 

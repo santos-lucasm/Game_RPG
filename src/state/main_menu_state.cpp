@@ -52,6 +52,7 @@ void MainMenuState::initButtons()
 }
 
 void MainMenuState::update(sf::Time& dt){
+    updateMousePositions();
     _playButton->update(dt);
     _settingsButton->update(dt);
     _saveButton->update(dt);
@@ -76,12 +77,10 @@ void MainMenuState::onNotify(sf::Event& event)
         delete _states->top();
         _states->pop();
     }
-    else if( _playButton->isPressed() )
-    {
+
+    /* Check for buttons */
+    else if( _playButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
         _states->push( new GameState(_window, _states) );
-    }
-    else if( _settingsButton->isPressed() )
-    {
+    else if( _settingsButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
         _states->push( new SettingsMenuState(_window, _states) );
-    }
 }
