@@ -14,13 +14,16 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* state
 MainMenuState::~MainMenuState()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("MainMenuState<destructor>") : nullptr;
+    /*
     delete _playButton;
     delete _settingsButton;
     delete _saveButton;
+    */
 }
 
 void MainMenuState::initButtons()
 {
+    /*
     sf::Vector2i buttonSize = sf::Vector2i(256, 256);
 
     sf::Vector2f playButtonPos = sf::Vector2f(
@@ -37,7 +40,7 @@ void MainMenuState::initButtons()
         getWindow()->getSize().x/2.f - buttonSize.x/2.f,
         getWindow()->getSize().y/2.f - buttonSize.y/2.f
     );
-
+    
     _playButton = new Button(
         new ButtonGraphicsComponent(AssetManager::getTexture( ICON_PATH(movie) ), playButtonPos, buttonSize),
         new ButtonInputComponent(_window) );
@@ -49,13 +52,16 @@ void MainMenuState::initButtons()
     _saveButton = new Button(
         new ButtonGraphicsComponent(AssetManager::getTexture( ICON_PATH(diskette) ), saveButtonPos, buttonSize),
         new ButtonInputComponent(_window) );
+    */
 }
 
 void MainMenuState::update(sf::Time& dt){
     updateMousePositions();
+    /*
     _playButton->update(dt);
     _settingsButton->update(dt);
     _saveButton->update(dt);
+    */
 }
 
 void MainMenuState::render(sf::RenderTarget* target){
@@ -64,9 +70,11 @@ void MainMenuState::render(sf::RenderTarget* target){
         target = getWindow();
     
     target->draw( _background );
+    /*
     _playButton->render(target);
     _settingsButton->render(target);
     _saveButton->render(target);
+    */
 }
 
 void MainMenuState::onNotify(sf::Event& event)
@@ -78,9 +86,13 @@ void MainMenuState::onNotify(sf::Event& event)
         _states->pop();
     }
 
-    /* Check for buttons */
+    else if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+        _states->push( new GameState(_window, _states) );
+
+    /*
     else if( _playButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
         _states->push( new GameState(_window, _states) );
     else if( _settingsButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
         _states->push( new SettingsMenuState(_window, _states) );
+    */
 }
