@@ -7,7 +7,7 @@ class Command
 public:
     Command(){}
     virtual ~Command(){}
-    virtual void execute(GameObject& GameObject) = 0;
+    virtual void execute(GameObject& gameObject) = 0;
 };
 
 #endif

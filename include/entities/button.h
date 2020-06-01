@@ -12,9 +12,7 @@ public:
     void update(sf::Time &dt);
     void render(sf::RenderTarget* target);
 
-    bool isPressed();
 private:
-
     static const bool debugged = Traits<Button>::debugged && Tracer::debugActive;
     static const bool traced = Traits<Button>::traced && Tracer::traceActive;
 };

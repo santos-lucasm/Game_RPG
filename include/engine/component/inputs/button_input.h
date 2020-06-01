@@ -8,16 +8,14 @@ class ButtonInputComponent: public InputComponent
 public:
     ButtonInputComponent(sf::RenderWindow* window);
     ~ButtonInputComponent();
-    void update(GameObject& gameObject);
 
-    Command* handleInput(GameObject& gameObject);
+    void update(GameObject& gameObject);
     void updateMousePositions();
 
 private:
     void initButtons();
 
     sf::RenderWindow* _window;
-    Command* _mouseLeftButton;
 
     sf::Vector2i _mousePosWindow;
     sf::Vector2i _mousePosScreen;

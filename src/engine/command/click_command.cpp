@@ -6,5 +6,5 @@ ClickCommand::~ClickCommand(){}
 void ClickCommand::execute(GameObject& gameObject)
 {
     /* TODO: How to update _stateStack from here */
-    gameObject._pressed = true;
+    // gameObject._state = PRESSED;
 }

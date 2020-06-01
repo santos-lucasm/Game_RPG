@@ -6,6 +6,16 @@
 class GameObject
 {
 public:
+    enum MachineState {
+        /* ButtonStates */
+        IDLE,
+        HOVER,
+        PRESSED,
+        NONE
+    };
+    MachineState _state;
+
+public:
     GameObject(GraphicsComponent* g_cmp = nullptr, InputComponent* i_cmp = nullptr);
     virtual ~GameObject();
 
@@ -15,12 +25,8 @@ public:
     GraphicsComponent* getGraphics(){ return _graphicsComponent; }
     InputComponent* getInputs(){ return _inputComponent; }
 
-    /* Player */
     sf::Vector2f _velocity;
     int _speed;
-    /* Button */
-    bool _hover;
-    bool _pressed;
 protected:
     GraphicsComponent* _graphicsComponent;
     InputComponent* _inputComponent;

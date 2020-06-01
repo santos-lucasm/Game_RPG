@@ -4,8 +4,6 @@ Button::Button(GraphicsComponent* g_cmp, InputComponent* i_cmp):
 GameObject(g_cmp, i_cmp)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Button<constructor>") : nullptr;
-    _hover = false;
-    _pressed = false;
 }
 
 Button::~Button()
@@ -20,11 +18,6 @@ void Button::update(sf::Time & dt)
 
     _inputComponent->update(*this);
     _graphicsComponent->update(*this, time);
-}
-
-bool Button::isPressed()
-{
-    return (_pressed) ? true : false;
 }
 
 void Button::render(sf::RenderTarget* target)

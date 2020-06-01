@@ -9,28 +9,25 @@ _window(window)
 
 ButtonInputComponent::~ButtonInputComponent()
 {
-    delete _mouseLeftButton;
+    // delete _mouseLeftButton;
 }
 
 void ButtonInputComponent::initButtons()
 {
-    _mouseLeftButton= new ClickCommand();
+    // _mouseLeftButton= new ClickCommand();
 }
 
 void ButtonInputComponent::update(GameObject& gameObject)
 {
     updateMousePositions();
-    Command * input = handleInput(gameObject);
     
-    if(input && gameObject.getGraphics()->getSprite().getGlobalBounds().contains(_mousePosView) )
-        input->execute(gameObject);
+    if( sf::Mouse::isButtonPressed( sf::Mouse::Button( _supportedKeys.at("MOUSE_LEFT"))) 
+        && gameObject.getGraphics()->getSprite().getGlobalBounds().contains(_mousePosView) )
+        gameObject._state = GameObject::PRESSED;
     else if ( gameObject.getGraphics()->getSprite().getGlobalBounds().contains(_mousePosView) )
-        gameObject._hover = true;
+        gameObject._state = GameObject::HOVER;
     else
-    {
-        gameObject._pressed = false;
-        gameObject._hover = false;
-    }
+        gameObject._state = GameObject::IDLE;
 }
 
 void ButtonInputComponent::updateMousePositions() 
@@ -38,12 +35,4 @@ void ButtonInputComponent::updateMousePositions()
     _mousePosScreen = sf::Mouse::getPosition();
     _mousePosWindow = sf::Mouse::getPosition(*_window);
     _mousePosView = _window->mapPixelToCoords( sf::Mouse::getPosition() );
-}
-
-Command* ButtonInputComponent::handleInput(GameObject& gameObject)
-{
-    if( sf::Mouse::isButtonPressed( sf::Mouse::Button( _supportedKeys.at("MOUSE_LEFT") )) )
-        return _mouseLeftButton;
-    else
-        return nullptr;
 }

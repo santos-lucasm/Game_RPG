@@ -6,6 +6,7 @@ GameObject::GameObject(GraphicsComponent* g_cmp, InputComponent* i_cmp)
     _graphicsComponent = g_cmp;
     _inputComponent = i_cmp;
     _velocity = sf::Vector2f(0,0);
+    _state = NONE;
 }
 
 GameObject::~GameObject()

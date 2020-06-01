@@ -4,7 +4,7 @@
 #include "engine/component/graphics/player_graphics.h"
 #include "entities/button.h"
 
-class ButtonGraphicsComponent: public GraphicsComponent
+class ButtonGraphicsComponent: public GraphicsComponent, public Button
 {
 public:
     ButtonGraphicsComponent(sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize);

@@ -25,9 +25,9 @@ void ButtonGraphicsComponent::initAnimations() {}
 
 void ButtonGraphicsComponent::update(GameObject& gameObject, float& dt)
 {
-    if( gameObject._pressed )
+    if( gameObject._state == PRESSED )
         _sprite.setColor( _pressedColor );
-    else if( gameObject._hover )
+    else if( gameObject._state == HOVER )
         _sprite.setColor( _hoverColor );
     else
         _sprite.setColor( _idleColor );
