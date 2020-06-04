@@ -6,6 +6,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(
 {
     _state = PlayerState::RIGHT_IDLE;
     initAnimations();
+    initStates();
 }
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
@@ -25,60 +26,73 @@ void PlayerGraphicsComponent::initAnimations()
     addAnimations("walk-down",  ANIMATION_PATH(snorlax), sf::seconds(1),    true,  sf::Vector2i( 0,64), 3);
 }
 
+void PlayerGraphicsComponent::initStates()
+{
+    _stateToAnimation.emplace(PlayerState::RIGHT_IDLE,  "idle-right");
+    _stateToAnimation.emplace(PlayerState::LEFT_IDLE,   "idle-left");
+    _stateToAnimation.emplace(PlayerState::UP_IDLE,     "idle-up");
+    _stateToAnimation.emplace(PlayerState::DOWN_IDLE,   "idle-down");
+
+    _stateToAnimation.emplace(PlayerState::RIGHT_MOVE,  "walk-right");
+    _stateToAnimation.emplace(PlayerState::LEFT_MOVE,   "walk-left");
+    _stateToAnimation.emplace(PlayerState::UP_MOVE,     "walk-up");
+    _stateToAnimation.emplace(PlayerState::DOWN_MOVE,   "walk-down");
+}
+
 void PlayerGraphicsComponent::update(GameObject& gameObject, float& dt)
 {
-    float move_x = dt * gameObject._speed * gameObject._velocity.x;
-    float move_y = dt * gameObject._speed * gameObject._velocity.y;
+    sf::Vector2f distance = gameObject.getPhysics()->_position;
 
-    if(move_x==0 && move_y==0)
-        checkIdleState();
+    if( distance.x==0 && distance.y==0 )
+        updateIdle();
     else
     {
-        _sprite.move(move_x, move_y);
-        chooseState(move_x, move_y);
+        _sprite.move( distance );
+        updateMove( distance );
     }
     _animator->update(dt);
 }
 
-void PlayerGraphicsComponent::chooseState(float& move_x, float& move_y)
-{
-    if(move_y == 0)
-    {
-        if(move_x > 0)
-            chooseAnimation(RIGHT_MOVE, "walk-right");
-        else if(move_x < 0)
-            chooseAnimation(LEFT_MOVE, "walk-left");
-    }
-    else
-    {
-        if(move_y < 0)
-            chooseAnimation(UP_MOVE, "walk-up");
-        else if(move_y > 0)
-            chooseAnimation(DOWN_MOVE, "walk-down");
-    }
-}
-
-void PlayerGraphicsComponent::chooseAnimation(PlayerState state, std::string animationName)
-{
-    _state = state;
-    if( _animator->getCurrentAnimationName() != animationName)
-        _animator->switchAnimation(animationName);
-}
-
-void PlayerGraphicsComponent::checkIdleState()
+void PlayerGraphicsComponent::updateIdle()
 {
     switch(_state)
     {
         case RIGHT_MOVE:
-            chooseAnimation(RIGHT_IDLE, "idle-right"); break;
+            setState(RIGHT_IDLE); break;
         case LEFT_MOVE:
-            chooseAnimation(LEFT_IDLE, "idle-left"); break;
+            setState(LEFT_IDLE); break;
         case UP_MOVE:
-            chooseAnimation(UP_IDLE, "idle-up"); break;
+            setState(UP_IDLE); break;
         case DOWN_MOVE:
-            chooseAnimation(DOWN_IDLE, "idle-down"); break;
+            setState(DOWN_IDLE); break;
         default:
             break;
     }
+}
+
+void PlayerGraphicsComponent::updateMove(sf::Vector2f& distance)
+{
+    if(distance.y == 0)
+    {
+        if(distance.x > 0)
+            setState(RIGHT_MOVE);
+        else if(distance.x < 0)
+            setState(LEFT_MOVE);
+    }
+    else
+    {
+        if(distance.y < 0)
+            setState(UP_MOVE);
+        else if(distance.y > 0)
+            setState(DOWN_MOVE);
+    }
+}
+
+void PlayerGraphicsComponent::setState(PlayerState state)
+{
+    _state = state;
+    /* check if the corresponding animation is already beeing played */
+    if( _animator->getCurrentAnimationName() != _stateToAnimation.at(_state) )
+        _animator->switchAnimation( _stateToAnimation.at(_state) );
 }
 

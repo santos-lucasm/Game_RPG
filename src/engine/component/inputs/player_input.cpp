@@ -32,18 +32,18 @@ void PlayerInputComponent::update(GameObject& gameObject)
     if(input)
         input->execute(gameObject);
     else
-        gameObject._velocity = sf::Vector2f(0,0);
+        gameObject.getPhysics()->_velocity = sf::Vector2f(0,0);
 }
 
 Command* PlayerInputComponent::handleInput(GameObject& gameObject)
 {
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
         return _buttonRight;
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
         return _buttonLeft;
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
         return _buttonUp;
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
         return _buttonDown;
     else
         return nullptr;

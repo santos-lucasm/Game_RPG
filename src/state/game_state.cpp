@@ -48,7 +48,9 @@ void GameState::createGameObject(std::string textFile, sf::Vector2f startPos, sf
     {
         GameObject* new_GameObject  = new T(
             new PlayerGraphicsComponent( AssetManager::getTexture(textFile), startPos, size ),
-            new PlayerInputComponent() );
+            new PlayerInputComponent(),
+            new PlayerPhysicsComponent(startPos)
+            );
         
         _entitiesList.push_back(new_GameObject);
     }
@@ -63,22 +65,23 @@ void GameState::onNotify(sf::Event& event)
     /* Close GameState, going back to the MainMenuScreen */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
     {
-        delete _states->top();
-        _states->pop();
-        getWindow()->setMouseCursorVisible(true);
-
         /* Reset camera to go back to main menu */
         _camera.setCenter( getWindow()->getSize().x/2 , getWindow()->getSize().y/2);
         getWindow()->setView( _camera );
+        getWindow()->setMouseCursorVisible(true);
+
+        delete _states->top();
+        _states->pop();
     }
 
     /* Open SettingsScreen */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Tab)
     {
-        _states->push( new SettingsMenuState(_window, _states) );
         /* Reset camera to go back to settings */
         _camera.setCenter( getWindow()->getSize().x/2 , getWindow()->getSize().y/2);
         getWindow()->setView( _camera );
+
+        _states->push( new SettingsMenuState(_window, _states) );
     }
 }
 

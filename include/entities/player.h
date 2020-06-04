@@ -6,7 +6,7 @@
 class Player: public GameObject
 {
 public:
-    Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, int speed = 40);
+    Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, PhysicsComponent* p_cmp = nullptr);
     ~Player();
 
     void update(sf::Time &dt);

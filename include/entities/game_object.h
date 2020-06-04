@@ -1,22 +1,12 @@
 #ifndef _GAME_OBJECT_H
 #define _GAME_OBJECT_H
 
-#include "engine/component/inputs/input_component.h"
+#include "engine/component/physics/physics_component.h"
 
 class GameObject
 {
 public:
-    enum MachineState {
-        /* ButtonStates */
-        IDLE,
-        HOVER,
-        PRESSED,
-        NONE
-    };
-    MachineState _state;
-
-public:
-    GameObject(GraphicsComponent* g_cmp = nullptr, InputComponent* i_cmp = nullptr);
+    GameObject(GraphicsComponent* g_cmp = nullptr, InputComponent* i_cmp = nullptr, PhysicsComponent* p_cmp = nullptr);
     virtual ~GameObject();
 
     virtual void update(sf::Time &dt) = 0;
@@ -24,12 +14,12 @@ public:
 
     GraphicsComponent* getGraphics(){ return _graphicsComponent; }
     InputComponent* getInputs(){ return _inputComponent; }
-
-    sf::Vector2f _velocity;
-    int _speed;
+    PhysicsComponent* getPhysics(){ return _physicsComponent; }
+    
 protected:
     GraphicsComponent* _graphicsComponent;
     InputComponent* _inputComponent;
+    PhysicsComponent* _physicsComponent;
 
 private:
     static const bool debugged = Traits<GameObject>::debugged && Tracer::debugActive;

@@ -29,11 +29,14 @@ public:
 
 private:
     void initAnimations();
-    void chooseState(float& x, float& y);
-    void chooseAnimation(PlayerState state, std::string animationName);
-    void checkIdleState();
+    void initStates();
+
+    void updateIdle();
+    void updateMove(sf::Vector2f& distance);
+    void setState(PlayerState state);
 
     PlayerState _state;
+    std::map<PlayerState, std::string> _stateToAnimation;
 };
 
 #endif

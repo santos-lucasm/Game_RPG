@@ -1,10 +1,9 @@
 #include "entities/player.h"
 
-Player::Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, int speed):
-GameObject(g_cmp, i_cmp)
+Player::Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, PhysicsComponent* p_cmp):
+GameObject(g_cmp, i_cmp, p_cmp)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
-    _speed = speed;
 }
 
 Player::~Player()
@@ -19,8 +18,8 @@ void Player::update( sf::Time & dt )
     float time = dt.asSeconds();
 
     _inputComponent->update(*this);
+    _physicsComponent->update(*this, time);
     _graphicsComponent->update(*this, time);
-
 }
 
 void Player::render(sf::RenderTarget* target)

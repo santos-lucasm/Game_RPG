@@ -5,6 +5,8 @@
 // #include "engine/component/inputs/button_input.h"
 #include "engine/component/inputs/player_input.h"
 #include "engine/component/graphics/player_graphics.h"
+#include "engine/component/physics/player_physics.h"
+
 #include "engine/event/observer.h"
 #include "entities/player.h"
 
