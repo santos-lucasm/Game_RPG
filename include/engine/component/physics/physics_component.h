@@ -1,7 +1,7 @@
 #ifndef _PHYSICS_COMPONENT_H
 #define _PHYSICS_COMPONENT_H
 
-#include "engine/component/inputs/input_component.h"
+#include "manager/animator.h"
 
 class PhysicsComponent
 {

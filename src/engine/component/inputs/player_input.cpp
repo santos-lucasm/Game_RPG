@@ -14,6 +14,7 @@ PlayerInputComponent::~PlayerInputComponent()
     delete _buttonLeft;
     delete _buttonUp;
     delete _buttonDown;
+    delete _buttonSprint;
 }
 
 void PlayerInputComponent::initButtons()
@@ -24,6 +25,7 @@ void PlayerInputComponent::initButtons()
     _buttonLeft     = new MoveLeftCommand();
     _buttonUp       = new MoveUpCommand();
     _buttonDown     = new MoveDownCommand();
+    _buttonSprint   = new SprintCommand();
 }
 
 void PlayerInputComponent::update(GameObject& gameObject)
@@ -31,12 +33,20 @@ void PlayerInputComponent::update(GameObject& gameObject)
     Command * input = handleInput(gameObject);
     if(input)
         input->execute(gameObject);
-    else
+    else {
         gameObject.getPhysics()->_velocity = sf::Vector2f(0,0);
+    }
 }
 
 Command* PlayerInputComponent::handleInput(GameObject& gameObject)
 {
+    /* Handle running button */
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT_SHIFT") )) )
+        _buttonSprint->execute(gameObject);
+    else
+        gameObject.getPhysics()->_speed = 40;
+
+    /* Handle four directions */
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
         return _buttonRight;
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )

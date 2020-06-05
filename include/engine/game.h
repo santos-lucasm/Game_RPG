@@ -1,7 +1,6 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "state/game_state.h"
 #include "state/main_menu_state.h"
 #include "engine/event/subject.h"
 #include "clock.h"

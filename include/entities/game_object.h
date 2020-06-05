@@ -1,7 +1,9 @@
 #ifndef _GAME_OBJECT_H
 #define _GAME_OBJECT_H
 
+#include "engine/component/inputs/input_component.h"
 #include "engine/component/physics/physics_component.h"
+#include "engine/component/graphics/graphics_component.h"
 
 class GameObject
 {
