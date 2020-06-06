@@ -1,6 +1,6 @@
 #include "state/settings_menu_state.h"
 
-SettingsMenuState::SettingsMenuState(sf::RenderWindow* window, std::stack<State*>* states): State(window, states)
+SettingsMenuState::SettingsMenuState(sf::RenderWindow* window): GameState(window)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("SettingsMenuState<constructor>") : nullptr;
     _window->setMouseCursorVisible(true);
@@ -48,11 +48,8 @@ void SettingsMenuState::render(sf::RenderTarget* target)
     target->draw( _showFPS );
 }
 
-void SettingsMenuState::onNotify(sf::Event& event)
+void SettingsMenuState::onNotify(Machine& fsm, sf::Event& event)
 {
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
-    {
-        delete _states->top();
-        _states->pop();
-    }
+        fsm.exitState();
 }
