@@ -15,3 +15,8 @@ GameObject::~GameObject()
     delete _inputComponent;
     delete _physicsComponent;
 }
+
+GraphicsComponent*  GameObject::getGraphics(){ return _graphicsComponent; }
+InputComponent*     GameObject::getInputs()  { return _inputComponent; }
+PhysicsComponent*   GameObject::getPhysics() { return _physicsComponent; }
+Machine*            GameObject::getMachine() { return _automata; }

@@ -3,6 +3,7 @@
 
 class Machine;
 #include "SFML/Window/Event.hpp"
+#include "SFML/Graphics/RenderTarget.hpp"
 
 class Observer
 {

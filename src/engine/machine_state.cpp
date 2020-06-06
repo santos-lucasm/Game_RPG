@@ -1,11 +1,10 @@
 #include "engine/machine_state.h"
 
-Machine::Machine( sf::RenderWindow* window, State* firstState )
+Machine::Machine( State* firstState )
 {   
     if(firstState)
-        setState( firstState ); /* Used to start EntityStateMachine */
-    else
-        setState( new MainMenuState(window) ); /* Used on GameStateMachine */
+        setState( firstState );
+    /* TODO: Throw exception */
 }
 
 Machine::~Machine()
@@ -17,6 +16,11 @@ Machine::~Machine()
 void Machine::onNotify(Machine& fsm, sf::Event& event)
 {
     getState()->onNotify(fsm, event);
+}
+
+void Machine::goNext(Machine& fsm)
+{
+    getState()->goNext(*this);
 }
 
 State* Machine::getState() const

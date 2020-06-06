@@ -4,11 +4,15 @@ Player::Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, PhysicsComponent
 GameObject(g_cmp, i_cmp, p_cmp)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
+    _automata = new Machine( new StandingState() );
+    _automata->setState( new WalkingState() );
+    _automata->setState( new SprintingState() );
 }
 
 Player::~Player()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<destructor>") : nullptr;
+    delete _automata;
 }
 
 void Player::update( sf::Time & dt )

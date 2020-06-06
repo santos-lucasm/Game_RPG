@@ -1,11 +1,7 @@
 #include "state/state.h"
 
-State::State()
-{
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("State<constructor>") : nullptr;
-}
+State::State() {}
+State::~State() {}
 
-State::~State()
-{
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("State<destructor>") : nullptr;
-}
+void State::update(sf::Time& dt) {}
+void State::render(sf::RenderTarget* target) {}

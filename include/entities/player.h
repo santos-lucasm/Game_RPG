@@ -2,6 +2,7 @@
 #define _PLAYER_H
 
 #include "entities/game_object.h"
+#include "state/player_state.h"
 
 class Player: public GameObject
 {

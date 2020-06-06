@@ -2,6 +2,7 @@
 #define _SETTINGS_STATE_H
 
 #include "engine/machine_state.h"
+#include "state/game_state.h"
 
 class SettingsMenuState: public GameState
 {

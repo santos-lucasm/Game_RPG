@@ -8,7 +8,7 @@ Game::Game()
     _clock = new Clock();
 
     initWindow();
-    _fsm = new Machine(_window);
+    _fsm = new Machine( new MainMenuState(_window) );
 }
 
 Game::~Game()
