@@ -12,14 +12,17 @@ public:
     ~PlayerInputComponent();
     void update(GameObject& gameObject);
 
-    Command* handleInput(GameObject& gameObject);
+    void handleInput(GameObject& gameObject);
 private:
+    
     void initButtons();
+    /*
     Command* _buttonRight;
     Command* _buttonLeft;
     Command* _buttonUp;
     Command* _buttonDown;
     Command* _buttonSprint;
+    */
 
     static const bool debugged = Traits<PlayerInputComponent>::debugged && Tracer::debugActive;
     static const bool traced = Traits<PlayerInputComponent>::traced && Tracer::traceActive;

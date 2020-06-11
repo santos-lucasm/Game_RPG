@@ -6,22 +6,6 @@
 class PlayerGraphicsComponent: public GraphicsComponent
 {
 public:
-
-    enum {
-        RIGHT_MOVE,
-        RIGHT_IDLE,
-
-        LEFT_MOVE,
-        LEFT_IDLE,
-
-        UP_MOVE,
-        UP_IDLE,
-
-        DOWN_MOVE,
-        DOWN_IDLE
-    }typedef PlayerState;
-
-public:
     PlayerGraphicsComponent(sf::Texture &texture, sf::Vector2f startPos, sf::Vector2i spriteSize);
     ~PlayerGraphicsComponent();
 
@@ -31,12 +15,13 @@ private:
     void initAnimations();
     void initStates();
 
-    void updateIdle();
-    void updateMove(sf::Vector2f& distance);
-    void setState(PlayerState state);
+    void setStandingAnimation(PlayerState::Direction dir);
+    void setWalkingAnimation(PlayerState::Direction dir);
+    void setSprintingAnimation(PlayerState::Direction dir);
 
-    PlayerState _state;
-    std::map<PlayerState, std::string> _stateToAnimation;
+    void chooseAnimation(std::string name);
+
+    // std::map<PlayerState, std::string> _stateToAnimation;
 };
 
 #endif

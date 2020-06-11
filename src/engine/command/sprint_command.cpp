@@ -1,6 +1,6 @@
 #include "engine/command/sprint_command.h"
 
-SprintCommand::SprintCommand(){ }
+SprintCommand::SprintCommand(unsigned int id): Command(id) {}
 
 SprintCommand::~SprintCommand(){ }
 

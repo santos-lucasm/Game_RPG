@@ -1,4 +1,5 @@
 #include "engine/machine_state.h"
+#include <iostream>
 
 Machine::Machine( State* firstState )
 {   
@@ -9,8 +10,7 @@ Machine::Machine( State* firstState )
 
 Machine::~Machine()
 {
-    while( !isEmpty() )
-        exitState();
+    clearStack();
 }
 
 void Machine::onNotify(Machine& fsm, sf::Event& event)
@@ -18,9 +18,9 @@ void Machine::onNotify(Machine& fsm, sf::Event& event)
     getState()->onNotify(fsm, event);
 }
 
-void Machine::goNext(Machine& fsm)
+void Machine::goNext(unsigned int id)
 {
-    getState()->goNext(*this);
+    getState()->goNext(*this, id);
 }
 
 State* Machine::getState() const
@@ -44,4 +44,10 @@ void Machine::exitState()
 {
     delete _states.top();
     _states.pop();
+}
+
+void Machine::clearStack()
+{
+    while( !isEmpty() )
+        exitState();
 }

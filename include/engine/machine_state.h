@@ -14,7 +14,7 @@ public:
     /* Repass notify to the current State */
     void onNotify(Machine& fsm, sf::Event& event);
     /* Repass command to the current State */
-    void goNext(Machine& fsm);
+    void goNext(unsigned int id);
 
     /* Return current State */
     State* getState() const;
@@ -27,6 +27,9 @@ public:
 
     /* Deletes the current State */
     void exitState();
+
+    /* Reset stack of states */
+    void clearStack();
     
 private:
     std::stack<State*> _states;

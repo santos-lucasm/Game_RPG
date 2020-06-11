@@ -6,7 +6,7 @@
 class SprintCommand: public Command
 {
 public:
-    SprintCommand();
+    SprintCommand(unsigned int id);
     ~SprintCommand();
     void execute(GameObject& gameObject);
 };

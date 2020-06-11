@@ -6,44 +6,41 @@
 
 class PlayerState: public State
 {
-
 public:
-    PlayerState(std::string name);
+    PlayerState(std::string name, Direction dir);
     virtual ~PlayerState() {}
 
     virtual void onNotify(Machine& fsm, sf::Event& event) = 0;
-    void goNext(Machine& fsm) {}
+    void goNext(Machine& fsm, unsigned int id) {}
 
-    std::string getName() const;
-private:
-    std::string _name;
+    Direction chooseDirection(unsigned int id);
 };
 
 class StandingState: public PlayerState
 {
 public:
-    StandingState();
+    StandingState(Direction dir);
     ~StandingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
-    void goNext(Machine& fsm);
+    void goNext(Machine& fsm, unsigned int id);
 };
 
 class WalkingState: public PlayerState
 {
 public:
-    WalkingState();
+    WalkingState(Direction dir);
     ~WalkingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
-    void goNext(Machine& fsm);
+    void goNext(Machine& fsm, unsigned int id);
 };
 
 class SprintingState: public PlayerState
 {
 public:
-    SprintingState();
+    SprintingState(Direction dir);
     ~SprintingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
-    void goNext(Machine& fsm);
+    void goNext(Machine& fsm, unsigned int id);
 };
 
 #endif

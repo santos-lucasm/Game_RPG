@@ -3,58 +3,58 @@
 PlayerInputComponent::PlayerInputComponent()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("InputHandler<constructor>") : nullptr;
-    initButtons();
+    // initButtons();
 }
 
 PlayerInputComponent::~PlayerInputComponent()
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("InputHandler<destructor>") : nullptr;
-
+    /*
     delete _buttonRight;
     delete _buttonLeft;
     delete _buttonUp;
     delete _buttonDown;
     delete _buttonSprint;
+    */
 }
 
 void PlayerInputComponent::initButtons()
 {
+    /*
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("InputHandler<initButtons>") : nullptr;
 
-    _buttonRight    = new MoveRightCommand();
-    _buttonLeft     = new MoveLeftCommand();
-    _buttonUp       = new MoveUpCommand();
-    _buttonDown     = new MoveDownCommand();
-    _buttonSprint   = new SprintCommand();
+    _buttonRight    = new MoveRightCommand( 1 );
+    _buttonLeft     = new MoveLeftCommand( 2 );
+    _buttonUp       = new MoveUpCommand( 3 );
+    _buttonDown     = new MoveDownCommand( 4 );
+
+    _buttonSprint   = new SprintCommand( 10 );
+    */
 }
 
 void PlayerInputComponent::update(GameObject& gameObject)
 {
-    Command * input = handleInput(gameObject);
-    if(input)
-        input->execute(gameObject);
-    else {
-        gameObject.getPhysics()->_velocity = sf::Vector2f(0,0);
-    }
+    handleInput(gameObject);
 }
 
-Command* PlayerInputComponent::handleInput(GameObject& gameObject)
+void PlayerInputComponent::handleInput(GameObject& gameObject)
 {
-    /* Handle running button */
+    /*
+    Handle running button.
+    TODO: Supress SprintingState, here just set speed. (There is no difference from Walking and State)
+    */
     if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT_SHIFT") )) )
-        _buttonSprint->execute(gameObject);
-    else
-        gameObject.getPhysics()->_speed = 40;
+        gameObject.getMachine()->goNext( 10 );
 
     /* Handle four directions */
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
-        return _buttonRight;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
-        return _buttonLeft;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
-        return _buttonUp;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
-        return _buttonDown;
+    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
+        gameObject.getMachine()->goNext( 1 );
+    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
+        gameObject.getMachine()->goNext( 2 );
+    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
+        gameObject.getMachine()->goNext( 3 );
+    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
+        gameObject.getMachine()->goNext( 4 );
     else
-        return nullptr;
+        gameObject.getMachine()->goNext( 0 );
 }
