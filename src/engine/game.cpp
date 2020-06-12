@@ -8,7 +8,7 @@ Game::Game()
     _clock = new Clock();
 
     initWindow();
-    initState();
+    _fsm = new Machine( new MainMenuState(_window) );
 }
 
 Game::~Game()
@@ -30,13 +30,7 @@ Game::~Game()
     } 
     ofs.close();
 
-    /* Destroy left States */
-    while(!_states.empty())
-    {
-        delete _states.top();
-        _states.pop();
-    }
-
+    delete _fsm;
     delete _clock;
     delete _manager;
     delete _window;
@@ -77,20 +71,15 @@ void Game::initWindow()
     _window->setMouseCursorVisible( mouse_visible );
 }
 
-void Game::initState()
-{
-    _states.push( new MainMenuState(_window, &_states) );
-}
-
 void Game::update()
 {
 
     /* Update IO general game Events, like pressing X on top left corner */
     updateSFMLEvents();
 
-    /* Update the current active State */
-    if(!_states.empty())
-        _states.top()->update( _clock->getDT() );
+    /* Update current State */
+    if(!_fsm->isEmpty())
+        _fsm->getState()->update( _clock->getDT() );
 
     /* Closes game if every State is closed */
     else
@@ -117,15 +106,16 @@ void Game::updateSFMLEvents()
 
 void Game::notify()
 {
-    _states.top()->onNotify(_event);
+    _fsm->onNotify(*_fsm, _event);
 }
 
 void Game::render()
 {
     _window->clear( sf::Color::White );
 
-    if(!_states.empty())
-        _states.top()->render();
+    /* Render current State */
+    if(!_fsm->isEmpty())
+        _fsm->getState()->render();
 
     _window->display();
 }

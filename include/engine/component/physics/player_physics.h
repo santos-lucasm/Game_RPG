@@ -1,7 +1,7 @@
 #ifndef _PLAYER_PHYSICS_H
 #define _PLAYER_PHYSICS_H
 
-#include "engine/component/graphics/player_graphics.h"
+#include "entities/player.h"
 
 class PlayerPhysicsComponent: public PhysicsComponent
 {

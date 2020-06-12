@@ -1,10 +1,12 @@
 #include "state/main_menu_state.h"
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states): State(window, states)
+MainMenuState::MainMenuState(sf::RenderWindow* window): GameState(window)
 {
     std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("MainMenuState<constructor>") : nullptr;
 
     _window->setMouseCursorVisible(true);
+
+    /* initBackground */
     _background.setSize(sf::Vector2f( getWindow()->getSize().x, getWindow()->getSize().y ));
     _background.setFillColor( sf::Color(249, 219, 210)  );
 
@@ -77,17 +79,14 @@ void MainMenuState::render(sf::RenderTarget* target){
     */
 }
 
-void MainMenuState::onNotify(sf::Event& event)
+void MainMenuState::onNotify(Machine& fsm, sf::Event& event)
 {
     /* Close MainMenu, and the application */
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
-    {
-        delete _states->top();
-        _states->pop();
-    }
+        fsm.exitState();
 
     else if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
-        _states->push( new GameState(_window, _states) );
+        fsm.setState( new RunState(_window) );
 
     /*
     else if( _playButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )

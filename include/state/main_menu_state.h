@@ -1,18 +1,17 @@
 #ifndef _MAIN_MENU_STATE_H
 #define _MAIN_MENU_STATE_H
 
-#include "state/game_state.h"
-// #include "entities/button.h"
+#include "state/run_state.h"
 
-class MainMenuState: public State
+class MainMenuState: public GameState
 {
 public:
-    MainMenuState(sf::RenderWindow* window, std::stack<State*>* states);
+    MainMenuState(sf::RenderWindow* window);
     ~MainMenuState();
 
     void update(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
-    void onNotify(sf::Event& event);
+    void onNotify(Machine& fsm, sf::Event& event);
 
 private:
     void initButtons();

@@ -1,7 +1,7 @@
 #ifndef _INPUT_COMPONENT_H
 #define _INPUT_COMPONENT_H
 
-#include "engine/component/graphics/graphics_component.h"
+#include "manager/animator.h"
 
 class InputComponent
 {

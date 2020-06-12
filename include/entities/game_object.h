@@ -1,7 +1,11 @@
 #ifndef _GAME_OBJECT_H
 #define _GAME_OBJECT_H
 
+#include "engine/component/inputs/input_component.h"
 #include "engine/component/physics/physics_component.h"
+#include "engine/component/graphics/graphics_component.h"
+
+#include "engine/machine_state.h"
 
 class GameObject
 {
@@ -12,14 +16,16 @@ public:
     virtual void update(sf::Time &dt) = 0;
     virtual void render(sf::RenderTarget* target) = 0;
 
-    GraphicsComponent* getGraphics(){ return _graphicsComponent; }
-    InputComponent* getInputs(){ return _inputComponent; }
-    PhysicsComponent* getPhysics(){ return _physicsComponent; }
+    GraphicsComponent* getGraphics();
+    InputComponent* getInputs();
+    PhysicsComponent* getPhysics();
+    Machine* getMachine();
     
 protected:
     GraphicsComponent* _graphicsComponent;
     InputComponent* _inputComponent;
     PhysicsComponent* _physicsComponent;
+    Machine* _automata;
 
 private:
     static const bool debugged = Traits<GameObject>::debugged && Tracer::debugActive;
