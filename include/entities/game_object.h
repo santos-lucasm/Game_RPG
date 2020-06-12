@@ -20,6 +20,7 @@ public:
     InputComponent* getInputs();
     PhysicsComponent* getPhysics();
     Machine* getMachine();
+    State* currentState();
     
 protected:
     GraphicsComponent* _graphicsComponent;

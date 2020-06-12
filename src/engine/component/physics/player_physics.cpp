@@ -8,21 +8,21 @@ PlayerPhysicsComponent::~PlayerPhysicsComponent() { }
 void PlayerPhysicsComponent::update(GameObject& gameObject, float& dt)
 {
     /* Set speed accordingly to player state */
-    if( gameObject.getMachine()->getState()->getName() == "SPRINTING" )
+    if( gameObject.currentState()->getName() == "SPRINTING" )
         _speed = 80;
     else
         _speed = 40;
 
     /* Set move aceleration according to player direction */
-    if( gameObject.getMachine()->getState()->getName() == "WALKING" || gameObject.getMachine()->getState()->getName() == "SPRINTING" )
+    if( gameObject.currentState()->getName() == "WALKING" || gameObject.currentState()->getName() == "SPRINTING" )
     {
-        if( gameObject.getMachine()->getState()->getDirection() == PlayerState::RIGHT )
+        if( gameObject.currentState()->getDirection() == PlayerState::RIGHT )
             _velocity = sf::Vector2f(1, 0);
-        else if( gameObject.getMachine()->getState()->getDirection() == PlayerState::LEFT )
+        else if( gameObject.currentState()->getDirection() == PlayerState::LEFT )
             _velocity = sf::Vector2f(-1, 0);
-        else if( gameObject.getMachine()->getState()->getDirection() == PlayerState::UP )
+        else if( gameObject.currentState()->getDirection() == PlayerState::UP )
             _velocity = sf::Vector2f(0, -1);
-        else if( gameObject.getMachine()->getState()->getDirection() == PlayerState::DOWN )
+        else if( gameObject.currentState()->getDirection() == PlayerState::DOWN )
             _velocity = sf::Vector2f(0, 1);
     }
     else

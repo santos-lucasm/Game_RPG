@@ -7,9 +7,6 @@
 class State: public Observer
 {
 public:
-    enum { NONE, RIGHT, LEFT, UP, DOWN } typedef Direction;
-
-public:
     State();
     virtual ~State();
     virtual void update(sf::Time& dt);
@@ -19,12 +16,11 @@ public:
     virtual void goNext(Machine& fsm, unsigned int id) {}
 
     virtual std::string getName() const { return _name; }
-    virtual Direction getDirection() const { return _dir; }
     virtual void setName(std::string name) { _name = name; }
+    virtual unsigned int getDirection() const { return 0; }
 
 protected:
     std::string _name;
-    Direction _dir;
 };
 
 #endif

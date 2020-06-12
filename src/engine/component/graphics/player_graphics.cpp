@@ -51,28 +51,28 @@ void PlayerGraphicsComponent::update(GameObject& gameObject, float& dt)
     sf::Vector2f distance = gameObject.getPhysics()->_position;
 
     /* set current standing animation */
-    if( gameObject.getMachine()->getState()->getName() == "STANDING" )
-        setStandingAnimation( gameObject.getMachine()->getState()->getDirection() );
+    if( gameObject.currentState()->getName() == "STANDING" )
+        setStandingAnimation( gameObject.currentState()->getDirection() );
         
     /* set current walking animation */
-    else if( gameObject.getMachine()->getState()->getName() == "WALKING" )
+    else if( gameObject.currentState()->getName() == "WALKING" )
     {
         _sprite.move( distance );
-        setWalkingAnimation( gameObject.getMachine()->getState()->getDirection() );
+        setWalkingAnimation( gameObject.currentState()->getDirection() );
     }
 
     /* set current sprinting animation */
-    else if( gameObject.getMachine()->getState()->getName() == "SPRINTING" )
+    else if( gameObject.currentState()->getName() == "SPRINTING" )
     {
         _sprite.move( distance );
-        setSprintingAnimation( gameObject.getMachine()->getState()->getDirection() );
+        setSprintingAnimation( gameObject.currentState()->getDirection() );
     }
 
     /* Update Animator */
     _animator->update(dt);
 }
 
-void PlayerGraphicsComponent::setStandingAnimation(PlayerState::Direction dir)
+void PlayerGraphicsComponent::setStandingAnimation(unsigned int dir)
 {
     switch(dir)
     {
@@ -89,7 +89,7 @@ void PlayerGraphicsComponent::setStandingAnimation(PlayerState::Direction dir)
     }
 }
 
-void PlayerGraphicsComponent::setWalkingAnimation(PlayerState::Direction dir)
+void PlayerGraphicsComponent::setWalkingAnimation(unsigned int dir)
 {
     switch(dir)
     {
@@ -106,7 +106,7 @@ void PlayerGraphicsComponent::setWalkingAnimation(PlayerState::Direction dir)
     }
 }
 
-void PlayerGraphicsComponent::setSprintingAnimation(PlayerState::Direction dir)
+void PlayerGraphicsComponent::setSprintingAnimation(unsigned int dir)
 {
     switch(dir)
     {

@@ -7,19 +7,24 @@
 class PlayerState: public State
 {
 public:
-    PlayerState(std::string name, Direction dir);
+    enum Direction{ NONE, RIGHT, LEFT, UP, DOWN };
+
+public:
+    PlayerState(std::string name, unsigned int dir);
     virtual ~PlayerState() {}
 
     virtual void onNotify(Machine& fsm, sf::Event& event) = 0;
     void goNext(Machine& fsm, unsigned int id) {}
 
-    Direction chooseDirection(unsigned int id);
+    unsigned int getDirection() const { return _dir; }
+protected:
+    unsigned int _dir;
 };
 
 class StandingState: public PlayerState
 {
 public:
-    StandingState(Direction dir);
+    StandingState(unsigned int dir);
     ~StandingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
     void goNext(Machine& fsm, unsigned int id);
@@ -28,7 +33,7 @@ public:
 class WalkingState: public PlayerState
 {
 public:
-    WalkingState(Direction dir);
+    WalkingState(unsigned int dir);
     ~WalkingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
     void goNext(Machine& fsm, unsigned int id);
@@ -37,7 +42,7 @@ public:
 class SprintingState: public PlayerState
 {
 public:
-    SprintingState(Direction dir);
+    SprintingState(unsigned int dir);
     ~SprintingState() {}
     virtual void onNotify(Machine& fsm, sf::Event& event) {}
     void goNext(Machine& fsm, unsigned int id);

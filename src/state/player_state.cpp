@@ -1,26 +1,9 @@
 #include "state/player_state.h"
 #include <iostream>
 
-PlayerState::PlayerState(std::string name, Direction dir) { _name = name; _dir = dir; }
+PlayerState::PlayerState(std::string name, unsigned int dir) { _name = name; _dir = dir; }
 
-PlayerState::Direction PlayerState::chooseDirection(unsigned int id)
-{
-    switch (id)
-    {
-    case 1:
-        return RIGHT; break;
-    case 2:
-        return LEFT; break;
-    case 3:
-        return UP; break;
-    case 4:
-        return DOWN; break;
-    default:
-        return NONE;
-    }
-}
-
-StandingState::StandingState(Direction dir): PlayerState("STANDING", dir) {}
+StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir) {}
 void StandingState::goNext(Machine& fsm, unsigned int id)
 {   
     /* None command received */
@@ -36,13 +19,13 @@ void StandingState::goNext(Machine& fsm, unsigned int id)
         else
         {
             fsm.clearStack();
-            fsm.setState( new StandingState( chooseDirection(id) ) );
-            fsm.setState( new WalkingState( chooseDirection(id) ) );
+            fsm.setState( new StandingState( id ) );
+            fsm.setState( new WalkingState( id ) );
         }
     }
 }
 
-WalkingState::WalkingState(Direction dir): PlayerState("WALKING", dir) {}
+WalkingState::WalkingState(unsigned int dir): PlayerState("WALKING", dir) {}
 void WalkingState::goNext(Machine& fsm, unsigned int id)
 {
     /* None command received */
@@ -56,8 +39,8 @@ void WalkingState::goNext(Machine& fsm, unsigned int id)
         if( id != getDirection() )
         {
             fsm.clearStack();
-            fsm.setState( new StandingState( chooseDirection(id) ) );
-            fsm.setState( new WalkingState( chooseDirection(id) ) );
+            fsm.setState( new StandingState( id ) );
+            fsm.setState( new WalkingState( id ) );
         }
         else
             return;
@@ -69,7 +52,7 @@ void WalkingState::goNext(Machine& fsm, unsigned int id)
     }
 }
 
-SprintingState::SprintingState(Direction dir): PlayerState("SPRINTING", dir) {}
+SprintingState::SprintingState(unsigned int dir): PlayerState("SPRINTING", dir) {}
 void SprintingState::goNext(Machine& fsm, unsigned int id)
 {
     /* None command received */
@@ -80,20 +63,22 @@ void SprintingState::goNext(Machine& fsm, unsigned int id)
     else if( id == 10 )
         return;
 
-    else
-        fsm.exitState();
-    /*
+    /* Tried to change moving direction */
     else if( id < 5)
     {
+        /*
+        Needed for player changing direction holding LEFT_SHIFT,
+        otherwise he would pop exitState and just push it again,
+        without changing the movement direction.
+        */
         if( id != getDirection() )
         {
-            fsm.exitState();
-            fsm.exitState();
-            fsm.exitState();
-            fsm.setState( new StandingState( chooseDirection(id) ) );
-            fsm.setState( new WalkingState( chooseDirection(id) ) );
-            fsm.setState( new SprintingState( chooseDirection(id) ) );
+            fsm.clearStack();
+            fsm.setState( new StandingState( id ) );
+            fsm.setState( new WalkingState( id ) );
+            fsm.setState( new SprintingState( id ) );
         }
+        else
+            fsm.exitState();
     }
-    */
 }

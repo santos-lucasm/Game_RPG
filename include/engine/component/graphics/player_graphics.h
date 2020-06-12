@@ -15,9 +15,9 @@ private:
     void initAnimations();
     void initStates();
 
-    void setStandingAnimation(PlayerState::Direction dir);
-    void setWalkingAnimation(PlayerState::Direction dir);
-    void setSprintingAnimation(PlayerState::Direction dir);
+    void setStandingAnimation(unsigned int dir);
+    void setWalkingAnimation(unsigned int dir);
+    void setSprintingAnimation(unsigned int dir);
 
     void chooseAnimation(std::string name);
 

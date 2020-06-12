@@ -20,3 +20,4 @@ GraphicsComponent*  GameObject::getGraphics(){ return _graphicsComponent; }
 InputComponent*     GameObject::getInputs()  { return _inputComponent; }
 PhysicsComponent*   GameObject::getPhysics() { return _physicsComponent; }
 Machine*            GameObject::getMachine() { return _automata; }
+State*              GameObject::currentState(){ return getMachine()->getState(); }

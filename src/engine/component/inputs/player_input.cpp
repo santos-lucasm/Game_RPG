@@ -43,18 +43,34 @@ void PlayerInputComponent::handleInput(GameObject& gameObject)
     Handle running button.
     TODO: Supress SprintingState, here just set speed. (There is no difference from Walking and State)
     */
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT_SHIFT") )) )
-        gameObject.getMachine()->goNext( 10 );
+    bool walking = false;
+
 
     /* Handle four directions */
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
+    {
         gameObject.getMachine()->goNext( 1 );
+        walking = true;
+    }
     else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
+    {
         gameObject.getMachine()->goNext( 2 );
+        walking = true;
+    }
     else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
+    {
         gameObject.getMachine()->goNext( 3 );
+        walking = true;
+    }
     else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
+    {
         gameObject.getMachine()->goNext( 4 );
-    else
+        walking = true;
+    }
+    
+    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT_SHIFT") )) && walking )
+        gameObject.getMachine()->goNext( 10 );
+
+    if(!walking)
         gameObject.getMachine()->goNext( 0 );
 }
