@@ -1,7 +1,7 @@
 #ifndef _PHYSICS_COMPONENT_H
 #define _PHYSICS_COMPONENT_H
 
-#include "manager/animator.h"
+#include "middleware/animator.h"
 
 class PhysicsComponent
 {

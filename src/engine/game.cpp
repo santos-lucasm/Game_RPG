@@ -2,7 +2,7 @@
 
 Game::Game()
 {   
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<constructor>") : nullptr;
+    db<Game>(TRC) << "Game() @ " << this << "\n";
 
     _manager = new AssetManager();
     _clock = new Clock();
@@ -13,7 +13,6 @@ Game::Game()
 
 Game::~Game()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Game<destructor>") : nullptr;
     
     /* Get current settings */
     sf::VideoMode desktop;
@@ -38,7 +37,6 @@ Game::~Game()
 
 void Game::initWindow()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<initWindow>") : nullptr;
 
     /* Standard settings */
     std::string title = "None";
@@ -51,7 +49,7 @@ void Game::initWindow()
     std::ifstream ifs( CONFIG_PATH(window) );
     if( ifs.is_open() )
     {
-        if(debugged) tmp->debug("Successfully opened window.ini file, using last screen settings.");
+        db<Game>(INF) << "Game::initWindow @ File window.ini opened with success.\n";
         std::getline(ifs, title);
         ifs >> desktop.width >> desktop.height >> desktop.bitsPerPixel;
         ifs >> framerate_limit;
@@ -60,7 +58,7 @@ void Game::initWindow()
     }
     else
     {
-        if(debugged) tmp->debug("Couldn't open window.ini file, using standard screen settings.");
+        db<Game>(INF) << "Game::initWindow @ File window.ini couldn't be opened with success.\n";
     }
     ifs.close();
 
@@ -122,7 +120,6 @@ void Game::render()
 
 void Game::gameLoop()
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Game<gameLoop>") : nullptr;
 
     while( _window->isOpen() )
     {   

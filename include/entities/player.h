@@ -13,9 +13,6 @@ public:
     void update(sf::Time &dt);
     void render(sf::RenderTarget* target);
 
-private:
-    static const bool debugged = Traits<Player>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<Player>::traced && Tracer::traceActive;
 };
 
 #endif

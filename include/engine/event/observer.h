@@ -1,9 +1,7 @@
 #ifndef _OBSERVER_H
 #define _OBSERVER_H
 
-class Machine;
-#include "SFML/Window/Event.hpp"
-#include "SFML/Graphics/RenderTarget.hpp"
+#include "middleware/asset_manager.h"
 
 class Observer
 {

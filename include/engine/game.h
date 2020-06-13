@@ -28,8 +28,5 @@ private:
     AssetManager* _manager;
     Clock* _clock;
     sf::Event _event;
-
-    static const bool debugged = Traits<Game>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<Game>::traced && Tracer::traceActive;
 };
 #endif

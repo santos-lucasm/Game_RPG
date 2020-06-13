@@ -2,13 +2,15 @@
 
 GameState::GameState(sf::RenderWindow* window): State()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("State<constructor>") : nullptr;
+    db<GameState>(TRC) << "GameState() @ " << this << "\n";
+
     _window = window;
+    initCamera();
 }
 
 GameState::~GameState()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("State<destructor>") : nullptr;
+    db<GameState>(TRC) << "~GameState() @ " << this << "\n";
 }
 
 void GameState::updateMousePositions() 
@@ -18,4 +20,32 @@ void GameState::updateMousePositions()
     _mousePosView = _window->mapPixelToCoords( sf::Mouse::getPosition() );
 }
 
-sf::RenderWindow* GameState::getWindow() { return _window; }
+void GameState::mouseVisible(bool v)
+{
+    if(v)
+        _window->setMouseCursorVisible(true);
+    else
+        _window->setMouseCursorVisible(false);
+}
+
+void GameState::initCamera()
+{
+    _camera = sf::View( sf::Vector2f(0, 0), sf::Vector2f(_window->getSize().x, _window->getSize().y) );
+    resetCamera();
+}
+
+void GameState::resetCamera()
+{
+    db<GameState>(INF) << "GameState::resetCamera() @ " << this << "\n";
+
+    _camera.setCenter( _window->getSize().x/2 , _window->getSize().y/2);
+    _window->setView( _camera );
+}
+
+void GameState::lockCamera(GameObject* obj)
+{
+    db<GameState>(INF) << "GameState::lockCamera() @ on object" << obj << "\n";
+
+    _camera.setCenter( obj->getGraphics()->getSprite().getPosition() );
+    _window->setView( _camera );
+}

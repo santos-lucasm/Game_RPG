@@ -11,7 +11,7 @@ public:
 
 public:
     PlayerState(std::string name, unsigned int dir);
-    virtual ~PlayerState() {}
+    virtual ~PlayerState();
 
     virtual void onNotify(Machine& fsm, sf::Event& event) = 0;
     void goNext(Machine& fsm, unsigned int id) {}

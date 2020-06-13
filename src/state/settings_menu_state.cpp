@@ -2,14 +2,15 @@
 
 SettingsMenuState::SettingsMenuState(sf::RenderWindow* window): GameState(window)
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("SettingsMenuState<constructor>") : nullptr;
-    _window->setMouseCursorVisible(true);
+    db<SettingsMenuState>(TRC) << "SettingsMenuState() @ " << this << "\n";
+
+    mouseVisible(true);
     initFPS();
 }
 
 SettingsMenuState::~SettingsMenuState()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("SettingsMenuState<destructor>") : nullptr;
+    db<SettingsMenuState>(TRC) << "~SettingsMenuState() @ " << this << "\n";
 }
 
 void SettingsMenuState::initFPS()
@@ -43,7 +44,7 @@ void SettingsMenuState::updateFPS(sf::Time& dt)
 void SettingsMenuState::render(sf::RenderTarget* target)
 {    
     if(!target)
-        target = getWindow();
+        target = _window;
         
     target->draw( _showFPS );
 }
@@ -51,5 +52,8 @@ void SettingsMenuState::render(sf::RenderTarget* target)
 void SettingsMenuState::onNotify(Machine& fsm, sf::Event& event)
 {
     if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
+    {
+        mouseVisible(false);
         fsm.exitState();
+    }
 }

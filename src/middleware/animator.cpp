@@ -1,4 +1,4 @@
-#include "manager/animator.h"
+#include "middleware/animator.h"
 
 /* Animation struct functions definitions*/
 
@@ -22,24 +22,22 @@ void Animator::Animation::AddFrames
 Animator::Animator(sf::Sprite& sprite):
     _sprite(sprite), _currentTime( sf::Time::Zero.asSeconds() ), _currentAnimation(nullptr)
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<constructor>") : nullptr;
 }
 
 Animator::~Animator()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Animator<destructor>") : nullptr;
 }
 
 Animator::Animation& Animator::createAnimation (std::string const& name, std::string const& textureName, sf::Time const& duration, bool loop)
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Animator<createAnimation>") : nullptr;
 
     _animations.push_back( Animator::Animation(name, textureName, duration, loop) );
 
     /* If there's no animation running, add it as the current animation */
     if(_currentAnimation == nullptr)
     {
-        if(debugged) tmp->debug("No current animation playing, insert created one as the current.");
+        
+        db<Animator>(INF) << "Animator::createAnimation() @ No current animation, inserted new one as current.\n";
         switchAnimation( &_animations.back() );
     }
     
@@ -82,7 +80,6 @@ bool Animator::switchAnimation(std::string const& name)
 
 void Animator::switchAnimation(Animator::Animation* animation)
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Animator<switchAnimation>") : nullptr;
 
     if(animation != nullptr)
     {   

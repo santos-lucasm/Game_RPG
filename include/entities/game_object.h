@@ -27,10 +27,6 @@ protected:
     InputComponent* _inputComponent;
     PhysicsComponent* _physicsComponent;
     Machine* _automata;
-
-private:
-    static const bool debugged = Traits<GameObject>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<GameObject>::traced && Tracer::traceActive;
 };
 
 #endif

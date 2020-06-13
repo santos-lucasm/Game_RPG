@@ -2,13 +2,11 @@
 
 PlayerInputComponent::PlayerInputComponent()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("InputHandler<constructor>") : nullptr;
     // initButtons();
 }
 
 PlayerInputComponent::~PlayerInputComponent()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("InputHandler<destructor>") : nullptr;
     /*
     delete _buttonRight;
     delete _buttonLeft;

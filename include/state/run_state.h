@@ -18,10 +18,6 @@ public:
 
 private:
     std::list<GameObject*> _entitiesList;
-    sf::View _camera;
-
-    static const bool debugged = Traits<GameState>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<GameState>::traced && Tracer::traceActive;
 };
 
 #endif

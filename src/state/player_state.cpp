@@ -1,9 +1,23 @@
 #include "state/player_state.h"
 #include <iostream>
 
-PlayerState::PlayerState(std::string name, unsigned int dir) { _name = name; _dir = dir; }
+PlayerState::PlayerState(std::string name, unsigned int dir)
+{
+    db<PlayerState>(TRC) << "PlayerState() @ " << this << "\n";
+    _name = name;
+    _dir = dir;
+}
 
-StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir) {}
+PlayerState::~PlayerState()
+{
+    db<PlayerState>(TRC) << "~PlayerState() @ " << this << "\n";
+}
+
+StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir)
+{
+    db<PlayerState>(TRC) << "StandingState() @ to direction " << dir << "\n";
+}
+
 void StandingState::goNext(Machine& fsm, unsigned int id)
 {   
     /* None command received */
@@ -25,7 +39,11 @@ void StandingState::goNext(Machine& fsm, unsigned int id)
     }
 }
 
-WalkingState::WalkingState(unsigned int dir): PlayerState("WALKING", dir) {}
+WalkingState::WalkingState(unsigned int dir): PlayerState("WALKING", dir)
+{
+    db<PlayerState>(TRC) << "WalkingState() @ to direction " << dir << "\n";
+}
+
 void WalkingState::goNext(Machine& fsm, unsigned int id)
 {
     /* None command received */
@@ -52,7 +70,11 @@ void WalkingState::goNext(Machine& fsm, unsigned int id)
     }
 }
 
-SprintingState::SprintingState(unsigned int dir): PlayerState("SPRINTING", dir) {}
+SprintingState::SprintingState(unsigned int dir): PlayerState("SPRINTING", dir)
+{
+    db<PlayerState>(TRC) << "SprintingState() @ to direction " << dir << "\n";
+}
+
 void SprintingState::goNext(Machine& fsm, unsigned int id)
 {
     /* None command received */
@@ -78,6 +100,11 @@ void SprintingState::goNext(Machine& fsm, unsigned int id)
             fsm.setState( new WalkingState( id ) );
             fsm.setState( new SprintingState( id ) );
         }
+        /*
+            This is to fix releasing LEFT_SHIFT and keeping
+        running without releasing current arrowkey.
+            TODO: pop currentState when LEFT_SHIFT Release.
+        */
         else
             fsm.exitState();
     }

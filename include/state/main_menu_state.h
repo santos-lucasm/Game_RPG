@@ -14,6 +14,7 @@ public:
     void onNotify(Machine& fsm, sf::Event& event);
 
 private:
+    void initBackground();
     void initButtons();
 
     sf::RectangleShape _background;
@@ -22,9 +23,6 @@ private:
     Button* _settingsButton;
     Button* _saveButton;
     */
-
-    static const bool debugged = Traits<MainMenuState>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<MainMenuState>::traced && Tracer::traceActive;
 };
 
 #endif

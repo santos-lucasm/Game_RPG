@@ -1,7 +1,7 @@
 #ifndef _GRAPHICS_COMPONENT_H
 #define _GRAPHICS_COMPONENT_H
 
-#include "manager/animator.h"
+#include "middleware/animator.h"
 
 class GraphicsComponent
 {

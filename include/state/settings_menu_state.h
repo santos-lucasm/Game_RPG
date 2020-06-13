@@ -11,18 +11,16 @@ public:
     ~SettingsMenuState();
     
     void update(sf::Time& dt);
-    void updateFPS(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
     void onNotify(Machine& fsm, sf::Event& event);
+
+    void updateFPS(sf::Time& dt);
 private:
     void initFPS();
 
     sf::Font _font;
     sf::Text _showFPS;
     std::ostringstream _fps;
-
-    static const bool debugged = Traits<SettingsMenuState>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<SettingsMenuState>::traced && Tracer::traceActive;
 };
 
 #endif

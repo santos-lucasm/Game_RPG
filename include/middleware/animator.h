@@ -1,7 +1,7 @@
 #ifndef _ANIMATOR_H
 #define _ANIMATOR_H
 
-#include "manager/asset_manager.h"
+#include "middleware/asset_manager.h"
 
 /*! @class
     Used by Entities to manage its animations.
@@ -133,14 +133,6 @@ private:
     /*! @property
     Current animation beeing played in this sprite. */
     Animator::Animation* _currentAnimation;
-
-    /*! @property
-    Traits flag that allow debug if class debug and tracer debug are active. */
-    static const bool debugged = Traits<Animator>::debugged && Tracer::debugActive;
-
-    /*! @property
-    Traits flag that allow tracing if class tracing and tracer are active. */
-    static const bool traced = Traits<Animator>::traced && Tracer::traceActive;
 };
 
 #endif

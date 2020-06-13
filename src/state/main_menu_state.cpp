@@ -2,25 +2,28 @@
 
 MainMenuState::MainMenuState(sf::RenderWindow* window): GameState(window)
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("MainMenuState<constructor>") : nullptr;
+    db<MainMenuState>(TRC) << "MainMenuState() @ " << this << "\n";
 
-    _window->setMouseCursorVisible(true);
+    mouseVisible(true);
 
-    /* initBackground */
-    _background.setSize(sf::Vector2f( getWindow()->getSize().x, getWindow()->getSize().y ));
-    _background.setFillColor( sf::Color(249, 219, 210)  );
-
+    initBackground();
     initButtons();
 }
 
 MainMenuState::~MainMenuState()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("MainMenuState<destructor>") : nullptr;
+    db<MainMenuState>(TRC) << "~MainMenuState() @ " << this << "\n";
     /*
     delete _playButton;
     delete _settingsButton;
     delete _saveButton;
     */
+}
+
+void MainMenuState::initBackground()
+{
+    _background.setSize(sf::Vector2f( _window->getSize().x, _window->getSize().y ));
+    _background.setFillColor( sf::Color(249, 219, 210)  );
 }
 
 void MainMenuState::initButtons()
@@ -57,8 +60,11 @@ void MainMenuState::initButtons()
     */
 }
 
-void MainMenuState::update(sf::Time& dt){
+void MainMenuState::update(sf::Time& dt)
+{
+    /* TODO: Goes to EventManager */
     updateMousePositions();
+
     /*
     _playButton->update(dt);
     _settingsButton->update(dt);
@@ -66,12 +72,13 @@ void MainMenuState::update(sf::Time& dt){
     */
 }
 
-void MainMenuState::render(sf::RenderTarget* target){
-
+void MainMenuState::render(sf::RenderTarget* target)
+{
     if(!target)
-        target = getWindow();
+        target = _window;
     
     target->draw( _background );
+
     /*
     _playButton->render(target);
     _settingsButton->render(target);
@@ -79,6 +86,7 @@ void MainMenuState::render(sf::RenderTarget* target){
     */
 }
 
+/* TODO: Use goNext(Machine&, sf::Event&) */
 void MainMenuState::onNotify(Machine& fsm, sf::Event& event)
 {
     /* Close MainMenu, and the application */

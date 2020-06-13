@@ -2,22 +2,17 @@
 
 Player::Player(GraphicsComponent* g_cmp, InputComponent* i_cmp, PhysicsComponent* p_cmp):
 GameObject(g_cmp, i_cmp, p_cmp)
-{
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<constructor>") : nullptr;
-    
+{   
     _automata = new Machine( new StandingState( PlayerState::Direction::RIGHT ) );
 }
 
 Player::~Player()
 {
-    std::unique_ptr<Tracer> tmp = (traced) ? std::make_unique<Tracer>("Player<destructor>") : nullptr;
     delete _automata;
 }
 
 void Player::update( sf::Time & dt )
 {
-    std::unique_ptr<Tracer> tmp = (debugged) ? std::make_unique<Tracer>("Player<update>") : nullptr;
-
     float time = dt.asSeconds();
 
     _inputComponent->update(*this);

@@ -18,18 +18,19 @@ public:
     virtual void onNotify(Machine& fsm, sf::Event& event) = 0;
 
     void updateMousePositions();
+    void mouseVisible(bool v);
 
+    void initCamera();
+    void resetCamera();
+    void lockCamera(GameObject* obj);
 protected:
-    sf::RenderWindow* getWindow();
+    /* TODO: Goes to EventManager */
     sf::RenderWindow* _window;
+    sf::View _camera;
 
     sf::Vector2i _mousePosWindow;
     sf::Vector2i _mousePosScreen;
     sf::Vector2f _mousePosView;
-
-private:
-    static const bool debugged = Traits<GameState>::debugged && Tracer::debugActive;
-    static const bool traced = Traits<GameState>::traced && Tracer::traceActive;
 };
 
 #endif

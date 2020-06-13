@@ -1,7 +1,7 @@
 #ifndef _ASSET_MANAGER_H
 #define _ASSET_MANAGER_H
 
-#include "utils/tracer.h"
+#include "utils/debug.h"
 
 /*! @class
     AssetManager class is a singleton, initialized on Game class after
@@ -41,14 +41,6 @@ private:
     /*! @property
     Pointer to itself. */
     static AssetManager * _Instance;
-
-    /*! @property
-    Traits flag that allow debug if class debug and tracer debug are active. */
-    static const bool debugged = Traits<AssetManager>::debugged && Tracer::debugActive;
-
-    /*! @property
-    Traits flag that allow tracing if class tracing and tracer are active. */
-    static const bool traced = Traits<AssetManager>::traced && Tracer::traceActive;
 };
 
 #endif
