@@ -10,6 +10,7 @@ public:
     virtual ~PhysicsComponent();
     virtual void update(GameObject& gameObject, float& dt) = 0;
 
+    //Size should come here too ?
     sf::Vector2f _position;
     sf::Vector2f _velocity;
     unsigned int _speed;

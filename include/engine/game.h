@@ -25,7 +25,8 @@ private:
     sf::RenderWindow* _window;
 
     Machine* _fsm;
-    AssetManager* _manager;
+    AssetManager* m_Asset;
+    EventManager* m_Event;
     Clock* _clock;
     sf::Event _event;
 };

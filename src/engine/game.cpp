@@ -4,7 +4,8 @@ Game::Game()
 {   
     db<Game>(TRC) << "Game() @ " << this << "\n";
 
-    _manager = new AssetManager();
+    m_Asset = new AssetManager();
+    m_Event = new EventManager();
     _clock = new Clock();
 
     initWindow();
@@ -13,7 +14,6 @@ Game::Game()
 
 Game::~Game()
 {
-    
     /* Get current settings */
     sf::VideoMode desktop;
     desktop.width = _window->getSize().x;
@@ -31,13 +31,13 @@ Game::~Game()
 
     delete _fsm;
     delete _clock;
-    delete _manager;
+    delete m_Asset;
+    delete m_Event;
     delete _window;
 }
 
 void Game::initWindow()
 {
-
     /* Standard settings */
     std::string title = "None";
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -71,7 +71,6 @@ void Game::initWindow()
 
 void Game::update()
 {
-
     /* Update IO general game Events, like pressing X on top left corner */
     updateSFMLEvents();
 
@@ -120,7 +119,6 @@ void Game::render()
 
 void Game::gameLoop()
 {
-
     while( _window->isOpen() )
     {   
         _clock->updateDt();

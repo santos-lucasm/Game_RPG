@@ -2,11 +2,13 @@
 
 PlayerInputComponent::PlayerInputComponent()
 {
+    db<PlayerInputComponent>(TRC) << "PlayerInputComponent() @ " << this << "\n";
     // initButtons();
 }
 
 PlayerInputComponent::~PlayerInputComponent()
 {
+    db<PlayerInputComponent>(TRC) << "~PlayerInputComponent() @ " << this << "\n";
     /*
     delete _buttonRight;
     delete _buttonLeft;
@@ -37,37 +39,21 @@ void PlayerInputComponent::update(GameObject& gameObject)
 
 void PlayerInputComponent::handleInput(GameObject& gameObject)
 {
-    /*
-    Handle running button.
-    TODO: Supress SprintingState, here just set speed. (There is no difference from Walking and State)
-    */
-    bool walking = false;
-
-
-    /* Handle four directions */
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("RIGHT") )) )
-    {
-        gameObject.getMachine()->goNext( 1 );
-        walking = true;
-    }
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT") )) )
-    {
-        gameObject.getMachine()->goNext( 2 );
-        walking = true;
-    }
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("UP") )) )
-    {
-        gameObject.getMachine()->goNext( 3 );
-        walking = true;
-    }
-    else if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("DOWN") )) )
-    {
-        gameObject.getMachine()->goNext( 4 );
-        walking = true;
-    }
+    bool walking = true; /* Handle four directions movement */
+    if( EventManager::keyPressed("RIGHT") )
+        gameObject.getMachine()->goNext( EventManager::keybind("RIGHT") );
+    else if( EventManager::keyPressed("LEFT") )
+        gameObject.getMachine()->goNext( EventManager::keybind("LEFT") );
+    else if( EventManager::keyPressed("UP") )
+        gameObject.getMachine()->goNext( EventManager::keybind("UP") );
+    else if( EventManager::keyPressed("DOWN") )
+        gameObject.getMachine()->goNext( EventManager::keybind("DOWN") );
+    else
+        walking = false;
     
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( _supportedKeys.at("LEFT_SHIFT") )) && walking )
-        gameObject.getMachine()->goNext( 10 );
+    /* Toggle sprinting */
+    if( EventManager::keyPressed("LEFT_SHIFT") && walking )
+        gameObject.getMachine()->goNext( EventManager::keybind("LEFT_SHIFT") );
 
     if(!walking)
         gameObject.getMachine()->goNext( 0 );

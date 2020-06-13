@@ -4,12 +4,16 @@ AssetManager * AssetManager::_Instance = nullptr;
 
 AssetManager::AssetManager()
 {   
+    db<AssetManager>(TRC) << "EventManager() @ " << this << "\n";
+
     assert( _Instance == nullptr );
     _Instance = this;
 }
 
 AssetManager::~AssetManager()
 {   
+    db<AssetManager>(TRC) << "~EventManager() @ " << this << "\n";
+
     _mapTextures.clear();
     _Instance = nullptr;
 }
