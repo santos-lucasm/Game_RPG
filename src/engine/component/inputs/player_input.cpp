@@ -32,29 +32,29 @@ void PlayerInputComponent::initButtons()
     */
 }
 
-void PlayerInputComponent::update(GameObject& gameObject)
+void PlayerInputComponent::update(GameObject& obj)
 {
-    handleInput(gameObject);
+    handleInput(obj);
 }
 
-void PlayerInputComponent::handleInput(GameObject& gameObject)
+void PlayerInputComponent::handleInput(GameObject& obj)
 {
     bool walking = true; /* Handle four directions movement */
-    if( EventManager::keyPressed("RIGHT") )
-        gameObject.getMachine()->goNext( EventManager::keybind("RIGHT") );
-    else if( EventManager::keyPressed("LEFT") )
-        gameObject.getMachine()->goNext( EventManager::keybind("LEFT") );
-    else if( EventManager::keyPressed("UP") )
-        gameObject.getMachine()->goNext( EventManager::keybind("UP") );
-    else if( EventManager::keyPressed("DOWN") )
-        gameObject.getMachine()->goNext( EventManager::keybind("DOWN") );
+    if( EventManager::keyPressed( EventManager::Keybinds::RIGHT ) )
+        obj.getMachine()->goNext( EventManager::Keybinds::RIGHT );
+    else if( EventManager::keyPressed( EventManager::Keybinds::LEFT ) )
+        obj.getMachine()->goNext( EventManager::Keybinds::LEFT );
+    else if( EventManager::keyPressed( EventManager::Keybinds::UP ) )
+        obj.getMachine()->goNext( EventManager::Keybinds::UP );
+    else if( EventManager::keyPressed( EventManager::Keybinds::DOWN ) )
+        obj.getMachine()->goNext( EventManager::Keybinds::DOWN );
     else
         walking = false;
     
     /* Toggle sprinting */
-    if( EventManager::keyPressed("LEFT_SHIFT") && walking )
-        gameObject.getMachine()->goNext( EventManager::keybind("LEFT_SHIFT") );
+    if( EventManager::keyPressed( EventManager::Keybinds::LEFT_SHIFT ) && walking )
+        obj.getMachine()->goNext( EventManager::Keybinds::LEFT_SHIFT );
 
     if(!walking)
-        gameObject.getMachine()->goNext( 0 );
+        obj.getMachine()->goNext( EventManager::Keybinds::NONE );
 }

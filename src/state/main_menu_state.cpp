@@ -62,9 +62,6 @@ void MainMenuState::initButtons()
 
 void MainMenuState::update(sf::Time& dt)
 {
-    /* TODO: Goes to EventManager */
-    updateMousePositions();
-
     /*
     _playButton->update(dt);
     _settingsButton->update(dt);
@@ -86,20 +83,19 @@ void MainMenuState::render(sf::RenderTarget* target)
     */
 }
 
-/* TODO: Use goNext(Machine&, sf::Event&) */
-void MainMenuState::onNotify(Machine& fsm, sf::Event& event)
+void MainMenuState::goNext(Machine& fsm)
 {
     /* Close MainMenu, and the application */
-    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
+    if( EventManager::keyReleased( EventManager::Keybinds::ESC ) )
         fsm.exitState();
 
-    else if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+    else if( EventManager::keyReleased( EventManager::Keybinds::SPACE ) )
         fsm.setState( new RunState(_window) );
 
     /*
     else if( _playButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
-        _states->push( new GameState(_window, _states) );
+        fsm.setState( new RunState(_window) );
     else if( _settingsButton->getGraphics()->getSprite().getGlobalBounds().contains( _mousePosView ) )
-        _states->push( new SettingsMenuState(_window, _states) );
+        fsm.setState( new SettingsMenuState(_window) );
     */
 }

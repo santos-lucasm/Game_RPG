@@ -6,19 +6,42 @@
 class EventManager
 {
 public:
+    enum
+    {
+        NONE        = 100,
+
+        RIGHT       = 72,
+        LEFT        = 71,
+        UP          = 73,
+        DOWN        = 74,
+
+        ESC         = 36,
+        LEFT_SHIFT  = 38,
+        LEFT_CTRL   = 37,
+        SPACE       = 57,
+        TAB         = 60,
+
+        LEFT_MOUSE  = 0
+    
+    }typedef Keybinds;
+
+public:
     EventManager();
     ~EventManager();
 
-    // updateSFML( sf::RenderWindow& )
-    // updateMousePositions
-    static int keybind(std::string name);
-    static bool keyPressed( std::string name );
-    // keyReleased()
+    static void updateEvents(sf::RenderWindow* wnd);
+    static sf::Event* updateSFML(sf::RenderWindow* wnd);
+    static void updateMousePositions(sf::RenderWindow* wnd);
+
+    static bool keyPressed( unsigned int cmd );
+    static bool keyReleased( unsigned int cmd );
 private:
-    void initKeybinds();
-    static std::map<std::string, int> _supportedKeys;
-    // sf::Event _event
+    static sf::Event _sfmlEvent;
     static EventManager* _Instance;
+
+    static sf::Vector2i _mousePosWindow;
+    static sf::Vector2i _mousePosScreen;
+    static sf::Vector2f _mousePosView;
 };
 
 #endif

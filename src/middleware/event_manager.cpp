@@ -1,7 +1,10 @@
 #include "middleware/event_manager.h"
 
 EventManager* EventManager::_Instance = nullptr;
-std::map<std::string, int> EventManager::_supportedKeys;
+sf::Event EventManager::_sfmlEvent;
+sf::Vector2i EventManager::_mousePosWindow;
+sf::Vector2i EventManager::_mousePosScreen;
+sf::Vector2f EventManager::_mousePosView;
 
 EventManager::EventManager()
 {
@@ -9,8 +12,6 @@ EventManager::EventManager()
 
     assert( _Instance == nullptr );
     _Instance = this;
-
-    initKeybinds();
 }
 
 EventManager::~EventManager()
@@ -20,31 +21,49 @@ EventManager::~EventManager()
     _Instance = nullptr;
 }
 
-void EventManager::initKeybinds()
-{   
-    std::ifstream ifs( CONFIG_PATH(keybinds) );
+void EventManager::updateEvents(sf::RenderWindow* wnd)
+{
+    updateSFML(wnd);
+    updateMousePositions(wnd);
+}
 
-    if( ifs.is_open() )
+sf::Event* EventManager::updateSFML(sf::RenderWindow* wnd)
+{
+    while( wnd->pollEvent( _sfmlEvent ) )
     {
-        std::string key = "";
-        int key_value = 0;
-
-        while(ifs >> key >> key_value)
+        switch( _sfmlEvent.type )
         {
-            _supportedKeys.emplace(key, key_value);
-        }
+            case sf::Event::EventType::Closed :
+                // wnd->close(); break;
+            case sf::Event::EventType::KeyReleased:
+                return &_sfmlEvent; break;
+            case sf::Event::EventType::MouseButtonPressed:
+                return &_sfmlEvent; break;
+            default:
+                break;
+        }   
     }
-    ifs.close();
+    return nullptr;
 }
 
-int EventManager::keybind(std::string name)
+void EventManager::updateMousePositions(sf::RenderWindow* wnd)
 {
-    return _supportedKeys.at( name );
+    _mousePosScreen = sf::Mouse::getPosition();
+    _mousePosWindow = sf::Mouse::getPosition(*wnd);
+    _mousePosView = wnd->mapPixelToCoords( sf::Mouse::getPosition() );
 }
 
-bool EventManager::keyPressed(std::string name)
+bool EventManager::keyReleased(unsigned int cmd)
 {
-    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Key( keybind(name) )) )
+    if( _sfmlEvent.type == sf::Event::KeyReleased && _sfmlEvent.key.code == (int)cmd )
+        return true;
+    else
+        return false;
+}
+
+bool EventManager::keyPressed(unsigned int cmd)
+{
+    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Key( cmd )) )
         return true;
     else
         return false;

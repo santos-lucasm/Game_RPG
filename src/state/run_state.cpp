@@ -39,13 +39,13 @@ inline void RunState::createGameObject(std::string textFile, sf::Vector2f startP
     db<MainMenuState>(INF) << "RunState::createGameObject() @ Creating at (" << startPos.x << "," << startPos.y << ")" << "\n";
     try
     {
-        GameObject* new_GameObject  = new T(
+        GameObject* new_obj  = new T(
             new PlayerGraphicsComponent( AssetManager::getTexture(textFile), startPos, size ),
             new PlayerInputComponent(),
             new PlayerPhysicsComponent(startPos)
             );
         
-        _entitiesList.push_back(new_GameObject);
+        _entitiesList.push_back(new_obj);
     }
     catch( std::exception & e )
     {
@@ -53,10 +53,10 @@ inline void RunState::createGameObject(std::string textFile, sf::Vector2f startP
     }
 }
 
-void RunState::onNotify(Machine& fsm, sf::Event& event)
+void RunState::goNext(Machine& fsm)
 {
     /* Close GameState, going back to the MainMenuScreen */
-    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
+    if( EventManager::keyReleased( EventManager::Keybinds::ESC ) )
     {
         mouseVisible(true);
         resetCamera();
@@ -64,6 +64,6 @@ void RunState::onNotify(Machine& fsm, sf::Event& event)
     }
 
     /* Open SettingsScreen */
-    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Tab)
+    if( EventManager::keyReleased( EventManager::Keybinds::TAB ) )
         fsm.setState( new SettingsMenuState(_window) );
 }

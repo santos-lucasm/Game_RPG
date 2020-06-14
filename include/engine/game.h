@@ -4,30 +4,26 @@
 #include "engine/machine_state.h"
 #include "state/main_menu_state.h"
 
-#include "engine/event/subject.h"
+#include "middleware/event_manager.h"
 #include "clock.h"
 
-class Game: public Subject
+class Game
 {
 public:
     Game();
     ~Game();
 
     void update();
-    void updateSFMLEvents();
-    void notify();
-
     void render();
     void gameLoop();
 private:
     void initWindow();
 
     sf::RenderWindow* _window;
+    Clock* _clock;
 
     Machine* _fsm;
     AssetManager* m_Asset;
     EventManager* m_Event;
-    Clock* _clock;
-    sf::Event _event;
 };
 #endif

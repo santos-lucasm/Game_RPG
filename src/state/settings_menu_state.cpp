@@ -49,9 +49,9 @@ void SettingsMenuState::render(sf::RenderTarget* target)
     target->draw( _showFPS );
 }
 
-void SettingsMenuState::onNotify(Machine& fsm, sf::Event& event)
+void SettingsMenuState::goNext(Machine& fsm)
 {
-    if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
+    if( EventManager::keyReleased( EventManager::Keybinds::ESC ) )
     {
         mouseVisible(false);
         fsm.exitState();

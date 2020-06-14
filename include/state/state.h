@@ -1,9 +1,9 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-#include "engine/event/observer.h"
+#include "middleware/event_manager.h"
 
-class State: public Observer
+class State
 {
 public:
     /* Pass string on constructor */
@@ -12,7 +12,7 @@ public:
 
     virtual void update(sf::Time& dt) {}
     virtual void render(sf::RenderTarget* target = nullptr) {}
-    virtual void onNotify(Machine& fsm, sf::Event& event) = 0; /* Used on GameStates */
+    virtual void goNext(Machine& fsm) {} /* Used on GameStates */
     virtual void goNext(Machine& fsm, unsigned int id) {} /* Used on PlayerStates */
 
     std::string getName() const;

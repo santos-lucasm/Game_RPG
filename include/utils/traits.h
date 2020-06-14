@@ -55,8 +55,8 @@ struct Traits
 /* This turns on or off Info and Tracing from all classes */
 template<> struct Traits<Debug>: public Traits<void>
 {
-    static const bool info = false;
-    static const bool trace = false;
+    static const bool info  = true;
+    static const bool trace = true;
 };
 
 

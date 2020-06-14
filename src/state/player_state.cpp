@@ -32,9 +32,10 @@ unsigned int PlayerState::cmdDirection(int cmd) const
 
 bool PlayerState::checkMovement(int cmd)
 {
-    if( cmd > 70 && cmd < 75 )
+    if( cmd==EventManager::RIGHT || cmd==EventManager::LEFT || cmd==EventManager::UP || cmd==EventManager::DOWN )
         return true;
-    return false;
+    else
+        return false;
 }
 
 StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir)
@@ -44,10 +45,8 @@ StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir)
 
 void StandingState::goNext(Machine& fsm, unsigned int id)
 {   
-    /* None command received */
-    if( id == 0 )
+    if( id == EventManager::Keybinds::NONE )
         return;
-    
     else if( checkMovement(id) )
     {
         /*  If player starts moving in the same direction he
@@ -56,6 +55,8 @@ void StandingState::goNext(Machine& fsm, unsigned int id)
         {
             fsm.setState( new WalkingState( getDirection() ) );
         }
+        /* Guarantee that the StandingState under Walking
+        looks at the same direction */
         else
         {
             fsm.clearStack();
@@ -72,9 +73,9 @@ WalkingState::WalkingState(unsigned int dir): PlayerState("WALKING", dir)
 
 void WalkingState::goNext(Machine& fsm, unsigned int id)
 {
-    /* None command received */
-    if( id == 0 )
-        fsm.exitState(); /* Pop walking state and go to Standing */
+    /* Pop walking state and go to Standing */
+    if( id == EventManager::Keybinds::NONE )
+        fsm.exitState();
 
     else if( checkMovement(id) )
     {
@@ -103,9 +104,9 @@ SprintingState::SprintingState(unsigned int dir): PlayerState("SPRINTING", dir)
 
 void SprintingState::goNext(Machine& fsm, unsigned int id)
 {
-    /* None command received */
-    if( id == 0 )
-        fsm.exitState(); /* Pop Sprinting state and go to Walking */
+    /* Pop Sprinting state and go to Walking */
+    if( id == EventManager::Keybinds::NONE )
+        fsm.exitState();
 
     /* SprintCommand received */
     else if( id == 38 )

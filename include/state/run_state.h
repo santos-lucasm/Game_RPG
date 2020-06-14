@@ -11,7 +11,7 @@ public:
 
     void update(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
-    void onNotify(Machine& fsm, sf::Event& event);
+    void goNext(Machine& fsm);
 
     template<typename T>
     void createGameObject(std::string textFile, sf::Vector2f startPos, sf::Vector2i size);
