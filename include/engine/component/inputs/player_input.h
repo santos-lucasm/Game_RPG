@@ -8,9 +8,9 @@ class PlayerInputComponent: public InputComponent
 public:
     PlayerInputComponent();
     ~PlayerInputComponent();
-    void update(GameObject& gameObject);
+    void update(GameObject& obj);
 
-    void handleInput(GameObject& gameObject);
+    void handleInput(GameObject& obj);
 private:
     
     void initButtons();

@@ -4,7 +4,8 @@ Game::Game()
 {   
     db<Game>(TRC) << "Game() @ " << this << "\n";
 
-    _manager = new AssetManager();
+    m_Asset = new AssetManager();
+    m_Event = new EventManager();
     _clock = new Clock();
 
     initWindow();
@@ -13,7 +14,6 @@ Game::Game()
 
 Game::~Game()
 {
-    
     /* Get current settings */
     sf::VideoMode desktop;
     desktop.width = _window->getSize().x;
@@ -31,13 +31,13 @@ Game::~Game()
 
     delete _fsm;
     delete _clock;
-    delete _manager;
+    delete m_Asset;
+    delete m_Event;
     delete _window;
 }
 
 void Game::initWindow()
 {
-
     /* Standard settings */
     std::string title = "None";
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -71,9 +71,10 @@ void Game::initWindow()
 
 void Game::update()
 {
-
     /* Update IO general game Events, like pressing X on top left corner */
-    updateSFMLEvents();
+    auto e = m_Event->updateSFML( _window );
+    if( e )
+        _fsm->goNext(*_fsm);
 
     /* Update current State */
     if(!_fsm->isEmpty())
@@ -82,29 +83,6 @@ void Game::update()
     /* Closes game if every State is closed */
     else
         _window->close();
-}
-
-void Game::updateSFMLEvents()
-{
-    while( _window->pollEvent(_event) )
-    {
-        switch( _event.type )
-        {
-            case sf::Event::EventType::Closed :
-                _window->close(); break;
-            case sf::Event::EventType::KeyReleased:
-                notify(); break;
-            case sf::Event::EventType::MouseButtonPressed:
-                notify(); break;
-            default :
-                break;
-        }            
-    }
-}
-
-void Game::notify()
-{
-    _fsm->onNotify(*_fsm, _event);
 }
 
 void Game::render()
@@ -120,7 +98,6 @@ void Game::render()
 
 void Game::gameLoop()
 {
-
     while( _window->isOpen() )
     {   
         _clock->updateDt();

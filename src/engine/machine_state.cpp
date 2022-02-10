@@ -13,9 +13,9 @@ Machine::~Machine()
     clearStack();
 }
 
-void Machine::onNotify(Machine& fsm, sf::Event& event)
+void Machine::goNext(Machine& fsm)
 {
-    getState()->onNotify(fsm, event);
+    getState()->goNext(fsm);
 }
 
 void Machine::goNext(unsigned int id)

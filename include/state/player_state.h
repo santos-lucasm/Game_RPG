@@ -17,6 +17,8 @@ public:
     void goNext(Machine& fsm, unsigned int id) {}
 
     unsigned int getDirection() const { return _dir; }
+    unsigned int cmdDirection(int cmd) const;
+    bool checkMovement(int cmd);
 protected:
     unsigned int _dir;
 };

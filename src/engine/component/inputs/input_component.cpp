@@ -2,24 +2,8 @@
 
 InputComponent::InputComponent()
 {
-    initKeybinds();
 }
 
-InputComponent::~InputComponent() {}
-
-void InputComponent::initKeybinds()
-{   
-    std::ifstream ifs( CONFIG_PATH(keybinds) );
-
-    if( ifs.is_open() )
-    {
-        std::string key = "";
-        int key_value = 0;
-
-        while(ifs >> key >> key_value)
-        {
-            _supportedKeys.emplace(key, key_value);
-        }
-    }
-    ifs.close();
+InputComponent::~InputComponent()
+{
 }

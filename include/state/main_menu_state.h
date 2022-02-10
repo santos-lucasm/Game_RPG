@@ -11,7 +11,7 @@ public:
 
     void update(sf::Time& dt);
     void render(sf::RenderTarget* target = nullptr);
-    void onNotify(Machine& fsm, sf::Event& event);
+    void goNext(Machine& fsm);
 
 private:
     void initBackground();

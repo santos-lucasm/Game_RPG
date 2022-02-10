@@ -3,17 +3,18 @@
 
 #include "state/state.h"
 #include <stack>
-#include "engine/event/observer.h"
 
-class Machine: public Observer
+class Machine
 {
 public:
     Machine( State* firstState );
     virtual ~Machine();
 
     /* Repass notify to the current State */
-    void onNotify(Machine& fsm, sf::Event& event);
+    // void onNotify(Machine& fsm, sf::Event& event);
+
     /* Repass command to the current State */
+    void goNext(Machine& fsm);
     void goNext(unsigned int id);
 
     /* Return current State */

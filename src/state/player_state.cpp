@@ -13,6 +13,31 @@ PlayerState::~PlayerState()
     db<PlayerState>(TRC) << "~PlayerState() @ " << this << "\n";
 }
 
+unsigned int PlayerState::cmdDirection(int cmd) const
+{
+    switch (cmd)
+    {
+    case 71:
+        return LEFT; break;
+    case 72:
+        return RIGHT; break;
+    case 73:
+        return UP; break;
+    case 74:
+        return DOWN; break;
+    default:
+        return -1;
+    }
+}
+
+bool PlayerState::checkMovement(int cmd)
+{
+    if( cmd==EventManager::RIGHT || cmd==EventManager::LEFT || cmd==EventManager::UP || cmd==EventManager::DOWN )
+        return true;
+    else
+        return false;
+}
+
 StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir)
 {
     db<PlayerState>(TRC) << "StandingState() @ to direction " << dir << "\n";
@@ -20,21 +45,23 @@ StandingState::StandingState(unsigned int dir): PlayerState("STANDING", dir)
 
 void StandingState::goNext(Machine& fsm, unsigned int id)
 {   
-    /* None command received */
-    if( id == 0 )
+    if( id == EventManager::Keybinds::NONE )
         return;
-    /* MoveCommand received */
-    else if( id < 5)
+    else if( checkMovement(id) )
     {
         /*  If player starts moving in the same direction he
         was standing */
-        if( id == getDirection() )
+        if( cmdDirection(id) == getDirection() )
+        {
             fsm.setState( new WalkingState( getDirection() ) );
+        }
+        /* Guarantee that the StandingState under Walking
+        looks at the same direction */
         else
         {
             fsm.clearStack();
-            fsm.setState( new StandingState( id ) );
-            fsm.setState( new WalkingState( id ) );
+            fsm.setState( new StandingState( cmdDirection(id) ) );
+            fsm.setState( new WalkingState( cmdDirection(id) ) );
         }
     }
 }
@@ -46,25 +73,25 @@ WalkingState::WalkingState(unsigned int dir): PlayerState("WALKING", dir)
 
 void WalkingState::goNext(Machine& fsm, unsigned int id)
 {
-    /* None command received */
-    if( id == 0 )
-        fsm.exitState(); /* Pop walking state and go to Standing */
-    /* MoveCommand received */
-    else if( id < 5)
+    /* Pop walking state and go to Standing */
+    if( id == EventManager::Keybinds::NONE )
+        fsm.exitState();
+
+    else if( checkMovement(id) )
     {
         /*  If the player is moving in another direction, pops the Standing
         and Walking states, then push new ones in the correct direction. */
-        if( id != getDirection() )
+        if( cmdDirection(id) != getDirection() )
         {
             fsm.clearStack();
-            fsm.setState( new StandingState( id ) );
-            fsm.setState( new WalkingState( id ) );
+            fsm.setState( new StandingState( cmdDirection(id) ) );
+            fsm.setState( new WalkingState( cmdDirection(id) ) );
         }
         else
             return;
     }
     /* SprintCommand received */
-    else if( id == 10)
+    else if( id == 38)
     {
         fsm.setState( new SprintingState( getDirection() ) );
     }
@@ -77,28 +104,28 @@ SprintingState::SprintingState(unsigned int dir): PlayerState("SPRINTING", dir)
 
 void SprintingState::goNext(Machine& fsm, unsigned int id)
 {
-    /* None command received */
-    if( id == 0 )
-        fsm.exitState(); /* Pop Sprinting state and go to Walking */
+    /* Pop Sprinting state and go to Walking */
+    if( id == EventManager::Keybinds::NONE )
+        fsm.exitState();
 
     /* SprintCommand received */
-    else if( id == 10 )
+    else if( id == 38 )
         return;
 
     /* Tried to change moving direction */
-    else if( id < 5)
+    else if( checkMovement(id) )
     {
         /*
         Needed for player changing direction holding LEFT_SHIFT,
         otherwise he would pop exitState and just push it again,
         without changing the movement direction.
         */
-        if( id != getDirection() )
+        if( cmdDirection(id) != getDirection() )
         {
             fsm.clearStack();
-            fsm.setState( new StandingState( id ) );
-            fsm.setState( new WalkingState( id ) );
-            fsm.setState( new SprintingState( id ) );
+            fsm.setState( new StandingState( cmdDirection(id) ) );
+            fsm.setState( new WalkingState( cmdDirection(id) ) );
+            fsm.setState( new SprintingState( cmdDirection(id) ) );
         }
         /*
             This is to fix releasing LEFT_SHIFT and keeping

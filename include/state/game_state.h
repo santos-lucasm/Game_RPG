@@ -15,22 +15,16 @@ public:
 
     virtual void update(sf::Time& dt) = 0;
     virtual void render(sf::RenderTarget* target = nullptr) = 0;
-    virtual void onNotify(Machine& fsm, sf::Event& event) = 0;
+    virtual void goNext(Machine& fsm) {}
 
-    void updateMousePositions();
     void mouseVisible(bool v);
 
     void initCamera();
     void resetCamera();
     void lockCamera(GameObject* obj);
 protected:
-    /* TODO: Goes to EventManager */
     sf::RenderWindow* _window;
     sf::View _camera;
-
-    sf::Vector2i _mousePosWindow;
-    sf::Vector2i _mousePosScreen;
-    sf::Vector2f _mousePosView;
 };
 
 #endif

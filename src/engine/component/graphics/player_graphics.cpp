@@ -5,13 +5,14 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(
     GraphicsComponent(texture, startPos, spriteSize)
 {
     initAnimations();
-    initStates();
 }
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
 void PlayerGraphicsComponent::initAnimations()
 {
+    /* TODO: USE CONSTRUCTOR PARAMETERS TO BUILD ANIMATIONS */
+
     /* Idle animation in the four directions */
     addAnimations("stand-right", ANIMATION_PATH(snorlax), sf::seconds(0.5f), false, sf::Vector2i(32,32), 1);
     addAnimations("stand-left",  ANIMATION_PATH(snorlax), sf::seconds(0.5f), false, sf::Vector2i(32,96), 1);
@@ -29,21 +30,6 @@ void PlayerGraphicsComponent::initAnimations()
     addAnimations("sprint-left",  ANIMATION_PATH(snorlax), sf::seconds(0.2f),    true,  sf::Vector2i( 0,96), 3);
     addAnimations("sprint-up",    ANIMATION_PATH(snorlax), sf::seconds(0.2f),    true,  sf::Vector2i( 0, 0), 3);
     addAnimations("sprint-down",  ANIMATION_PATH(snorlax), sf::seconds(0.2f),    true,  sf::Vector2i( 0,64), 3);
-}
-
-void PlayerGraphicsComponent::initStates()
-{
-    /*
-    _stateToAnimation.emplace(PlayerState::RIGHT,  "idle-right");
-    _stateToAnimation.emplace(PlayerState::LEFT_IDLE,   "idle-left");
-    _stateToAnimation.emplace(PlayerState::UP_IDLE,     "idle-up");
-    _stateToAnimation.emplace(PlayerState::DOWN_IDLE,   "idle-down");
-
-    _stateToAnimation.emplace(PlayerState::RIGHT_MOVE,  "walk-right");
-    _stateToAnimation.emplace(PlayerState::LEFT_MOVE,   "walk-left");
-    _stateToAnimation.emplace(PlayerState::UP_MOVE,     "walk-up");
-    _stateToAnimation.emplace(PlayerState::DOWN_MOVE,   "walk-down");
-    */
 }
 
 void PlayerGraphicsComponent::update(GameObject& gameObject, float& dt)

@@ -13,15 +13,12 @@ public:
 
 private:
     void initAnimations();
-    void initStates();
 
     void setStandingAnimation(unsigned int dir);
     void setWalkingAnimation(unsigned int dir);
     void setSprintingAnimation(unsigned int dir);
 
     void chooseAnimation(std::string name);
-
-    // std::map<PlayerState, std::string> _stateToAnimation;
 };
 
 #endif

@@ -13,13 +13,6 @@ GameState::~GameState()
     db<GameState>(TRC) << "~GameState() @ " << this << "\n";
 }
 
-void GameState::updateMousePositions() 
-{
-    _mousePosScreen = sf::Mouse::getPosition();
-    _mousePosWindow = sf::Mouse::getPosition(*_window);
-    _mousePosView = _window->mapPixelToCoords( sf::Mouse::getPosition() );
-}
-
 void GameState::mouseVisible(bool v)
 {
     if(v)
