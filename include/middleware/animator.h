@@ -5,9 +5,8 @@
 
 /*! @class
     Used by Entities to manage its animations.
-Every GameObject that is not static on the Game will
-have it has a private property, to be used with
-the GameObject's sprite.
+    Every GameObject that is not static on the Game will
+have it has a private property, to be used with the GameObject's sprite.
 */
 class Animator
 {
