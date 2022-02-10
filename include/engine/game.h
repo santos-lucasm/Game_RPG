@@ -13,10 +13,11 @@ public:
     Game();
     ~Game();
 
+    void gameLoop();
+    
+private:
     void update();
     void render();
-    void gameLoop();
-private:
     void initWindow();
 
     sf::RenderWindow* _window;

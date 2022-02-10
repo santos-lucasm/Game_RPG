@@ -19,11 +19,12 @@ public:
     AssetManager();
 
     /*! @brief
-        Clear loaded textures before program finish execution. */
+        Clear loaded textures before program finish execution.
+    */
     ~AssetManager();
 
     /*! @brief
-        Search on the map using the passed string, to find the equivalent texture.
+        Search on the _mapTextures using the passed string, to find the equivalent texture.
         If it cannot find the string on the map, try to load texture from resources folder.
     @param  filename  Name of resource file in which there's is a texture to be loaded.
     @return
@@ -40,7 +41,7 @@ private:
 
     /*! @property
     Pointer to itself. */
-    static AssetManager * _Instance;
+    static AssetManager * _m_Instance;
 };
 
 #endif
