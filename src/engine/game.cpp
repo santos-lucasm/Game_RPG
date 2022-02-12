@@ -72,7 +72,7 @@ void Game::initWindow()
 void Game::update()
 {
     /* Update IO general game Events, like pressing X on top left corner */
-    auto e = m_Event->updateSFML( _window );
+    auto e = m_Event->updateEvents( _window );
     if( e )
         _fsm->goNext(*_fsm);
 
