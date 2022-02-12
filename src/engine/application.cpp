@@ -92,7 +92,7 @@ void Application::update()
 
     /* Update current State */
     if(!_fsm->isEmpty())
-        _fsm->getState()->update( _clock->deltaTime() );
+        _fsm->state()->update( _clock->deltaTime() );
 
     /* Closes game if every State is closed */
     else
@@ -105,7 +105,7 @@ void Application::render()
 
     /* Render current State */
     if(!_fsm->isEmpty())
-        _fsm->getState()->render();
+        _fsm->state()->render();
 
     _window->display();
 }

@@ -8,5 +8,12 @@ State::~State()
 {
 }
 
-std::string State::getName() const { return _name; }
-void State::setName(std::string name) { _name = name; }
+std::string State::name() const
+{
+    return _name;
+}
+
+void State::name(std::string name)
+{
+    _name = name;
+}

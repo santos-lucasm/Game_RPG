@@ -4,31 +4,21 @@
 Machine::Machine( State* firstState )
 {   
     if(firstState)
-        setState( firstState );
-    /* TODO: Throw exception */
+        state( firstState );
+    /* TODO: Else: Throw exception */
 }
 
 Machine::~Machine()
 {
-    clearStack();
+    finishMachine();
 }
 
-void Machine::goNext(Machine& fsm)
-{
-    getState()->goNext(fsm);
-}
-
-void Machine::goNext(unsigned int id)
-{
-    getState()->goNext(*this, id);
-}
-
-State* Machine::getState() const
+State* Machine::state() const
 {
     return _states.top();
 }
 
-void Machine::setState( State* state )
+void Machine::state( State* state )
 {
     _states.push( state );
 }
@@ -40,13 +30,23 @@ bool Machine::isEmpty()
     return false;
 }
 
+void Machine::goNext(Machine& fsm)
+{
+    state()->goNext(fsm);
+}
+
+void Machine::goNext(unsigned int id)
+{
+    state()->goNext(*this, id);
+}
+
 void Machine::exitState()
 {
     delete _states.top();
     _states.pop();
 }
 
-void Machine::clearStack()
+void Machine::finishMachine()
 {
     while( !isEmpty() )
         exitState();

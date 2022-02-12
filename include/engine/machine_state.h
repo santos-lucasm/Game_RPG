@@ -7,32 +7,58 @@
 class Machine
 {
 public:
+
+    /*!
+    @brief Machine is created by setting its first state.
+    @param firstState Initial state of the machine.
+    */
     Machine( State* firstState );
+
+    /*!
+    @brief Finish all the stored states.
+    */
     virtual ~Machine();
 
-    /* Repass notify to the current State */
-    // void onNotify(Machine& fsm, sf::Event& event);
+    /*!
+    @return Current state.
+    */
+    State* state() const;
 
-    /* Repass command to the current State */
-    void goNext(Machine& fsm);
-    void goNext(unsigned int id);
+    /*!
+    @brief Set a new state for the machine.
+    @param state New state to be added to machine.
+    */
+    void state( State* state);
 
-    /* Return current State */
-    State* getState() const;
-
-    /* Invoke a new current State */
-    void setState( State* );
-
-    /* Return if there's any State on FSM */
+    /*!
+    @brief Checks if the stack of states is empty.
+    @return True if there's any state, otherwise, returns false. */
     bool isEmpty();
 
-    /* Deletes the current State */
+    /*!
+    @brief Repass an event command to the current state.
+    @param fsm Machine to go to its next state.
+    */
+    void goNext(Machine& fsm);
+
+    /*!
+    @brief Repass an event command to the current state.
+    @param id Next state id, used by this state machine.
+    */
+    void goNext(unsigned int id);
+
+    /*!
+    @brief Deletes the current State and removes it from the stack.
+    */
     void exitState();
 
-    /* Reset stack of states */
-    void clearStack();
+    /*!
+    @brief Exit from all the states.
+    */
+    void finishMachine();
     
 private:
+    /*! @brief Stack used to store all the current states */
     std::stack<State*> _states;
 };
 
