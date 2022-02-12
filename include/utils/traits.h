@@ -4,7 +4,7 @@
 #include "utils/types.h"
 
 /* Engine class forward declaration. */
-class Game;
+class Application;
 class Clock;
 
 class AssetManager;
@@ -61,7 +61,7 @@ template<> struct Traits<Debug>: public Traits<void>
 
 
 /* Each class specific Info and Tracing */
-template<> struct Traits<Game>: public Traits<void>
+template<> struct Traits<Application>: public Traits<void>
 {
     static const bool debugged = true;
 };

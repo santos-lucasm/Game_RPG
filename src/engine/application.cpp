@@ -1,18 +1,18 @@
-#include "engine/game.h"
+#include "engine/application.h"
 
-Game::Game()
+Application::Application()
 {   
-    db<Game>(TRC) << "Game() @ " << this << "\n";
+    db<Application>(TRC) << "Game() @ " << this << "\n";
 
-    m_Asset = new AssetManager();
-    m_Event = new EventManager();
+    _m_Asset = new AssetManager();
+    _m_Event = new EventManager();
     _clock = new Clock();
 
     initWindow();
     _fsm = new Machine( new MainMenuState(_window) );
 }
 
-Game::~Game()
+Application::~Application()
 {
     /* Get current settings */
     sf::VideoMode desktop;
@@ -31,15 +31,29 @@ Game::~Game()
 
     delete _fsm;
     delete _clock;
-    delete m_Asset;
-    delete m_Event;
+    delete _m_Asset;
+    delete _m_Event;
     delete _window;
 }
 
-void Game::initWindow()
+void Application::run()
+{
+    while( _window->isOpen() )
+    {   
+        _clock->updateDeltaTime();
+
+        update();
+
+        _clock->updateElapsed();
+
+        render();
+    }
+}
+
+void Application::initWindow()
 {
     /* Standard settings */
-    std::string title = "None";
+    std::string title = "Application";
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     unsigned int framerate_limit = 60;
     bool vertical_sync_enable = false;
@@ -49,7 +63,7 @@ void Game::initWindow()
     std::ifstream ifs( CONFIG_PATH(window) );
     if( ifs.is_open() )
     {
-        db<Game>(INF) << "Game::initWindow @ File window.ini opened with success.\n";
+        db<Application>(INF) << "Game::initWindow @ File window.ini opened with success.\n";
         std::getline(ifs, title);
         ifs >> desktop.width >> desktop.height >> desktop.bitsPerPixel;
         ifs >> framerate_limit;
@@ -58,7 +72,7 @@ void Game::initWindow()
     }
     else
     {
-        db<Game>(INF) << "Game::initWindow @ File window.ini couldn't be opened with success.\n";
+        db<Application>(INF) << "Game::initWindow @ File window.ini couldn't be opened with success.\n";
     }
     ifs.close();
 
@@ -69,23 +83,23 @@ void Game::initWindow()
     _window->setMouseCursorVisible( mouse_visible );
 }
 
-void Game::update()
+void Application::update()
 {
     /* Update IO general game Events, like pressing X on top left corner */
-    auto e = m_Event->updateEvents( _window );
+    auto e = _m_Event->updateEvents( _window );
     if( e )
         _fsm->goNext(*_fsm);
 
     /* Update current State */
     if(!_fsm->isEmpty())
-        _fsm->getState()->update( _clock->getDT() );
+        _fsm->getState()->update( _clock->deltaTime() );
 
     /* Closes game if every State is closed */
     else
         _window->close();
 }
 
-void Game::render()
+void Application::render()
 {
     _window->clear( sf::Color::White );
 
@@ -94,18 +108,4 @@ void Game::render()
         _fsm->getState()->render();
 
     _window->display();
-}
-
-void Game::gameLoop()
-{
-    while( _window->isOpen() )
-    {   
-        _clock->updateDt();
-
-        update();
-
-        _clock->updateElapsed();
-
-        render();
-    }
 }

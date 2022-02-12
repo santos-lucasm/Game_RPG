@@ -1,11 +1,9 @@
-#include "engine/game.h"
+#include "engine/application.h"
   
 int main()
 {
-    Game * newGame = new Game();
+    Application game{};
 
-    newGame->gameLoop();
-
-    delete newGame;
+    game.run();
     return 0;
 }
